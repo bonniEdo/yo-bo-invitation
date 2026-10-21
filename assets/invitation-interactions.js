@@ -1,0 +1,143 @@
+(() => {
+  'use strict';
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const config = window.WEDDING_CONFIG?.INVITATION || {};
+  function celebrate(x = innerWidth / 2, y = innerHeight / 2) {
+    if (reducedMotion.matches) return;
+    for (let i = 0; i < 28; i++) {
+      const bit = document.createElement('span');
+      bit.className = 'confetti-bit';
+      bit.style.left = `${x}px`; bit.style.top = `${y}px`;
+      bit.style.background = ['#e2de8a', '#9ca682', '#242622', '#d4dac6'][i % 4];
+      bit.style.borderRadius = i % 3 === 0 ? '50%' : '0';
+      document.body.append(bit);
+      const dx = (Math.random() - 0.5) * 350;
+      const animation = bit.animate([
+        { transform: 'translate(0,0) rotate(0)', opacity: 1 },
+        { transform: `translate(${dx * 0.65}px,-100px) rotate(${i * 30}deg)`, opacity: 1, offset: 0.35 },
+        { transform: `translate(${dx}px,220px) rotate(${i * 65}deg)`, opacity: 0 }
+      ], { duration: 1300 + Math.random() * 500, easing: 'cubic-bezier(.2,.7,.4,1)' });
+      animation.onfinish = () => bit.remove();
+    }
+  }
+  document.getElementById('celebrate-button').addEventListener('click', event => {
+    const box = event.currentTarget.getBoundingClientRect();
+    celebrate(box.x + box.width / 2, box.y + box.height / 2);
+  });
+  document.querySelectorAll('.personality').forEach(button => {
+    button.addEventListener('click', () => {
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!expanded));
+      button.querySelector('.personality-extra').hidden = expanded;
+      button.querySelector('.personality-hint').textContent = expanded ? '再認識一點 ＋' : '剛剛好的我們 −';
+    });
+  });
+
+  const canvas = document.getElementById('scratch-canvas');
+  const card = document.getElementById('scratch-card');
+  const context = canvas.getContext('2d', { willReadFrequently: true });
+  const revealButton = document.getElementById('scratch-reveal');
+  const status = document.getElementById('scratch-status');
+  const strokes = [];
+  let revealed = false, drawing = false, last = null, width = 0, height = 0;
+  function reveal() {
+    if (revealed) return;
+    revealed = true;
+    card.classList.add('is-revealed');
+    revealButton.textContent = '已揭曉 ♡';
+    revealButton.disabled = true;
+    status.textContent = '邀請已揭曉：2027 年 6 月 19 日，鑫佑與宛瑩，新竹晶宴會館午宴。';
+    const box = card.getBoundingClientRect();
+    if (box.bottom > 0 && box.top < innerHeight) celebrate(box.x + box.width / 2, box.y + box.height / 2);
+  }
+  revealButton.addEventListener('click', reveal);
+  function erase(stroke) {
+    context.globalCompositeOperation = 'destination-out';
+    context.lineWidth = Math.max(34, width * 0.1);
+    context.lineCap = 'round'; context.lineJoin = 'round';
+    context.beginPath();
+    context.moveTo(stroke[0] * width, stroke[1] * height);
+    context.lineTo(stroke[2] * width + 0.01, stroke[3] * height + 0.01);
+    context.stroke();
+  }
+  function paint() {
+    if (!context || revealed) return;
+    const rect = card.getBoundingClientRect();
+    const nextWidth = Math.round(rect.width), nextHeight = Math.round(rect.height);
+    if (width === nextWidth && height === nextHeight) return;
+    width = nextWidth; height = nextHeight;
+    const ratio = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
+    context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    context.globalCompositeOperation = 'source-over';
+    context.fillStyle = '#e8e6ad'; context.fillRect(0, 0, width, height);
+    context.strokeStyle = '#d6d39a'; context.lineWidth = 1;
+    for (let x = -height; x < width; x += 15) {
+      context.beginPath(); context.moveTo(x, 0); context.lineTo(x + height, height); context.stroke();
+    }
+    context.fillStyle = '#30382b'; context.textAlign = 'center'; context.textBaseline = 'middle';
+    context.font = '42px Georgia'; context.fillText('✷', width / 2, height / 2 - 42);
+    context.font = '16px sans-serif'; context.fillText('刮開一點，靠近幸福。', width / 2, height / 2 + 7);
+    context.font = '8px sans-serif'; context.fillText('SCRATCH TO REVEAL OUR GOOD DAY', width / 2, height / 2 + 38);
+    context.strokeStyle = '#000';
+    strokes.forEach(erase);
+  }
+  function point(event) {
+    const rect = canvas.getBoundingClientRect();
+    return [(event.clientX - rect.left) / rect.width, (event.clientY - rect.top) / rect.height];
+  }
+  function scratch(event) {
+    if (!drawing || revealed || !context) return;
+    const next = point(event), stroke = [...(last || next), ...next];
+    strokes.push(stroke); erase(stroke); last = next;
+  }
+  canvas.addEventListener('pointerdown', event => {
+    if (event.button !== 0 || !context || revealed) return;
+    drawing = true; last = point(event); canvas.setPointerCapture(event.pointerId); scratch(event);
+  });
+  canvas.addEventListener('pointermove', scratch);
+  function endStroke() {
+    if (!drawing) return;
+    drawing = false; last = null;
+    const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    let clear = 0, total = 0;
+    for (let i = 3; i < pixels.length; i += 64) { total++; if (pixels[i] < 80) clear++; }
+    if (clear / total > 0.42) reveal();
+  }
+  canvas.addEventListener('pointerup', endStroke);
+  canvas.addEventListener('pointercancel', endStroke);
+  if (context) { new ResizeObserver(paint).observe(card); paint(); }
+  else canvas.hidden = true;
+
+  const dialog = document.getElementById('photo-dialog');
+  const fullPhoto = document.getElementById('photo-full');
+  document.querySelectorAll('[data-photo]').forEach(slot => {
+    const photo = config.photos?.[Number(slot.dataset.photo)];
+    if (!photo || typeof photo !== 'string') return;
+    let url;
+    try { url = new URL(photo, location.href); } catch { return; }
+    if (!['http:', 'https:'].includes(url.protocol)) return;
+    const img = new Image();
+    img.alt = Number(slot.dataset.photo) === 0 ? '鑫佑與宛瑩的合照' : '鑫佑與宛瑩的生活照片';
+    img.loading = Number(slot.dataset.photo) === 0 ? 'eager' : 'lazy';
+    img.addEventListener('load', () => {
+      slot.querySelector('.photo-placeholder')?.remove();
+      slot.classList.add('has-photo'); slot.tabIndex = 0; slot.setAttribute('role', 'button');
+      slot.setAttribute('aria-label', `放大${img.alt}`);
+    });
+    img.addEventListener('error', () => img.remove());
+    img.src = url.href; slot.append(img);
+    function open() { if (!slot.classList.contains('has-photo')) return; fullPhoto.src = url.href; fullPhoto.alt = img.alt; dialog.showModal(); }
+    slot.addEventListener('click', open);
+    slot.addEventListener('keydown', event => { if (['Enter', ' '].includes(event.key)) { event.preventDefault(); open(); } });
+  });
+  document.getElementById('photo-close').addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+  function updateCountdown() {
+    const target = new Date(`${config.date || '2027-06-19'}T00:00:00+08:00`).getTime();
+    const days = Math.ceil((target - Date.now()) / 86400000);
+    document.getElementById('days-left').textContent = String(Math.max(0, days));
+    document.getElementById('countdown-label').textContent = days > 0 ? 'DAYS TO GO' : days === 0 ? 'TODAY IS THE DAY' : 'OUR NEXT CHAPTER HAS BEGUN';
+  }
+  updateCountdown(); setInterval(updateCountdown, 60000);
+})();

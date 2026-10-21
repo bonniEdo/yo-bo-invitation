@@ -5,8 +5,8 @@
   const config = {
     isSample:true, coupleNames:'鑫佑 & 宛瑩', date:'2027-06-19', welcomeTime:'11:30',
     banquetTime:'12:00', endTime:'15:00', replyBy:'2027-04-30',
-    venueName:'新竹晶宴會館', venueRoom:'花園廳 · 2F',
-    venueAddress:'台北市・詳細地址待新人確認', venueNote:'交通資訊將隨正式喜帖提供。', mapsQuery:'', ...settings,
+    venueName:'新竹晶宴會館', venueRoom:'廳別待確認',
+    venueAddress:'詳細地址待確認', venueNote:'交通資訊將隨正式喜帖提供。', mapsQuery:'', ...settings,
   };
   const date = new Date(`${config.date}T12:00:00+08:00`);
   const shortDate = config.date.replaceAll('-', '.');

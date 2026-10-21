@@ -13,6 +13,7 @@ window.WEDDING_CONFIG = {
     venueAddress: '詳細地址待確認',
     venueNote: '交通資訊將隨正式喜帖提供。',
     mapsQuery: '新竹晶宴會館', // 以場地名稱搜尋地圖
+    photos: [], // 依序填入封面、相片 1、相片 2、相片 3 的本機路徑，例如 assets/couple.jpg
     lineOfficialUrl: '', // 填入 LINE 官方帳號的加入好友連結（https://lin.ee/…）後顯示
     googleFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdkKuTSGS_u79FWXt1khwJmPGU2kSHNyYj_vrZDTjfjGS4UZg/viewform',
   },
