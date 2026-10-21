@@ -5,8 +5,8 @@
   const config = {
     isSample:false, coupleNames:'鑫佑 & 宛瑩', englishNames:'Walker & Bonnie', date:'2027-06-19', welcomeTime:'12:00',
     banquetTime:'12:30', endTime:'15:00', replyBy:'2027-04-30',
-    venueName:'新竹晶宴會館', venueRoom:'',
-    venueAddress:'新竹市東區公道五路二段105號', venueNote:'點選導航，從你的位置出發。', mapsQuery:'', ...settings,
+    venueName:'晶宴・御豐館', venueRoom:'',
+    venueAddress:'', venueNote:'點選導航，從你的位置出發。', mapsQuery:'', ...settings,
   };
   const date = new Date(`${config.date}T12:00:00+08:00`);
   const shortDate = config.date.replaceAll('-', '.');
@@ -17,6 +17,7 @@
   document.querySelectorAll('[data-long-date]').forEach(el => { el.textContent = new Intl.DateTimeFormat('zh-TW', {year:'numeric',month:'long',day:'numeric',timeZone:'Asia/Taipei'}).format(date); });
   for (const [id, value] of Object.entries({'welcome-time':config.welcomeTime,'banquet-time':config.banquetTime,'venue-name':config.venueName,'venue-room':config.venueRoom,'venue-address':config.venueAddress,'venue-note':config.venueNote,'reply-by':config.replyBy.replaceAll('-','.')})) $(id).textContent = value;
   $('venue-room').hidden = !config.venueRoom;
+  $('venue-address').hidden = !config.venueAddress;
   document.title = `${config.coupleNames}｜我們結婚了`;
   $('sample-label').hidden = !config.isSample;
   if (config.mapsQuery) {

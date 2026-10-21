@@ -113,7 +113,10 @@
   const fullPhoto = document.getElementById('photo-full');
   document.querySelectorAll('[data-photo]').forEach(slot => {
     const photo = config.photos?.[Number(slot.dataset.photo)];
-    if (!photo || typeof photo !== 'string') return;
+    if (!photo || typeof photo !== 'string') {
+      slot.closest('.photo-item')?.setAttribute('hidden', '');
+      return;
+    }
     let url;
     try { url = new URL(photo, location.href); } catch { return; }
     if (!['http:', 'https:'].includes(url.protocol)) return;
@@ -131,6 +134,8 @@
     slot.addEventListener('click', open);
     slot.addEventListener('keydown', event => { if (['Enter', ' '].includes(event.key)) { event.preventDefault(); open(); } });
   });
+  const galleryItems = [...document.querySelectorAll('.photo-item')].filter(item => !item.hidden);
+  document.querySelector('.photo-grid').classList.toggle('single-photo', galleryItems.length === 1);
   document.getElementById('photo-close').addEventListener('click', () => dialog.close());
   dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
   function updateCountdown() {
