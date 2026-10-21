@@ -6,7 +6,7 @@
     isSample:false, coupleNames:'鑫佑 & 宛瑩', englishNames:'Walker & Bonnie', date:'2027-06-19', welcomeTime:'12:00',
     banquetTime:'12:30', endTime:'15:00', replyBy:'2027-04-30',
     venueName:'晶宴・御豐館', venueRoom:'',
-    venueAddress:'', venueNote:'點選導航，從你的位置出發。', mapsQuery:'', ...settings,
+    venueAddress:'300新竹市東區光復里公道五路三段1號2樓', venueNote:'點選導航，從你的位置出發。', mapsQuery:'', ...settings,
   };
   const date = new Date(`${config.date}T12:00:00+08:00`);
   const shortDate = config.date.replaceAll('-', '.');
