@@ -80,7 +80,7 @@
       }
     }
     book.dataset.page = String(active);
-    navigation.classList.toggle('is-past-book', offset > layout.end + stage.offsetHeight - layout.scene);
+    navigation.classList.toggle('is-past-book', offset > layout.end + layout.heights[2] - layout.scene);
   }
 
   function measure() {
@@ -99,6 +99,9 @@
     const height = Math.max(scene, ...heights);
     book.style.setProperty('--book-height', `${height}px`);
     book.style.height = `${height + end}px`;
+    // The sticky stage needs the tallest sheet, but its unused tail must not
+    // leave a gap between the shorter RSVP sheet and the following gallery.
+    book.style.marginBottom = `${heights[2] - height}px`;
     // offset geometry comes from a fixed-size slot, unaffected by the animation.
     const paper = { width: anchor.offsetWidth, height: anchor.offsetHeight, left: 0, top: 0 };
     for (let node = anchor; node && node !== stage; node = node.offsetParent) {

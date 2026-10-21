@@ -1,18 +1,19 @@
 // 公開設定檔：不要放密碼、金鑰或賓客名單。
 window.WEDDING_CONFIG = {
   INVITATION: {
-    isSample: true, // 姓名、場地、時間確認後改 false
+    isSample: false,
     coupleNames: '鑫佑 & 宛瑩',
+    englishNames: 'Walker & Bonnie',
     date: '2027-06-19',
-    welcomeTime: '11:30', // 待確認
-    banquetTime: '12:00', // 午宴，時間待確認
+    welcomeTime: '12:00', // 入座
+    banquetTime: '12:30', // 午宴開席
     endTime: '15:00',
     replyBy: '2027-04-30', // 原稿截止日期，請確認
     venueName: '新竹晶宴會館',
-    venueRoom: '廳別待確認',
-    venueAddress: '詳細地址待確認',
-    venueNote: '交通資訊將隨正式喜帖提供。',
-    mapsQuery: '新竹晶宴會館', // 以場地名稱搜尋地圖
+    venueRoom: '',
+    venueAddress: '新竹市東區公道五路二段105號',
+    venueNote: '點選導航，從你的位置出發。',
+    mapsQuery: '晶宴會館新竹館 新竹市東區公道五路二段105號',
     photos: [], // 依序填入封面、相片 1、相片 2、相片 3 的本機路徑，例如 assets/couple.jpg
     lineOfficialUrl: '', // 填入 LINE 官方帳號的加入好友連結（https://lin.ee/…）後顯示
     googleFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdkKuTSGS_u79FWXt1khwJmPGU2kSHNyYj_vrZDTjfjGS4UZg/viewform',

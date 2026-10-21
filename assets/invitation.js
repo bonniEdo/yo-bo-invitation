@@ -3,23 +3,27 @@
   const $ = id => document.getElementById(id);
   const settings = window.WEDDING_CONFIG?.INVITATION || {};
   const config = {
-    isSample:true, coupleNames:'鑫佑 & 宛瑩', date:'2027-06-19', welcomeTime:'11:30',
-    banquetTime:'12:00', endTime:'15:00', replyBy:'2027-04-30',
-    venueName:'新竹晶宴會館', venueRoom:'廳別待確認',
-    venueAddress:'詳細地址待確認', venueNote:'交通資訊將隨正式喜帖提供。', mapsQuery:'', ...settings,
+    isSample:false, coupleNames:'鑫佑 & 宛瑩', englishNames:'Walker & Bonnie', date:'2027-06-19', welcomeTime:'12:00',
+    banquetTime:'12:30', endTime:'15:00', replyBy:'2027-04-30',
+    venueName:'新竹晶宴會館', venueRoom:'',
+    venueAddress:'新竹市東區公道五路二段105號', venueNote:'點選導航，從你的位置出發。', mapsQuery:'', ...settings,
   };
   const date = new Date(`${config.date}T12:00:00+08:00`);
   const shortDate = config.date.replaceAll('-', '.');
+  document.querySelectorAll('[data-english-couple]').forEach(el => { el.textContent = config.englishNames; });
   document.querySelectorAll('[data-couple]').forEach(el => { el.textContent = config.coupleNames; });
   document.querySelectorAll('[data-short-date]').forEach(el => { el.textContent = shortDate; });
   document.querySelectorAll('[data-weekday]').forEach(el => { el.textContent = new Intl.DateTimeFormat('zh-TW', {weekday:'long',timeZone:'Asia/Taipei'}).format(date); });
   document.querySelectorAll('[data-long-date]').forEach(el => { el.textContent = new Intl.DateTimeFormat('zh-TW', {year:'numeric',month:'long',day:'numeric',timeZone:'Asia/Taipei'}).format(date); });
   for (const [id, value] of Object.entries({'welcome-time':config.welcomeTime,'banquet-time':config.banquetTime,'venue-name':config.venueName,'venue-room':config.venueRoom,'venue-address':config.venueAddress,'venue-note':config.venueNote,'reply-by':config.replyBy.replaceAll('-','.')})) $(id).textContent = value;
+  $('venue-room').hidden = !config.venueRoom;
   document.title = `${config.coupleNames}｜我們結婚了`;
   $('sample-label').hidden = !config.isSample;
   if (config.mapsQuery) {
     $('map-link').href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(config.mapsQuery)}`;
     $('map-link').hidden = false;
+    $('directions-link').href = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(config.mapsQuery)}`;
+    $('venue-map-frame').src = `https://maps.google.com/maps?q=${encodeURIComponent(config.mapsQuery)}&output=embed&hl=zh-TW`;
   }
   if (config.lineOfficialUrl) {
     try {
@@ -30,15 +34,7 @@
       }
     } catch { /* Keep the contact link hidden until a valid URL is configured. */ }
   }
-  if (config.googleFormUrl) {
-    try {
-      const url = new URL(config.googleFormUrl);
-      if (url.origin === 'https://docs.google.com' && /^\/forms\/d\/e\/[a-zA-Z0-9_-]+\/viewform$/.test(url.pathname) && !url.username && !url.password) {
-        $('google-form-link').href = url.href;
-        $('google-form-alternative').hidden = false;
-      }
-    } catch { /* Leave the optional link hidden if the configured URL is invalid. */ }
-  }
+
 
   // UTC dates make the downloaded event display correctly outside Taiwan too.
   function calendarDate(time) { return new Date(`${config.date}T${time}:00+08:00`).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,''); }
@@ -60,7 +56,7 @@
       `DTSTART:${calendarDate(config.welcomeTime)}`,`DTEND:${calendarDate(config.endTime)}`,
       `SUMMARY:${escapeCalendar(`${config.isSample?'【範例】':''}${config.coupleNames} 的婚禮`)}`,
       `LOCATION:${escapeCalendar(`${config.venueName} ${config.venueRoom} ${config.venueAddress}`)}`,
-      `DESCRIPTION:${escapeCalendar(`${config.isSample?'婚宴資訊為範例，請以新人正式通知為準。\n':''}${config.welcomeTime} 迎賓，${config.banquetTime} 開席。期待與你分享幸福！`)}`,
+      `DESCRIPTION:${escapeCalendar(`${config.isSample?'婚宴資訊為範例，請以新人正式通知為準。\n':''}${config.welcomeTime} 入座，${config.banquetTime} 開席。期待與你分享幸福！`)}`,
       'END:VEVENT','END:VCALENDAR',''];
     const url = URL.createObjectURL(new Blob([lines.map(foldCalendar).join('\r\n')],{type:'text/calendar;charset=utf-8'}));
     const link = document.createElement('a'); link.href = url; link.download = 'wedding-invitation.ics'; link.click();
@@ -70,7 +66,6 @@
   const form = $('rsvp-form');
   document.querySelector('.memory-field').hidden = true;
   $('memory-photos').disabled = true;
-  $('static-photo-note').hidden = false;
   let submitting = false;
   function syncVegetarians() {
     const previous = Number($('vegetarian-count').value);
@@ -105,7 +100,7 @@
       }, config.googleFormUrl || window.InvitationGoogleForm.url);
       submitting = true;
       $('submit-button').disabled = true;
-      $('form-status').textContent = '正在前往 Google 表單，請確認頁面顯示回覆已記錄。';
+      $('form-status').textContent = '正在送出你的回覆，請稍候。';
       // A visible Google response page exposes validation errors and real confirmation.
       const transport = document.createElement('form');
       transport.method = 'POST'; transport.action = submission.action;

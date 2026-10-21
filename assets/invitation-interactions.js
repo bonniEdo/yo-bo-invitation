@@ -46,7 +46,7 @@
     card.classList.add('is-revealed');
     revealButton.textContent = '已揭曉 ♡';
     revealButton.disabled = true;
-    status.textContent = '邀請已揭曉：2027 年 6 月 19 日，鑫佑與宛瑩，新竹晶宴會館午宴。';
+    status.textContent = '小驚喜已揭曉：幸福第一排，為你保留。來吃飯，也來收下我們的偏愛。';
     const box = card.getBoundingClientRect();
     if (box.bottom > 0 && box.top < innerHeight) celebrate(box.x + box.width / 2, box.y + box.height / 2);
   }
@@ -78,7 +78,7 @@
     context.fillStyle = '#30382b'; context.textAlign = 'center'; context.textBaseline = 'middle';
     context.font = '42px Georgia'; context.fillText('✷', width / 2, height / 2 - 42);
     context.font = '16px sans-serif'; context.fillText('刮開一點，靠近幸福。', width / 2, height / 2 + 7);
-    context.font = '8px sans-serif'; context.fillText('SCRATCH TO REVEAL OUR GOOD DAY', width / 2, height / 2 + 38);
+    context.font = '8px sans-serif'; context.fillText('A LITTLE LOVE, RESERVED FOR YOU', width / 2, height / 2 + 38);
     context.strokeStyle = '#000';
     strokes.forEach(erase);
   }
