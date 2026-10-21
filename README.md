@@ -105,3 +105,9 @@ python3 -m http.server 8080
 官方說明：
 - https://support.google.com/docs/answer/2917686
 - https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
+
+## 行事曆
+
+「加入我的行事曆」提供 Google 行事曆預填事件，以及 Apple／其他行事曆可開啟的 HTTPS `.ics` 檔案，另保留下載備用連結。選擇後仍由賓客在自己的行事曆確認加入。LINE 等內建瀏覽器可能限制開啟外部行事曆，畫面提供改用 Safari／Chrome 的提示。
+
+修改 `config.js` 的日期、時間、場地或導航資訊後，執行 `node scripts/generate-calendar.cjs`，並提交更新的 `assets/wedding-invitation.ics`。網站維持純靜態，不需要 Node.js 服務。

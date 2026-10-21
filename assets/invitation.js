@@ -47,31 +47,38 @@
   }
 
 
-  // UTC dates make the downloaded event display correctly outside Taiwan too.
+  // Offer web-based event creation as well as a normal HTTPS calendar file.
+  // Blob downloads alone do not open Calendar reliably in mobile webviews.
   function calendarDate(time) { return new Date(`${config.date}T${time}:00+08:00`).toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,''); }
-  function escapeCalendar(value) { return value.replaceAll('\\','\\\\').replaceAll('\n','\\n').replaceAll(',','\\,').replaceAll(';','\\;'); }
-  function foldCalendar(line) {
-    const encoder = new TextEncoder();
-    let result = '', length = 0;
-    for (const char of line) {
-      const size = encoder.encode(char).length;
-      if (length + size > 73) { result += '\r\n '; length = 1; }
-      result += char; length += size;
-    }
-    return result;
+  const calendarURL = new URL('https://calendar.google.com/calendar/render');
+  calendarURL.search = new URLSearchParams({
+    action: 'TEMPLATE',
+    openExternalBrowser: '1',
+    text: `${config.coupleNames} 的婚禮`,
+    dates: `${calendarDate(config.welcomeTime)}/${calendarDate(config.endTime)}`,
+    ctz: 'Asia/Taipei',
+    location: [config.venueName, config.venueRoom, config.venueAddress].filter(Boolean).join(' '),
+    details: `${config.welcomeTime} 入座，${config.banquetTime} 開席。期待與你分享幸福！${config.mapsUrl ? '\n交通導航：' + config.mapsUrl : ''}`,
+  });
+  $('calendar-google').href = calendarURL.href;
+  if (/Line\//i.test(navigator.userAgent)) {
+    $('calendar-help').textContent = '你正在 LINE 裡瀏覽。若行事曆無法開啟，請點右上角選單，改用 Safari（iPhone）或 Chrome 開啟喜帖，再加入行事曆。';
+    $('calendar-copy').hidden = false;
   }
-  $('calendar-button').addEventListener('click', () => {
-    const lines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Wedding Invitation//ZH-TW','CALSCALE:GREGORIAN','BEGIN:VEVENT',
-      `UID:wedding-${config.date}-${encodeURIComponent(config.coupleNames)}@invitation`,
-      `DTSTAMP:${new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d{3}/,'')}`,
-      `DTSTART:${calendarDate(config.welcomeTime)}`,`DTEND:${calendarDate(config.endTime)}`,
-      `SUMMARY:${escapeCalendar(`${config.isSample?'【範例】':''}${config.coupleNames} 的婚禮`)}`,
-      `LOCATION:${escapeCalendar(`${config.venueName} ${config.venueRoom} ${config.venueAddress}`)}`,
-      `DESCRIPTION:${escapeCalendar(`${config.isSample?'婚宴資訊為範例，請以新人正式通知為準。\n':''}${config.welcomeTime} 入座，${config.banquetTime} 開席。期待與你分享幸福！`)}`,
-      'END:VEVENT','END:VCALENDAR',''];
-    const url = URL.createObjectURL(new Blob([lines.map(foldCalendar).join('\r\n')],{type:'text/calendar;charset=utf-8'}));
-    const link = document.createElement('a'); link.href = url; link.download = 'wedding-invitation.ics'; link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  $('calendar-copy').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(location.href);
+      $('calendar-copy-status').textContent = '已複製喜帖連結，請貼到 Safari 或 Chrome 開啟。';
+    } catch {
+      $('calendar-copy-status').textContent = '請使用 LINE 右上角選單，選擇以外部瀏覽器開啟。';
+    }
+  });
+  const calendarDialog = $('calendar-dialog');
+  $('calendar-button').addEventListener('click', () => calendarDialog.showModal());
+  $('calendar-close').addEventListener('click', () => calendarDialog.close());
+  calendarDialog.addEventListener('click', event => {
+    const box = calendarDialog.getBoundingClientRect();
+    if (event.target === calendarDialog && (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom)) calendarDialog.close();
   });
 
   const form = $('rsvp-form');
