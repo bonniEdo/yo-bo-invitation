@@ -46,7 +46,7 @@
     card.classList.add('is-revealed');
     revealButton.textContent = '已揭曉 ♡';
     revealButton.disabled = true;
-    status.textContent = '小驚喜已揭曉：幸福第一排，為你保留。來吃飯，也來收下我們的偏愛。';
+    status.textContent = '恭喜你獲得神祕小禮物！婚禮當天，出示這個畫面找我們兌換。只限現場領取，禮物內容見面才揭曉。';
     const box = card.getBoundingClientRect();
     if (box.bottom > 0 && box.top < innerHeight) celebrate(box.x + box.width / 2, box.y + box.height / 2);
   }
