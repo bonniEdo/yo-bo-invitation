@@ -111,3 +111,7 @@ python3 -m http.server 8080
 「加入我的行事曆」提供 Google 行事曆預填事件，以及 Apple／其他行事曆可開啟的 HTTPS `.ics` 檔案，另保留下載備用連結。選擇後仍由賓客在自己的行事曆確認加入。LINE 等內建瀏覽器可能限制開啟外部行事曆，畫面提供改用 Safari／Chrome 的提示。
 
 修改 `config.js` 的日期、時間、場地或導航資訊後，執行 `node scripts/generate-calendar.cjs`，並提交更新的 `assets/wedding-invitation.ics`。網站維持純靜態，不需要 Node.js 服務。
+
+## 雜誌封面與景深
+
+首頁以全版合照呈現雜誌封面，`assets/invitation-magazine.css` 負責刊名字體、書脊紙張、陰影及前後景失焦。`assets/invitation-depth.js` 使用滑鼠視差調整 CSS 3D 傾斜與反光，觸控裝置只保留捲動時的分層效果，不要求陀螺儀權限。開啟系統「減少動態效果」時停用視差、入場失焦與額外動態。原有翻頁動畫持續由 `assets/invitation-book.js` 管理，視差隨封面展開淡出。

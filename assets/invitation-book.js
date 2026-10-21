@@ -30,6 +30,8 @@
     const coverRead = clamp(offset, 0, layout.coverRead);
     const detailsRead = clamp(offset - layout.firstEnd, 0, layout.detailsRead);
     const fit = reducedMotion.matches ? 0 : zoom;
+    book.style.setProperty('--cover-presence', String(1 - zoom));
+    book.style.setProperty('--depth-scroll', String(reducedMotion.matches ? 0 : clamp(offset / Math.max(1, layout.coverRead + layout.zoom))));
     const mix = (from, to, amount) => from + (to - from) * amount;
     const coverHeight = mix(layout.heights[0] - coverRead, layout.scene, zoom);
     const detailsHeight = layout.heights[1] - detailsRead;
