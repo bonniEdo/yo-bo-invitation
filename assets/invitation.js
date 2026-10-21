@@ -26,6 +26,16 @@
     $('directions-link').href = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(config.mapsQuery)}`;
     $('venue-map-frame').src = `https://maps.google.com/maps?q=${encodeURIComponent(config.mapsQuery)}&output=embed&hl=zh-TW`;
   }
+  if (config.mapsUrl) {
+    try {
+      const url = new URL(config.mapsUrl);
+      if (url.protocol === 'https:' && ['maps.app.goo.gl', 'maps.google.com', 'www.google.com'].includes(url.hostname) && !url.username && !url.password) {
+        $('map-link').href = url.href;
+        $('directions-link').href = url.href;
+        $('map-link').hidden = false;
+      }
+    } catch { /* Keep the name-based map as a fallback. */ }
+  }
   if (config.lineOfficialUrl) {
     try {
       const url = new URL(config.lineOfficialUrl);
