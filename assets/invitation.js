@@ -3,9 +3,9 @@
   const $ = id => document.getElementById(id);
   const settings = window.WEDDING_CONFIG?.INVITATION || {};
   const config = {
-    isSample:true, coupleNames:'子謙 & 以安', date:'2027-05-22', welcomeTime:'11:30',
+    isSample:true, coupleNames:'鑫佑 & 宛瑩', date:'2027-06-19', welcomeTime:'11:30',
     banquetTime:'12:00', endTime:'15:00', replyBy:'2027-04-30',
-    venueName:'幸福花園婚宴會館', venueRoom:'花園廳 · 2F',
+    venueName:'新竹晶宴會館', venueRoom:'花園廳 · 2F',
     venueAddress:'台北市・詳細地址待新人確認', venueNote:'交通資訊將隨正式喜帖提供。', mapsQuery:'', ...settings,
   };
   const date = new Date(`${config.date}T12:00:00+08:00`);
@@ -20,6 +20,15 @@
   if (config.mapsQuery) {
     $('map-link').href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(config.mapsQuery)}`;
     $('map-link').hidden = false;
+  }
+  if (config.lineOfficialUrl) {
+    try {
+      const url = new URL(config.lineOfficialUrl);
+      if (url.protocol === 'https:' && ['lin.ee', 'line.me'].includes(url.hostname) && !url.username && !url.password) {
+        $('line-official-link').href = url.href;
+        $('line-official-section').hidden = false;
+      }
+    } catch { /* Keep the contact link hidden until a valid URL is configured. */ }
   }
   if (config.googleFormUrl) {
     try {
