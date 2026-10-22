@@ -24,13 +24,14 @@
     const box = event.currentTarget.getBoundingClientRect();
     celebrate(box.x + box.width / 2, box.y + box.height / 2);
   });
-  document.querySelectorAll('.personality').forEach(button => {
+  document.querySelectorAll('.profile-toggle').forEach(button => {
     button.addEventListener('click', () => {
       const expanded = button.getAttribute('aria-expanded') === 'true';
+      const card = button.closest('.personality');
       button.setAttribute('aria-expanded', String(!expanded));
-      button.querySelector('.personality-extra').hidden = expanded;
-      const name = button.classList.contains('quiet') ? 'Walker' : 'Bonnie';
-      button.querySelector('.personality-hint').textContent = expanded ? `認識 ${name} ＋` : '收起小祕密 −';
+      card.classList.toggle('is-expanded', !expanded);
+      card.querySelector('.personality-extra').hidden = expanded;
+      button.textContent = expanded ? `認識${button.dataset.person} ＋` : '收起小祕密 −';
     });
   });
 
@@ -126,14 +127,19 @@
     img.loading = Number(slot.dataset.photo) === 0 ? 'eager' : 'lazy';
     img.addEventListener('load', () => {
       slot.querySelector('.photo-placeholder')?.remove();
-      slot.classList.add('has-photo'); slot.tabIndex = 0; slot.setAttribute('role', 'button');
-      slot.setAttribute('aria-label', `放大${img.alt}`);
+      slot.classList.add('has-photo');
     });
     img.addEventListener('error', () => img.remove());
     img.src = url.href; slot.append(img);
-    function open() { if (slot.closest('.gallery-ready') || !slot.classList.contains('has-photo')) return; fullPhoto.src = url.href; fullPhoto.alt = img.alt; dialog.showModal(); }
-    slot.addEventListener('click', open);
-    slot.addEventListener('keydown', event => { if (['Enter', ' '].includes(event.key)) { event.preventDefault(); open(); } });
+  });
+  document.querySelectorAll('.photo-open').forEach(button => {
+    button.addEventListener('click', () => {
+      const image = document.querySelector(`[data-photo="${Number(button.dataset.photoIndex)}"] img`);
+      if (!image) return;
+      fullPhoto.src = image.src;
+      fullPhoto.alt = image.alt;
+      window.InvitationModal.open(dialog, document.getElementById('photo-close'));
+    });
   });
   document.getElementById('photo-close').addEventListener('click', () => dialog.close());
   dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });

@@ -18,7 +18,7 @@
   for (const [id, value] of Object.entries({'welcome-time':config.welcomeTime,'banquet-time':config.banquetTime,'venue-name':config.venueName,'venue-room':config.venueRoom,'venue-address':config.venueAddress,'reply-by':config.replyBy.replaceAll('-','.')})) $(id).textContent = value;
   $('venue-room').hidden = !config.venueRoom;
   $('venue-address').hidden = !config.venueAddress;
-  document.title = `${config.englishNames} ${config.coupleNames}｜我們結婚了`;
+  document.title = `${config.coupleNames}｜${config.englishNames} 婚禮邀請`;
   $('sample-label').hidden = !config.isSample;
   if (config.mapsQuery) {
     $('directions-link').href = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(config.mapsQuery)}`;
@@ -70,7 +70,7 @@
     }
   });
   const calendarDialog = $('calendar-dialog');
-  $('calendar-button').addEventListener('click', () => calendarDialog.showModal());
+  $('calendar-button').addEventListener('click', () => openFixedDialog(calendarDialog, $('calendar-title')));
   $('calendar-close').addEventListener('click', () => calendarDialog.close());
   calendarDialog.addEventListener('click', event => {
     const box = calendarDialog.getBoundingClientRect();
@@ -80,28 +80,35 @@
   const form = $('rsvp-form');
   let submitting = false;
   const rsvpDialog = $('rsvp-dialog');
-  let savedScroll = 0;
-  let savedBodyStyles = '';
-  function openRsvp() {
-    if (rsvpDialog.open) return;
-    form.hidden = false;
-    savedScroll = window.scrollY;
-    savedBodyStyles = document.body.style.cssText;
-    document.documentElement.classList.add('rsvp-modal-open');
-    document.dispatchEvent(new Event('rsvp:lock'));
+  function openFixedDialog(dialog, focusTarget) {
+    if (dialog.open) return;
+    const savedScroll = window.scrollY;
+    const savedBodyStyles = document.body.style.cssText;
+    document.documentElement.classList.add('invitation-modal-open');
+    document.dispatchEvent(new Event('invitation:lock'));
     document.body.style.position = 'fixed';
     document.body.style.top = `${-savedScroll}px`;
     document.body.style.width = '100%';
-    rsvpDialog.showModal();
-    $('rsvp-dialog-title').focus({ preventScroll: true });
+    dialog.addEventListener('close', () => {
+      document.body.style.cssText = savedBodyStyles;
+      document.documentElement.classList.remove('invitation-modal-open');
+      window.scrollTo({ top: savedScroll, behavior: 'instant' });
+      document.dispatchEvent(new Event('invitation:unlock'));
+    }, {once: true});
+    dialog.showModal();
+    focusTarget?.focus({ preventScroll: true });
+  }
+  window.InvitationModal = {open: openFixedDialog};
+  function openRsvp() {
+    form.hidden = false;
+    openFixedDialog(rsvpDialog, $('rsvp-dialog-title'));
   }
   $('rsvp-open').addEventListener('click', openRsvp);
   $('rsvp-close').addEventListener('click', () => rsvpDialog.close());
-  rsvpDialog.addEventListener('close', () => {
-    document.body.style.cssText = savedBodyStyles;
-    document.documentElement.classList.remove('rsvp-modal-open');
-    window.scrollTo({ top: savedScroll, behavior: 'instant' });
-    document.dispatchEvent(new Event('rsvp:unlock'));
+  const storyDialog = $('story-dialog');
+  $('story-read').addEventListener('click', () => openFixedDialog(storyDialog, $('story-reader-title')));
+  [$('story-close'), $('story-reader-back')].forEach(button => {
+    button.addEventListener('click', () => storyDialog.close());
   });
   function syncVegetarians() {
     const previous = Number($('vegetarian-count').value);

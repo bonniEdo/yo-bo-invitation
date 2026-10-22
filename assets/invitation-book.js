@@ -260,8 +260,8 @@
     }).catch(() => {});
   }
 
-  document.addEventListener('rsvp:lock', () => { cancelAnimation(); modalLocked = true; });
-  document.addEventListener('rsvp:unlock', () => { modalLocked = false; requestMeasure(); });
+  document.addEventListener('invitation:lock', () => { cancelAnimation(); modalLocked = true; });
+  document.addEventListener('invitation:unlock', () => { modalLocked = false; requestMeasure(); });
 
   document.addEventListener('click', event => {
     const link = event.target.closest('a[href^="#"]');

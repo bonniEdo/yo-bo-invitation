@@ -63,21 +63,13 @@
   }, {passive:true});
   window.addEventListener('pointercancel', () => { gesture = null; }, {passive:true});
   viewer.addEventListener('dragstart', event => event.preventDefault());
-  viewer.querySelectorAll('.story-photo').forEach(photo => {
-    photo.removeAttribute('role'); photo.removeAttribute('aria-label'); photo.tabIndex = -1;
-    // Images may load after enhancement; the main loader sets role/tabindex.
-    const img = photo.querySelector('img');
-    if (img) {
-      img.draggable = false;
-      img.addEventListener('load', () => { photo.removeAttribute('role'); photo.removeAttribute('aria-label'); photo.tabIndex = -1; });
-    }
-  });
+  viewer.querySelectorAll('.story-photo img').forEach(img => { img.draggable = false; });
   document.getElementById('story-enlarge').addEventListener('click', () => {
     const img = frames[index].querySelector('img');
     if (!img) return;
     const full = document.getElementById('photo-full');
     full.src = img.src; full.alt = img.alt;
-    document.getElementById('photo-dialog').showModal();
+    window.InvitationModal.open(document.getElementById('photo-dialog'), document.getElementById('photo-close'));
   });
   show(0);
 })();
