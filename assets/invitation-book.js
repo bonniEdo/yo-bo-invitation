@@ -19,6 +19,7 @@
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const mix = (from, to, amount) => from + (to - from) * amount;
+  let viewportWidth = window.innerWidth, viewportHeight = window.innerHeight;
   let layout = {}, frame = 0, measureFrame = 0, active = -1;
   let animationFrame = 0, animationTarget = null, wholeFlip = null, modalLocked = false;
   let settleTimer = 0, touchActive = false, manualScroll = false, scrollDirection = 1, previousScroll = window.scrollY, snapping = false;
@@ -121,9 +122,10 @@
     const local = previous ? window.scrollY - layout.start - previous.enter : 0;
     const preserveReading = active > 0 && previous && local >= 0 && (active === lastPage || local <= previous.read) && !animationFrame;
     const top = window.innerWidth <= 760 ? 16 : 24;
-    const scene = Math.max(300, window.innerHeight - top - 24);
-    const zoom = Math.max(320, Math.round(scene * 0.75));
-    const turn = Math.max(420, Math.round(scene * 0.9));
+    const scene = Math.max(300, viewportHeight - top - 24);
+    const zoom = Math.max(420, Math.round(scene * 0.95));
+    const turn = Math.max(640, Math.round(scene * 1.35));
+    const pause = Math.max(180, Math.round(scene * 0.3));
     book.style.setProperty('--scene-height', `${scene}px`);
     const heights = pages.map(page => page.offsetHeight);
     const coverRead = Math.max(0, heights[0] - scene);
@@ -131,7 +133,7 @@
     pages.forEach((page, index) => {
       const enter = index === 0 ? 0 : entries[index - 1].turnStart + turn;
       const read = index === lastPage ? 0 : Math.max(0, heights[index] - scene);
-      entries.push({ enter, read, turnStart: enter + read + (index === 0 ? zoom : 0) });
+      entries.push({ enter, read, turnStart: enter + read + (index === 0 ? zoom : pause) });
     });
     const end = entries[lastPage].enter + zoom;
     const height = Math.max(scene, ...heights);
@@ -206,7 +208,7 @@
       const middle = (point + points[i]) / 2;
       const turning = middle >= zoomStart && middle <= zoomEnd || middle >= layout.start + layout.entries[lastPage].enter && middle <= chapterPosition(lastPage) || layout.entries.some((entry, page) =>
         page < lastPage && middle >= layout.start + entry.turnStart && middle <= layout.start + entry.turnStart + layout.turn);
-      return { from: points[i], to: point, duration: turning ? 1000 : 350 };
+      return { from: points[i], to: point, duration: turning ? 1200 : 350 };
     });
     const duration = phases.reduce((total, phase) => total + phase.duration, 0);
     const started = performance.now();
@@ -274,7 +276,7 @@
   function scheduleSettle() {
     clearTimeout(settleTimer);
     if (!manualScroll || modalLocked || touchActive || animationFrame || wholeFlip) return;
-    settleTimer = setTimeout(settleTurn, 220);
+    settleTimer = setTimeout(settleTurn, 340);
   }
   function settleTurn() {
     if (!manualScroll || modalLocked || touchActive || animationFrame || wholeFlip) return;
@@ -288,7 +290,7 @@
     const interval = intervals.find(part => offset > part.start + 1 && offset < part.end - 1);
     if (!interval) return;
     const fraction = (offset - interval.start) / (interval.end - interval.start);
-    const forward = scrollDirection >= 0 ? fraction > 0.18 : fraction >= 0.82;
+    const forward = scrollDirection >= 0 ? fraction > 0.55 : fraction >= 0.45;
     let target = layout.start + (forward ? interval.end : interval.start);
     if (interval.kind === 'cover') target = chapterPosition(forward ? 1 : 0);
     if (interval.kind === 'close') target = forward ? chapterPosition(lastPage) : layout.start + layout.entries[lastPage - 1].turnStart;
@@ -298,7 +300,7 @@
     const started = performance.now();
     snapping = true;
     function tick(now) {
-      const progress = clamp((now - started) / 560);
+      const progress = clamp((now - started) / 800);
       const eased = 1 - (1 - progress) ** 3;
       move(mix(from, target, eased));
       if (progress === 1) { animationFrame = 0; snapping = false; return; }
@@ -339,12 +341,14 @@
     if (event.deltaY) scrollDirection = Math.sign(event.deltaY);
     scheduleSettle();
   }, {passive: true});
-  window.addEventListener('pointerdown', () => {
+  window.addEventListener('pointerdown', event => {
     if (modalLocked) return;
+    if (event.target.closest('#scratch-card')) { cancelAnimation(); manualScroll = false; return; }
     cancelAnimation(); manualScroll = true; scheduleSettle();
   }, {passive: true});
-  window.addEventListener('touchstart', () => {
+  window.addEventListener('touchstart', event => {
     if (modalLocked) return;
+    if (event.target.closest('#scratch-card')) { cancelAnimation(); manualScroll = false; return; }
     touchActive = true; cancelAnimation(); manualScroll = true;
   }, {passive: true});
   ['touchend', 'touchcancel'].forEach(type => window.addEventListener(type, () => {
@@ -360,6 +364,11 @@
     }
   });
   window.addEventListener('resize', () => {
+    // iPhone toolbars change height during a swipe. Keep the reading geometry
+    // until a real resize/orientation change, rather than jumping under a finger.
+    const width = window.innerWidth, height = window.innerHeight;
+    if (width === viewportWidth && width <= 760 && Math.abs(height - viewportHeight) < viewportHeight * 0.25) return;
+    viewportWidth = width; viewportHeight = height;
     const continueSnap = snapping || manualScroll || Boolean(animationFrame);
     cancelAnimation(); requestMeasure();
     if (continueSnap) { manualScroll = true; scheduleSettle(); }

@@ -272,3 +272,9 @@ html.is-backcover #backcover .backcover-return{pointer-events:auto}
 #backcover .backcover-return svg{width:38px;height:38px;flex-shrink:0;filter:drop-shadow(0 1px 2px #fff9);animation:cover-tap 2.2s ease-in-out infinite}
 @media(max-width:760px){#story .gallery-ready{height:calc(clamp(290px,95vw,540px) + 320px)}}
 @media(prefers-reduced-motion:reduce){#backcover .backcover-return svg{animation:none}}
+
+/* Native scroll anchoring must not fight the scroll-driven book geometry. */
+html.book-enabled{scroll-behavior:auto;overflow-anchor:none}
+.book-journey{overflow-anchor:none}
+.story-title-names{display:block;font:400 16px/1.6 var(--latin);letter-spacing:1px;margin-top:8px;color:var(--muted)}
+#scratch-canvas{z-index:2;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}

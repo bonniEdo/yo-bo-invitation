@@ -44,13 +44,20 @@
     if (revealed) return;
     revealed = true;
     card.classList.add('is-revealed');
-    revealButton.textContent = '已揭曉 ♡';
-    revealButton.disabled = true;
+    revealButton.textContent = '再刮一次 ↻';
     status.textContent = '恭喜你獲得神祕小禮物！婚禮當天，出示這個畫面找我們兌換。只限現場領取，禮物內容見面才揭曉。';
     const box = card.getBoundingClientRect();
     if (box.bottom > 0 && box.top < innerHeight) celebrate(box.x + box.width / 2, box.y + box.height / 2);
   }
-  revealButton.addEventListener('click', reveal);
+  revealButton.addEventListener('click', () => {
+    if (!revealed) { reveal(); return; }
+    revealed = false; drawing = false; last = null; strokes.length = 0;
+    width = 0; height = 0;
+    card.classList.remove('is-revealed');
+    revealButton.textContent = '直接揭曉 →';
+    status.textContent = '可以再刮一次囉！';
+    paint();
+  });
   function erase(stroke) {
     context.globalCompositeOperation = 'destination-out';
     context.lineWidth = Math.max(34, width * 0.1);
@@ -62,8 +69,8 @@
   }
   function paint() {
     if (!context || revealed) return;
-    const rect = card.getBoundingClientRect();
-    const nextWidth = Math.round(rect.width), nextHeight = Math.round(rect.height);
+    const nextWidth = card.clientWidth, nextHeight = card.clientHeight;
+    if (!nextWidth || !nextHeight) return;
     if (width === nextWidth && height === nextHeight) return;
     width = nextWidth; height = nextHeight;
     const ratio = Math.min(devicePixelRatio || 1, 2);
@@ -93,6 +100,7 @@
   }
   canvas.addEventListener('pointerdown', event => {
     if (event.button !== 0 || !context || revealed) return;
+    event.preventDefault();
     drawing = true; last = point(event); canvas.setPointerCapture(event.pointerId); scratch(event);
   });
   canvas.addEventListener('pointermove', scratch);
@@ -106,6 +114,7 @@
   }
   canvas.addEventListener('pointerup', endStroke);
   canvas.addEventListener('pointercancel', endStroke);
+  canvas.addEventListener('lostpointercapture', endStroke);
   if (context) { new ResizeObserver(paint).observe(card); paint(); document.fonts?.ready.then(() => { width = 0; height = 0; paint(); }); }
   else canvas.hidden = true;
 
