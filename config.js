@@ -16,7 +16,7 @@ window.WEDDING_CONFIG = {
     mapsUrl: 'https://maps.app.goo.gl/zR6kXYtcgetRcxKTA?g_st=ic', // 新人提供的場地定位
     mapsQuery: '晶宴會館御豐館 300新竹市東區光復里公道五路三段1號2樓',
     // 圖片順序：封面、故事照片 1、2、3。
-    photos: ['assets/walker-bonnie.jpg', 'assets/walker-bonnie.jpg', 'assets/story-champagne-upright.png', 'assets/walker-bonnie.jpg'],
+    photos: ['assets/walker-bonnie.jpg', 'assets/story-confetti.png', 'assets/story-champagne-upright.png', 'assets/story-courtyard.png'],
     lineOfficialUrl: '', // 填入 LINE 官方帳號的加入好友連結（https://lin.ee/…）後顯示
     googleFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdkKuTSGS_u79FWXt1khwJmPGU2kSHNyYj_vrZDTjfjGS4UZg/viewform',
   },
