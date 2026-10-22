@@ -12,10 +12,6 @@
   const flight = book.querySelector('.paper-flight');
   const paper = book.querySelector('.invitation-paper');
   const intro = book.querySelector('.hero-copy');
-  const storyIndex = pages.findIndex(page => page.id === 'story');
-  const storyViewer = book.querySelector('.story-viewer');
-  const storyFrames = [...book.querySelectorAll('[data-story-frame]')];
-  const storyDots = [...book.querySelectorAll('.story-progress span')];
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const mix = (from, to, amount) => from + (to - from) * amount;
@@ -25,33 +21,10 @@
   pages.forEach((page, index) => { page.style.zIndex = String(pages.length - index); });
   document.documentElement.classList.add('book-enabled');
 
-  function renderStory(offset) {
-    const entry = layout.entries[storyIndex];
-    const progress = layout.storyHold ? clamp((offset - entry.enter - layout.storyHoldAt) / layout.storyHold) : 0;
-    const raw = progress * (storyFrames.length - 1);
-    const step = Math.floor(raw);
-    const fraction = raw - step;
-    const position = step + fraction * fraction * (3 - 2 * fraction);
-    const current = Math.round(position);
-    storyFrames.forEach((photo, index) => {
-      const visible = reducedMotion.matches || index === current;
-      // Fade the incoming image over an opaque previous image. Keep captions
-      // separate so two paragraphs never overlap during the dissolve.
-      photo.querySelector('.story-photo').style.opacity = String(reducedMotion.matches ? 1 : clamp(position - index + 1));
-      photo.classList.toggle('is-current', visible);
-      photo.inert = !visible;
-      photo.setAttribute('aria-hidden', String(!visible));
-      photo.style.pointerEvents = visible ? '' : 'none';
-    });
-    storyDots.forEach((dot, index) => dot.classList.toggle('is-current', index === current));
-  }
-
   function readOffset(index, offset) {
-    if (index === lastPage) return 0; // The last sheet scrolls in normal flow.
+    if (index === lastPage) return 0;
     const entry = layout.entries[index];
-    const local = clamp(offset - entry.enter, 0, entry.read);
-    // Hold the story's photo window in place while its three frames crossfade.
-    return index === storyIndex ? local - clamp(local - layout.storyHoldAt, 0, layout.storyHold) : local;
+    return clamp(offset - entry.enter, 0, entry.read);
   }
 
   function render() {
@@ -69,7 +42,10 @@
     while (sheet < lastPage && offset >= layout.entries[sheet + 1].enter) sheet++;
     const currentHeight = sheet === 0 ? mix(layout.heights[0] - coverRead, layout.scene, zoom) : layout.heights[sheet] - reads[sheet];
     const visibleHeight = sheet === lastPage ? currentHeight : mix(currentHeight, layout.heights[sheet + 1], turns[sheet]);
-    stage.style.clipPath = `inset(-50px -50px ${Math.max(0, layout.height - visibleHeight)}px -50px)`;
+    // Size the sticky stage to the visible sheet. A tallest-sheet spacer with
+    // a negative margin leaves overflow below the footer and breaks its links.
+    stage.style.height = `${visibleHeight}px`;
+    stage.style.clipPath = 'inset(-50px -50px 0px -50px)';
 
     // Keep the existing cover: fit the magazine to the stage, then turn it left.
     pages[0].style.transform = `translateY(${-coverRead}px)`;
@@ -96,7 +72,6 @@
       page.style.visibility = notOpened || turned ? 'hidden' : 'visible';
       page.style.setProperty('--turn-shade', Math.sin(turns[index] * Math.PI) * 0.19);
     });
-    renderStory(offset);
 
     const next = turns.reduce((index, progress, turning) => progress >= 0.5 ? turning + 1 : index, 0);
     if (next !== active) {
@@ -124,26 +99,24 @@
     const turn = Math.max(420, Math.round(scene * 0.9));
     book.style.setProperty('--scene-height', `${scene}px`);
     const heights = pages.map(page => page.offsetHeight);
-    const storyHold = reducedMotion.matches ? 0 : Math.round(scene * 1.6);
-    const storyHoldAt = clamp(storyViewer.offsetTop - scene * 0.08, 0, Math.max(0, heights[storyIndex] - scene));
     const coverRead = Math.max(0, heights[0] - scene);
     const entries = [];
     pages.forEach((page, index) => {
       const enter = index === 0 ? 0 : entries[index - 1].turnStart + turn;
-      const read = index === lastPage ? 0 : Math.max(0, heights[index] - scene) + (index === storyIndex ? storyHold : 0);
+      const read = index === lastPage ? 0 : Math.max(0, heights[index] - scene);
       entries.push({ enter, read, turnStart: enter + read + (index === 0 ? zoom : 0) });
     });
     const end = entries[lastPage].enter;
     const height = Math.max(scene, ...heights);
     book.style.setProperty('--book-height', `${height}px`);
-    book.style.height = `${height + end}px`;
-    book.style.marginBottom = `${heights[lastPage] - height}px`;
+    book.style.height = `${heights[lastPage] + end}px`;
+    book.style.marginBottom = '0px';
     const geometry = { width: anchor.offsetWidth, height: anchor.offsetHeight, left: 0, top: 0 };
     for (let node = anchor; node && node !== stage; node = node.offsetParent) {
       geometry.left += node.offsetLeft;
       geometry.top += node.offsetTop;
     }
-    layout = { scene, zoom, turn, coverRead, entries, storyHold, storyHoldAt, end, heights, height, paper: geometry, width: stage.offsetWidth,
+    layout = { scene, zoom, turn, coverRead, entries, end, heights, height, paper: geometry, width: stage.offsetWidth,
       start: window.scrollY + book.getBoundingClientRect().top - top };
     if (preserveReading) {
       const nextLocal = active === lastPage ? local : clamp(local, 0, entries[active].read);

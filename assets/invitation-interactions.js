@@ -130,7 +130,7 @@
     });
     img.addEventListener('error', () => img.remove());
     img.src = url.href; slot.append(img);
-    function open() { if (!slot.classList.contains('has-photo')) return; fullPhoto.src = url.href; fullPhoto.alt = img.alt; dialog.showModal(); }
+    function open() { if (slot.closest('.gallery-ready') || !slot.classList.contains('has-photo')) return; fullPhoto.src = url.href; fullPhoto.alt = img.alt; dialog.showModal(); }
     slot.addEventListener('click', open);
     slot.addEventListener('keydown', event => { if (['Enter', ' '].includes(event.key)) { event.preventDefault(); open(); } });
   });
@@ -143,4 +143,35 @@
     document.getElementById('countdown-label').textContent = days > 0 ? 'DAYS TO GO' : days === 0 ? 'TODAY IS THE DAY' : 'OUR NEXT CHAPTER HAS BEGUN';
   }
   updateCountdown(); setInterval(updateCountdown, 60000);
+
+  const hearts = document.createElement('div');
+  hearts.id = 'heart-layer'; hearts.setAttribute('aria-hidden', 'true');
+  document.body.append(hearts);
+  document.addEventListener('click', event => {
+    if (reducedMotion.matches || event.detail === 0 || event.button !== 0 ||
+        event.target.closest('input, textarea, select, option, label, #scratch-canvas')) return;
+    for (let i = 0; i < 6; i++) {
+      while (hearts.childElementCount >= 72) {
+        const oldest = hearts.firstElementChild;
+        oldest.getAnimations().forEach(animation => animation.cancel());
+        oldest.remove();
+      }
+      const heart = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      heart.setAttribute('viewBox', '0 0 24 24'); heart.classList.add('tap-heart');
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', 'M12 21s-9-5.6-9-12a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.4-9 12-9 12Z');
+      heart.append(path);
+      heart.style.left = `${event.clientX}px`; heart.style.top = `${event.clientY}px`;
+      heart.style.width = `${12 + Math.random() * 12}px`;
+      heart.style.color = ['#ee9857', '#e77835', '#f5b477'][i % 3];
+      hearts.append(heart);
+      const dx = (Math.random() - .5) * 130, rise = 65 + Math.random() * 100;
+      const animation = heart.animate([
+        {transform:'translate(-50%,-50%) scale(.35) rotate(0deg)', opacity:0},
+        {transform:`translate(calc(-50% + ${dx * .3}px),-35px) scale(1) rotate(${dx * .2}deg)`, opacity:1, offset:.2},
+        {transform:`translate(calc(-50% + ${dx}px),-${rise}px) scale(.7) rotate(${dx * .5}deg)`, opacity:0}
+      ], {duration:900 + Math.random() * 450, easing:'cubic-bezier(.2,.6,.4,1)', fill:'forwards'});
+      animation.onfinish = animation.oncancel = () => heart.remove();
+    }
+  });
 })();
