@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#f7f7ef">
   <meta name="description" content="把幸福的日子，留給最重要的你。查看婚宴資訊，留下出席回覆與給新人的祝福。">
   <title>鑫佑 & 宛瑩｜剛剛好的我們</title>
-  <link rel="stylesheet" href="assets/invitation.css?v=rsvp-4">
-  <link rel="stylesheet" href="assets/invitation-book.css?v=gallery-backcover-1">
+  <link rel="stylesheet" href="assets/invitation.css?v=closing-modal-1">
+  <link rel="stylesheet" href="assets/invitation-book.css?v=closing-modal-1">
   <link rel="stylesheet" href="assets/invitation-magazine.css?v=magazine-1">
 </head>
 <body>
@@ -86,7 +86,26 @@
         <section class="rsvp-section book-page book-rsvp" data-book-page="3" id="rsvp" aria-labelledby="rsvp-title">
           <aside class="rsvp-intro"><p class="eyebrow">PLEASE REPLY · RSVP</p><h2 id="rsvp-title" tabindex="-1">你來，<br>就<span class="sun-word">更好了。</span></h2><p>能來，讓我們好好擁抱。<br>無法到場，你的心意也一樣珍貴。</p><div class="reply-deadline"><span aria-hidden="true">♡</span><p>請於 <strong id="reply-by">2027.04.30</strong> 前回覆</p></div><div class="rsvp-doodle" aria-hidden="true">see<br><em>you!</em><span class="icon icon-next" aria-hidden="true"></span></div></aside>
           <div class="form-card">
-            <form id="rsvp-form">
+            <div id="rsvp-prompt" class="rsvp-prompt"><span class="eyebrow">A PLACE FOR YOU</span><h3>把你的位子，<br>留給這一天。</h3><p>告訴我們出席人數與用餐需求。</p><button class="button button-primary" id="rsvp-open" type="button" aria-haspopup="dialog" aria-controls="rsvp-dialog">填寫出席回覆 <span class="icon icon-next" aria-hidden="true"></span></button></div>
+            <div class="success-panel" id="success-panel" tabindex="-1" hidden><h3 id="success-title">謝謝你的回覆。</h3><p id="success-message"></p><p id="success-summary"></p><button class="text-action" id="rsvp-edit" type="button">返回填寫內容</button></div>
+          </div>
+          <div class="page-actions"><a class="text-action" href="#details">再看婚宴資訊</a><a class="button button-outline" id="rsvp-next" href="#thanks">下一頁，領取小驚喜 <span class="icon icon-next" aria-hidden="true"></span></a></div>
+          <div class="page-folio"><span>YOUR SEAT IS WAITING.</span><span>04 — RSVP</span></div>
+        </section>
+        <section class="book-page book-thanks" data-book-page="4" id="thanks" aria-labelledby="thanks-title">
+          <div class="rsvp-receipt" id="rsvp-receipt" role="status" hidden></div><div class="thankyou-heading"><p class="eyebrow">THANK YOU FOR BEING PART OF OUR STORY</p><h2 id="thanks-title" tabindex="-1">謝謝你，<br>看到這裡。</h2><p>期待和你一起，留下新的回憶。</p><p class="closing-signature">with love, Walker & Bonnie</p></div>
+          <div class="scratch-section"><div class="scratch-copy"><p class="eyebrow">A LITTLE SURPRISE FOR YOU</p><h3>刮一份<br>小驚喜。</h3><button class="text-action" id="scratch-reveal" type="button">直接揭曉 <span class="icon icon-next" aria-hidden="true"></span></button></div><div class="scratch-card" id="scratch-card"><div class="scratch-prize"><span>恭喜你，刮中我們的偏愛！</span><strong class="scratch-message">神祕小禮物<span>ONLY AT OUR WEDDING</span></strong><p class="scratch-redemption">婚禮當天，出示這個畫面找我們兌換。<br><strong>只限現場領取</strong>，禮物是什麼？見面才揭曉 🤭</p><span class="scratch-stamp" aria-hidden="true">♡</span></div><canvas id="scratch-canvas" aria-hidden="true"></canvas><span class="sr-only" id="scratch-status" role="status"></span></div></div>
+          <div class="thankyou-footer"><div class="countdown"><strong id="days-left">—</strong><span id="countdown-label">DAYS TO GO</span></div><p>婚禮當天，帶著小驚喜來找我們。</p></div>
+          <div class="page-actions"><a class="text-action" href="#rsvp">回到出席回覆</a><a class="button button-primary" href="#backcover">翻到雜誌封底 <span class="icon icon-next" aria-hidden="true"></span></a></div>
+          <div class="page-folio"><span>WITH LOVE, ALWAYS.</span><span>05 — THANK YOU</span></div>
+        </section>
+        <section class="book-page book-backcover" data-book-page="5" id="backcover" aria-labelledby="backcover-title"><div class="backcover-anchor"><div class="backcover-flight"><div class="backcover-magazine"><div class="backcover-top"><span>JUST US. / THE BACK COVER</span><span>VOL. 01</span></div><div class="backcover-photo photo-slot" data-photo="0"><div class="photo-placeholder"><span class="portrait-mark">w & b</span></div></div><div class="backcover-copy"><p class="eyebrow">THE END OF THIS ISSUE. THE START OF US.</p><h2 id="backcover-title" tabindex="-1">下一章，<br>婚禮見。</h2><p>with love, Walker & Bonnie</p></div><div class="backcover-bottom"><span>TO BE CONTINUED, TOGETHER.</span><span class="magazine-barcode" aria-hidden="true"></span></div></div></div></div><div class="backcover-actions"><a class="text-action" href="#thanks">再看小驚喜</a><a class="text-action" href="#invitation">翻回封面</a></div></section>
+      </div>
+    </div>
+  </main>
+  <div class="page-width" id="line-official-section" hidden><a class="button button-outline" id="line-official-link" target="_blank" rel="noopener noreferrer">加入新人 LINE 官方帳號 <span class="icon icon-next" aria-hidden="true"></span></a></div>
+  <footer class="site-footer page-width"><a class="footer-couple" href="#invitation" data-couple>鑫佑 & 宛瑩</a><span>A LITTLE QUIET. A LITTLE SUNSHINE.</span><a href="#rsvp" id="footer-rsvp">回到回覆頁 <span class="icon icon-next" aria-hidden="true"></span></a></footer>
+  <dialog id="rsvp-dialog" aria-labelledby="rsvp-dialog-title"><div class="rsvp-modal-shell"><header class="rsvp-modal-header"><div><p class="eyebrow">WALKER & BONNIE · RSVP</p><h2 id="rsvp-dialog-title" tabindex="-1">留個位子給你。</h2></div><button id="rsvp-close" class="rsvp-close" type="button" aria-label="關閉出席回覆">關閉 ×</button></header><div class="rsvp-modal-body"><form id="rsvp-form">
               <div class="form-heading"><span>YOUR SEAT IS WAITING</span><span aria-hidden="true">♡</span></div>
               <div class="field"><label for="guest-name">姓名 <span class="required-note">必填</span></label><input id="guest-name" name="guestName" autocomplete="name" placeholder="你的姓名" maxlength="80" required></div>
               <fieldset class="attendance-field"><legend>是否出席 <span class="required-note">必選</span></legend><div class="attendance-options"><label class="attendance-choice"><input type="radio" name="attendance" value="yes" required aria-controls="attending-details"><span class="choice-icon" aria-hidden="true">♡</span><span><strong>出席</strong></span><span class="radio-mark" aria-hidden="true"></span></label><label class="attendance-choice"><input type="radio" name="attendance" value="no" required aria-controls="attending-details"><span class="choice-icon" aria-hidden="true">✉</span><span><strong>無法出席</strong></span><span class="radio-mark" aria-hidden="true"></span></label></div></fieldset>
@@ -100,28 +119,10 @@
               <p id="form-status" class="form-status" role="status" tabindex="-1"></p>
               <button class="button button-primary submit-button" id="submit-button" type="submit">送出回覆 <span class="icon icon-next" aria-hidden="true"></span></button>
 
-            </form>
-            <div class="success-panel" id="success-panel" tabindex="-1" hidden><h3 id="success-title">謝謝你的回覆。</h3><p id="success-message"></p><p id="success-summary"></p><button class="text-action" id="rsvp-edit" type="button">返回填寫內容</button></div>
-          </div>
-          <div class="page-actions"><a class="text-action" href="#details">再看婚宴資訊</a><a class="button button-outline" id="rsvp-next" href="#thanks">下一頁，領取小驚喜 <span class="icon icon-next" aria-hidden="true"></span></a></div>
-          <div class="page-folio"><span>YOUR SEAT IS WAITING.</span><span>04 — RSVP</span></div>
-        </section>
-        <section class="book-page book-thanks" data-book-page="4" id="thanks" aria-labelledby="thanks-title">
-          <div class="rsvp-receipt" id="rsvp-receipt" role="status" hidden></div><div class="thankyou-heading"><p class="eyebrow">THANK YOU FOR BEING PART OF OUR STORY</p><h2 id="thanks-title" tabindex="-1">謝謝你，<br>看到這裡。</h2><p>期待和你一起，留下新的回憶。</p><p class="closing-signature">with love, Walker & Bonnie</p></div>
-          <div class="scratch-section"><div class="scratch-copy"><p class="eyebrow">A LITTLE SURPRISE FOR YOU</p><h3>刮一份<br>小驚喜。</h3><button class="text-action" id="scratch-reveal" type="button">直接揭曉 <span class="icon icon-next" aria-hidden="true"></span></button></div><div class="scratch-card" id="scratch-card"><div class="scratch-prize"><span>恭喜你，刮中我們的偏愛！</span><strong class="scratch-message">神祕小禮物<span>ONLY AT OUR WEDDING</span></strong><p class="scratch-redemption">婚禮當天，出示這個畫面找我們兌換。<br><strong>只限現場領取</strong>，禮物是什麼？見面才揭曉 🤭</p><span class="scratch-stamp" aria-hidden="true">♡</span></div><canvas id="scratch-canvas" aria-hidden="true"></canvas><span class="sr-only" id="scratch-status" role="status"></span></div></div>
-          <div class="thankyou-footer"><div class="countdown"><strong id="days-left">—</strong><span id="countdown-label">DAYS TO GO</span></div><p>婚禮當天，帶著小驚喜來找我們。</p></div>
-          <div class="page-actions"><a class="text-action" href="#rsvp">回到出席回覆</a><a class="button button-primary" href="#backcover">翻到雜誌封底 <span class="icon icon-next" aria-hidden="true"></span></a></div>
-          <div class="page-folio"><span>WITH LOVE, ALWAYS.</span><span>05 — THANK YOU</span></div>
-        </section>
-        <section class="book-page book-backcover" data-book-page="5" id="backcover" aria-labelledby="backcover-title"><div class="backcover-magazine"><div class="backcover-top"><span>JUST US. / THE BACK COVER</span><span>VOL. 01</span></div><div class="backcover-photo photo-slot" data-photo="0"><div class="photo-placeholder"><span class="portrait-mark">w & b</span></div></div><div class="backcover-copy"><p class="eyebrow">THE END OF THIS ISSUE. THE START OF US.</p><h2 id="backcover-title" tabindex="-1">下一章，<br>婚禮見。</h2><p>with love, Walker & Bonnie</p></div><div class="backcover-bottom"><span>TO BE CONTINUED, TOGETHER.</span><span class="magazine-barcode" aria-hidden="true"></span></div></div><div class="backcover-actions"><a class="text-action" href="#thanks">再看小驚喜</a><a class="text-action" href="#invitation">翻回封面</a></div></section>
-      </div>
-    </div>
-  </main>
-  <div class="page-width" id="line-official-section" hidden><a class="button button-outline" id="line-official-link" target="_blank" rel="noopener noreferrer">加入新人 LINE 官方帳號 <span class="icon icon-next" aria-hidden="true"></span></a></div>
-  <footer class="site-footer page-width"><a class="footer-couple" href="#invitation" data-couple>鑫佑 & 宛瑩</a><span>A LITTLE QUIET. A LITTLE SUNSHINE.</span><a href="#rsvp" id="footer-rsvp">回到回覆頁 <span class="icon icon-next" aria-hidden="true"></span></a></footer>
+            </form></div></div></dialog>
   <dialog id="calendar-dialog" aria-labelledby="calendar-title" aria-describedby="calendar-help"><button class="dialog-close" id="calendar-close" type="button" aria-label="關閉行事曆選項">關閉 ×</button><p class="eyebrow">SAVE OUR DAY</p><h2 id="calendar-title">把這天留給我們。</h2><p class="calendar-summary">2027 / 06 / 19 · 12:00 入座 · 12:30 開席</p><div class="calendar-options"><a class="button button-primary" id="calendar-google" href="https://calendar.google.com/calendar/render" target="_blank" rel="noopener noreferrer">Google 行事曆 <span class="icon icon-next" aria-hidden="true"></span></a><a class="button button-outline" id="calendar-apple" href="assets/wedding-invitation.ics?v=20270619-1&openExternalBrowser=1">Apple／其他行事曆 <span aria-hidden="true">＋</span></a></div><p id="calendar-help">選擇你使用的行事曆，開啟後確認加入。若在 LINE 裡無法開啟，請從選單改用 Safari 或 Chrome。</p><button class="text-action" id="calendar-copy" type="button" hidden>複製喜帖連結，在瀏覽器開啟</button><p id="calendar-copy-status" role="status"></p><a class="calendar-download" id="calendar-download" href="assets/wedding-invitation.ics?v=20270619-1&openExternalBrowser=1" download="walker-bonnie-wedding.ics">下載行事曆檔案</a></dialog>
   <dialog id="photo-dialog"><button type="button" id="photo-close" aria-label="關閉照片">關閉 ×</button><img id="photo-full" alt=""></dialog>
-  <script src="config.js?v=rsvp-4"></script><script src="assets/invitation-google-form.js?v=rsvp-4"></script><script src="assets/invitation.js?v=rsvp-4"></script><script src="assets/invitation-book.js?v=gallery-backcover-1"></script>
+  <script src="config.js?v=rsvp-4"></script><script src="assets/invitation-google-form.js?v=rsvp-4"></script><script src="assets/invitation.js?v=closing-modal-1"></script><script src="assets/invitation-book.js?v=closing-modal-1"></script>
   <script src="assets/invitation-interactions.js?v=gallery-backcover-1"></script>
   <script src="assets/invitation-depth.js?v=magazine-1"></script>
   <script src="assets/invitation-gallery.js?v=gallery-backcover-1"></script>

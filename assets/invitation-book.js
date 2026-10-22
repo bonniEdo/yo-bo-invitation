@@ -12,11 +12,14 @@
   const flight = book.querySelector('.paper-flight');
   const paper = book.querySelector('.invitation-paper');
   const intro = book.querySelector('.hero-copy');
+  const backAnchor = book.querySelector('.backcover-anchor');
+  const backFlight = book.querySelector('.backcover-flight');
+  const backMagazine = book.querySelector('.backcover-magazine');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
   const mix = (from, to, amount) => from + (to - from) * amount;
   let layout = {}, frame = 0, measureFrame = 0, active = -1;
-  let animationFrame = 0, animationTarget = null;
+  let animationFrame = 0, animationTarget = null, wholeFlip = null, modalLocked = false;
 
   pages.forEach((page, index) => { page.style.zIndex = String(pages.length - index); });
   document.documentElement.classList.add('book-enabled');
@@ -29,12 +32,21 @@
 
   function render() {
     frame = 0;
+    if (modalLocked) return;
     const offset = window.scrollY - layout.start;
     const zoom = clamp((offset - layout.coverRead) / layout.zoom);
     const turns = layout.entries.map((entry, index) => index === lastPage ? 0 : clamp((offset - entry.turnStart) / layout.turn));
     const reads = pages.map((_, index) => index === 0 ? clamp(offset, 0, layout.coverRead) : readOffset(index, offset));
     const coverRead = reads[0];
     const fit = reducedMotion.matches ? 0 : zoom;
+    const closing = reducedMotion.matches ? 1 : clamp((offset - layout.entries[lastPage].enter) / layout.zoom);
+    const backFit = 1 - closing;
+    backFlight.style.width = `${mix(layout.back.width, layout.width, backFit)}px`;
+    backFlight.style.height = `${mix(layout.back.height, layout.scene, backFit)}px`;
+    backFlight.style.transform = `translate(${-layout.back.left * backFit}px, ${-layout.back.top * backFit}px) rotate(${-5 * closing}deg)`;
+    backMagazine.style.setProperty('--back-fit', backFit);
+    pages[lastPage].style.setProperty('--closing-progress', closing);
+    pages[lastPage].querySelector('.backcover-actions').inert = closing < 0.9;
     book.style.setProperty('--cover-presence', String(1 - zoom));
     book.style.setProperty('--depth-scroll', String(reducedMotion.matches ? 0 : clamp(offset / Math.max(1, layout.coverRead + layout.zoom))));
 
@@ -90,6 +102,7 @@
 
   function measure() {
     measureFrame = 0;
+    if (modalLocked) return;
     const previous = layout.entries?.[active];
     const local = previous ? window.scrollY - layout.start - previous.enter : 0;
     const preserveReading = active > 0 && previous && local >= 0 && (active === lastPage || local <= previous.read) && !animationFrame;
@@ -106,7 +119,7 @@
       const read = index === lastPage ? 0 : Math.max(0, heights[index] - scene);
       entries.push({ enter, read, turnStart: enter + read + (index === 0 ? zoom : 0) });
     });
-    const end = entries[lastPage].enter;
+    const end = entries[lastPage].enter + zoom;
     const height = Math.max(scene, ...heights);
     book.style.setProperty('--book-height', `${height}px`);
     book.style.height = `${heights[lastPage] + end}px`;
@@ -116,7 +129,10 @@
       geometry.left += node.offsetLeft;
       geometry.top += node.offsetTop;
     }
-    layout = { scene, zoom, turn, coverRead, entries, end, heights, height, paper: geometry, width: stage.offsetWidth,
+    backAnchor.style.width = `${geometry.width}px`;
+    backAnchor.style.height = `${geometry.height}px`;
+    const backGeometry = { width: backAnchor.offsetWidth, height: backAnchor.offsetHeight, left: backAnchor.offsetLeft - backAnchor.offsetWidth / 2, top: backAnchor.offsetTop - backAnchor.offsetHeight / 2 };
+    layout = { back: backGeometry, scene, zoom, turn, coverRead, entries, end, heights, height, paper: geometry, width: stage.offsetWidth,
       start: window.scrollY + book.getBoundingClientRect().top - top };
     if (preserveReading) {
       const nextLocal = active === lastPage ? local : clamp(local, 0, entries[active].read);
@@ -128,14 +144,21 @@
 
   function requestRender() { if (!frame) frame = requestAnimationFrame(render); }
   function requestMeasure() { if (!measureFrame) measureFrame = requestAnimationFrame(measure); }
-  function chapterPosition(index) { return layout.start + layout.entries[index].enter; }
+  function chapterPosition(index) { return layout.start + layout.entries[index].enter + (index === lastPage ? layout.zoom : 0); }
   function cancelAnimation() {
+    if (wholeFlip) { wholeFlip.cancel(); wholeFlip = null; }
+    document.querySelector('.whole-book-flip')?.remove();
+    stage.style.opacity = '';
     cancelAnimationFrame(animationFrame);
     animationFrame = 0;
     animationTarget = null;
   }
   function goToPage(index, focus = true) {
     cancelAnimation();
+    if (index === 0 && active === lastPage && !reducedMotion.matches) {
+      flipWholeBook(focus);
+      return;
+    }
     const from = window.scrollY;
     const to = chapterPosition(index);
     const finish = () => {
@@ -157,13 +180,13 @@
     const zoomEnd = zoomStart + layout.zoom;
     const forward = to > from;
     const boundaries = [...new Set([zoomStart, zoomEnd, ...layout.entries.flatMap((entry, page) =>
-      page === lastPage ? [layout.start + entry.enter] : [layout.start + entry.enter, layout.start + entry.turnStart])])].sort((a, b) => a - b);
+      page === lastPage ? [layout.start + entry.enter, chapterPosition(lastPage)] : [layout.start + entry.enter, layout.start + entry.turnStart])])].sort((a, b) => a - b);
     if (!forward) boundaries.reverse();
     const stops = boundaries.filter(point => forward ? point > from && point < to : point < from && point > to);
     const points = [from, ...stops, to];
     const phases = points.slice(1).map((point, i) => {
       const middle = (point + points[i]) / 2;
-      const turning = middle >= zoomStart && middle <= zoomEnd || layout.entries.some((entry, page) =>
+      const turning = middle >= zoomStart && middle <= zoomEnd || middle >= layout.start + layout.entries[lastPage].enter && middle <= chapterPosition(lastPage) || layout.entries.some((entry, page) =>
         page < lastPage && middle >= layout.start + entry.turnStart && middle <= layout.start + entry.turnStart + layout.turn);
       return { from: points[i], to: point, duration: turning ? 1000 : 350 };
     });
@@ -186,6 +209,51 @@
     }
     animationFrame = requestAnimationFrame(tick);
   }
+
+  // Two faces of one physical book: jump the document while the overlay turns.
+  // No intermediate chapter is visited or announced when returning to the cover.
+  function flipWholeBook(focus) {
+    const start = backMagazine.getBoundingClientRect();
+    const overlay = document.createElement('div');
+    overlay.className = 'whole-book-flip';
+    overlay.setAttribute('aria-hidden', 'true');
+    const back = backMagazine.cloneNode(true);
+    const front = paper.cloneNode(true);
+    [back, front].forEach(face => {
+      face.removeAttribute('id');
+      face.querySelectorAll('[id]').forEach(node => node.removeAttribute('id'));
+      face.classList.add('whole-book-face');
+      face.style.cssText = '';
+      face.inert = true;
+    });
+    front.classList.remove('whole-book-face');
+    const frontFace = document.createElement('div');
+    frontFace.className = 'book-cover whole-book-face whole-book-front';
+    frontFace.append(front);
+    overlay.append(back, frontFace);
+    document.body.append(overlay);
+    stage.style.opacity = '0';
+    window.scrollTo({ top: chapterPosition(0), behavior: 'instant' });
+    render();
+    const end = flight.getBoundingClientRect();
+    animationTarget = 0;
+    const animation = overlay.animate([
+      { left: `${start.left + (start.width - backMagazine.offsetWidth) / 2}px`, top: `${start.top + (start.height - backMagazine.offsetHeight) / 2}px`, width: `${backMagazine.offsetWidth}px`, height: `${backMagazine.offsetHeight}px`, transform: 'perspective(1800px) rotateY(0deg) rotateZ(-5deg)' },
+      { left: `${end.left + (end.width - flight.offsetWidth) / 2}px`, top: `${end.top + (end.height - flight.offsetHeight) / 2}px`, width: `${flight.offsetWidth}px`, height: `${flight.offsetHeight}px`, transform: 'perspective(1800px) rotateY(180deg) rotateZ(5deg)' }
+    ], { duration: 1100, easing: 'cubic-bezier(.45,0,.2,1)', fill: 'forwards' });
+    wholeFlip = animation;
+    animation.finished.then(() => {
+      if (wholeFlip !== animation) return;
+      wholeFlip = null;
+      overlay.remove();
+      stage.style.opacity = '';
+      animationTarget = null;
+      if (focus) coverLink?.focus({ preventScroll: true });
+    }).catch(() => {});
+  }
+
+  document.addEventListener('rsvp:lock', () => { cancelAnimation(); modalLocked = true; });
+  document.addEventListener('rsvp:unlock', () => { modalLocked = false; requestMeasure(); });
 
   document.addEventListener('click', event => {
     const link = event.target.closest('a[href^="#"]');

@@ -18,3 +18,15 @@
 @font-face{font-family:'Iansui';src:url('fonts/Iansui-Regular.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
 :root{--serif:Georgia,'Iansui','Songti TC',serif;--sans:Arial,'Iansui','Songti TC',serif}
 .success-panel{padding:24px 0}.success-panel h3{font-size:25px;line-height:1.6;margin-bottom:16px}.success-panel p{font-size:12px;line-height:1.9}.success-panel button{margin-top:15px}.rsvp-receipt{border:1px solid var(--line);background:#f2f0d2;padding:14px 18px;font-size:12px;line-height:1.8;margin-bottom:25px}.message-footer{justify-content:flex-end}
+
+/* The reply lives outside the turning sheets, with its own scrolling surface. */
+.rsvp-prompt{padding:25px 0}.rsvp-prompt h3{font-size:35px;line-height:1.5;margin:22px 0}.rsvp-prompt>p{font-size:12px;line-height:1.9;margin-bottom:30px}
+html.rsvp-modal-open{overflow:hidden;scrollbar-gutter:stable}
+#rsvp-dialog{padding:0;border:1px solid var(--line);width:min(620px,calc(100% - 28px));max-width:620px;max-height:calc(100dvh - 32px);background:var(--paper);color:var(--ink);overflow:hidden;box-shadow:0 25px 100px #20241d33}
+#rsvp-dialog::backdrop{background:#20241dbb;backdrop-filter:blur(6px)}
+.rsvp-modal-shell{display:flex;flex-direction:column;max-height:calc(100dvh - 34px)}
+.rsvp-modal-header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 30px;background:#f4f1d8;border-bottom:1px solid var(--line);flex-shrink:0}
+.rsvp-modal-header .eyebrow{font-size:8px;margin-bottom:8px}.rsvp-modal-header h2{font-size:27px;margin:0;outline:none}.rsvp-close{border:0;background:transparent;padding:12px 0 12px 12px;white-space:nowrap;font-size:12px;min-height:44px}
+.rsvp-modal-body{padding:28px 30px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;min-height:0;scroll-padding-block:20px}
+#rsvp-dialog input,#rsvp-dialog textarea,#rsvp-dialog select{font-size:16px}#rsvp-dialog .form-status:empty{display:none}#rsvp-dialog .submit-button{width:100%;margin-bottom:5px}
+@media(max-width:760px){.rsvp-modal-header{padding:18px 20px}.rsvp-modal-body{padding:22px 20px}.rsvp-modal-header h2{font-size:24px}#rsvp-dialog{max-height:calc(100dvh - 24px)}.rsvp-modal-shell{max-height:calc(100dvh - 26px)}}

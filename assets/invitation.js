@@ -83,6 +83,30 @@
 
   const form = $('rsvp-form');
   let submitting = false;
+  const rsvpDialog = $('rsvp-dialog');
+  let savedScroll = 0;
+  let savedBodyStyles = '';
+  function openRsvp() {
+    if (rsvpDialog.open) return;
+    form.hidden = false;
+    savedScroll = window.scrollY;
+    savedBodyStyles = document.body.style.cssText;
+    document.documentElement.classList.add('rsvp-modal-open');
+    document.dispatchEvent(new Event('rsvp:lock'));
+    document.body.style.position = 'fixed';
+    document.body.style.top = `${-savedScroll}px`;
+    document.body.style.width = '100%';
+    rsvpDialog.showModal();
+    $('rsvp-dialog-title').focus({ preventScroll: true });
+  }
+  $('rsvp-open').addEventListener('click', openRsvp);
+  $('rsvp-close').addEventListener('click', () => rsvpDialog.close());
+  rsvpDialog.addEventListener('close', () => {
+    document.body.style.cssText = savedBodyStyles;
+    document.documentElement.classList.remove('rsvp-modal-open');
+    window.scrollTo({ top: savedScroll, behavior: 'instant' });
+    document.dispatchEvent(new Event('rsvp:unlock'));
+  });
   function syncVegetarians() {
     const previous = Number($('vegetarian-count').value);
     $('vegetarian-count').replaceChildren(...Array.from({length:Math.min(4,Number($('guest-count').value))+1}, (_,i) => new Option(i ? `${i} 位素食` : '無素食需求', i)));
@@ -107,7 +131,8 @@
   let lastPayload = null;
   function showReceipt(confirmed, record) {
     const message = confirmed ? '回覆已收到，謝謝你。' : '回覆已送出，收件待確認。';
-    form.hidden = true;
+    rsvpDialog.close();
+    $('rsvp-prompt').hidden = true;
     $('success-panel').hidden = false;
     $('success-title').textContent = '謝謝你的回覆。';
     $('success-message').textContent = message;
@@ -120,9 +145,7 @@
     requestAnimationFrame(() => requestAnimationFrame(() => $('rsvp-next').click()));
   }
   $('rsvp-edit').addEventListener('click', () => {
-    form.hidden = false;
-    $('success-panel').hidden = true;
-    $('guest-name').focus();
+    openRsvp();
   });
   form.addEventListener('submit', async event => {
     event.preventDefault();
