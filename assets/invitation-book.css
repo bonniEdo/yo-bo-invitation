@@ -73,3 +73,6 @@ html.book-enabled{overflow-x:clip}.book-journey{width:min(1260px,calc(100% - 64p
   .book-enabled .story-frame figcaption{position:relative;inset:auto;width:100%;height:auto;padding:24px}
   .book-enabled .story-progress,.story-scroll-note{display:none}
 }
+
+/* Preserve both faces and the champagne-table composition of the new portrait. */
+.story-frame:nth-child(2) .story-photo--portrait{background:#f7efe2}.story-frame:nth-child(2) .story-photo--portrait img{object-fit:contain;object-position:center;transform:none}
