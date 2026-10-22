@@ -18,6 +18,7 @@ window.WEDDING_CONFIG = {
     // 圖片順序：封面、故事照片 1、2、3。
     photos: ['assets/walker-bonnie.jpg', 'assets/story-confetti.png', 'assets/story-champagne-upright.png', 'assets/story-courtyard.png'],
     lineOfficialUrl: '', // 填入 LINE 官方帳號的加入好友連結（https://lin.ee/…）後顯示
+    rsvpEndpoint: '', // 綁定 Google 表單的 Apps Script 網頁應用程式 /exec 網址；空白時背景送出但無法確認存檔
     googleFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSdkKuTSGS_u79FWXt1khwJmPGU2kSHNyYj_vrZDTjfjGS4UZg/viewform',
   },
 };

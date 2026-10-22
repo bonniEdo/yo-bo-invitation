@@ -82,16 +82,14 @@
   });
 
   const form = $('rsvp-form');
-  document.querySelector('.memory-field').hidden = true;
-  $('memory-photos').disabled = true;
   let submitting = false;
   function syncVegetarians() {
     const previous = Number($('vegetarian-count').value);
-    $('vegetarian-count').replaceChildren(...Array.from({length:Number($('guest-count').value)+1}, (_,i) => new Option(i ? `${i} 位素食` : '無素食需求', i)));
+    $('vegetarian-count').replaceChildren(...Array.from({length:Math.min(4,Number($('guest-count').value))+1}, (_,i) => new Option(i ? `${i} 位素食` : '無素食需求', i)));
     $('vegetarian-count').value = Math.min(previous, Number($('guest-count').value));
     const seats = Number($('child-seats').value);
-    $('child-seats').replaceChildren(...Array.from({length:Number($('guest-count').value)+1}, (_,i) => new Option(i ? `${i} 張` : '不需要', i)));
-    $('child-seats').value = Math.min(seats, Number($('guest-count').value));
+    $('child-seats').replaceChildren(...Array.from({length:Math.min(2,Number($('guest-count').value))+1}, (_,i) => new Option(i ? `${i} 張` : '不需要', i)));
+    $('child-seats').value = Math.min(seats, 2, Number($('guest-count').value));
   }
   form.addEventListener('change', event => {
     if (event.target.name === 'attendance') {
@@ -104,36 +102,91 @@
   form.addEventListener('input', () => {
     $('message-count').textContent = `${$('guest-message').value.length} / 2000`;
   });
+  syncVegetarians();
+  let requestId = null;
+  let lastPayload = null;
+  function showReceipt(confirmed, record) {
+    const message = confirmed ? '回覆已收到，謝謝你。' : '回覆已送出，收件待確認。';
+    form.hidden = true;
+    $('success-panel').hidden = false;
+    $('success-title').textContent = '謝謝你的回覆。';
+    $('success-message').textContent = message;
+    $('success-summary').textContent = record.attending
+      ? `${record.guestName}・${record.guestCount} 位出席・素食 ${record.vegetarianCount} 位・兒童椅 ${record.childSeats} 張`
+      : `${record.guestName}・無法出席`;
+    $('rsvp-receipt').textContent = message;
+    $('rsvp-receipt').hidden = false;
+    // Wait for the resized RSVP sheet to be measured before turning it.
+    requestAnimationFrame(() => requestAnimationFrame(() => $('rsvp-next').click()));
+  }
+  $('rsvp-edit').addEventListener('click', () => {
+    form.hidden = false;
+    $('success-panel').hidden = true;
+    $('guest-name').focus();
+  });
   form.addEventListener('submit', async event => {
-    event.preventDefault(); if (submitting || !form.reportValidity()) return;
-    if (!$('guest-name').value.trim()) {$('guest-name').setCustomValidity('請留下你的姓名。');$('guest-name').reportValidity();return;}
+    event.preventDefault();
+    if (submitting || !form.reportValidity()) return;
+    if (!$('guest-name').value.trim()) {
+      $('guest-name').setCustomValidity('請填寫姓名。'); $('guest-name').reportValidity(); return;
+    }
     const data = new FormData(form);
     const attending = data.get('attendance') === 'yes';
+    const record = {
+      guestName: String(data.get('guestName')).trim(), attending,
+      guestCount: attending ? Number(data.get('guestCount')) : 0,
+      vegetarianCount: attending ? Number(data.get('vegetarianCount')) : 0,
+      childSeats: attending ? Number(data.get('childSeats')) : 0,
+      dietNotes: attending ? String(data.get('dietNotes') || '') : '',
+      message: String(data.get('message') || ''),
+    };
+    let timeout;
     try {
-      if (navigator.onLine === false) throw new Error('目前沒有網路連線，請連上網路後再試。');
-      const submission = window.InvitationGoogleForm.build({
-        guestName:data.get('guestName'), attending,
-        guestCount:data.get('guestCount'), vegetarianCount:data.get('vegetarianCount'),
-        childSeats:data.get('childSeats'), dietNotes:data.get('dietNotes'), message:data.get('message'),
-      }, config.googleFormUrl || window.InvitationGoogleForm.url);
+      if (navigator.onLine === false) throw new Error('目前沒有網路，請連線後再送出。');
+      const submission = window.InvitationGoogleForm.build(record, config.googleFormUrl || window.InvitationGoogleForm.url);
+      const payload = JSON.stringify(record);
+      if (payload !== lastPayload) {
+        requestId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        lastPayload = payload;
+      }
       submitting = true;
       $('submit-button').disabled = true;
-      $('form-status').textContent = '正在送出你的回覆，請稍候。';
-      // A visible Google response page exposes validation errors and real confirmation.
-      const transport = document.createElement('form');
-      transport.method = 'POST'; transport.action = submission.action;
-      transport.target = '_self'; transport.hidden = true;
-      for (const [name, value] of Object.entries(submission.inputs)) {
-        const input = document.createElement('input');
-        input.type = 'hidden'; input.name = name; input.value = value; transport.append(input);
+      form.setAttribute('aria-busy', 'true');
+      $('form-status').textContent = '正在送出…';
+      const controller = new AbortController();
+      timeout = setTimeout(() => controller.abort(), 20000);
+      let confirmed = false;
+      if (config.rsvpEndpoint) {
+        const endpoint = new URL(config.rsvpEndpoint);
+        if (endpoint.origin !== 'https://script.google.com' || !/^\/macros\/s\/[^/]+\/exec$/.test(endpoint.pathname)) throw new Error('回覆連線設定有誤，請聯絡新人。');
+        const response = await fetch(endpoint.href, {
+          method: 'POST', headers: {'Content-Type': 'text/plain;charset=UTF-8'},
+          body: JSON.stringify({requestId, ...record}), credentials: 'omit', signal: controller.signal,
+        });
+        if (!response.ok) throw new Error('目前無法確認收件，請稍後再試。');
+        const result = await response.json();
+        if (result.ok !== true || typeof result.receipt !== 'string' || !result.receipt) throw new Error(result.error || '目前無法確認收件，請稍後再試。');
+        confirmed = true;
+      } else {
+        // Google Forms returns an opaque cross-origin response. This only
+        // establishes a send attempt, never a verified saved response.
+        await fetch(submission.action, {
+          method: 'POST', mode: 'no-cors', credentials: 'omit',
+          body: new URLSearchParams(submission.inputs), signal: controller.signal,
+        });
       }
-      document.body.append(transport);
-      try { HTMLFormElement.prototype.submit.call(transport); }
-      finally { transport.remove(); }
+      $('form-status').textContent = '';
+      showReceipt(confirmed, record);
     } catch (error) {
-      $('form-status').textContent = error.message; $('form-status').focus();
+      $('form-status').textContent = error.name === 'AbortError'
+        ? '連線逾時，收件狀態未確認。請稍後聯絡新人確認。'
+        : error instanceof TypeError ? '連線中斷，收件狀態未確認。請稍後再試。' : error.message;
+      $('form-status').focus();
     } finally {
-      submitting = false; $('submit-button').disabled = false;
+      clearTimeout(timeout);
+      submitting = false;
+      $('submit-button').disabled = false;
+      form.removeAttribute('aria-busy');
     }
   });
   $('guest-name').addEventListener('input', () => $('guest-name').setCustomValidity(''));

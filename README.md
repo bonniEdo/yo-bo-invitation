@@ -14,13 +14,13 @@
 photos: ['assets/cover.jpg', 'assets/together.jpg', 'assets/smile.jpg', 'assets/moments.jpg'],
 ```
 
-目前封面與故事頁使用新人提供的 `assets/walker-bonnie.jpg` 合照；依新人選擇，故事頁先用同一張合照做三種取景。`photos[0]` 是封面，`photos[1]`、`photos[2]`、`photos[3]` 是依序漸變的三個故事畫面，可各自替換。照片載入後可點擊或用鍵盤 Enter 放大，Esc 關閉。照片建議先縮至長邊 1600–2000px，移除不想公開的 EXIF 資訊再上傳。
+封面使用 `assets/walker-bonnie.jpg`，故事頁依序使用新人提供的灑花、香檳與庭院插畫。`photos[0]` 是封面，`photos[1]`、`photos[2]`、`photos[3]` 是依序漸變的三個故事畫面，可各自替換。照片載入後可點擊或用鍵盤 Enter 放大，Esc 關閉。照片建議先縮至長邊 1600–2000px，移除不想公開的 EXIF 資訊再上傳。
 
 ### 五頁喜帖
 
 依序為封面（`#invitation`）、我們的小故事與照片（`#story`）、婚宴時間／地點／小地圖（`#details`）、出席回覆表單（`#rsvp`）、感謝與禮物兌換刮刮樂（`#thanks`）。每頁先捲動閱讀內容，再向左翻頁；頁內的前後頁連結也會播放翻頁動畫。故事頁的照片窗會在捲動時停留，讓三個畫面依序漸變，再繼續往下閱讀。偏好減少動態效果時，三個故事畫面會依序排列。
 
-表單與最後一頁彼此獨立，賓客可以先翻到最後看小禮物，再返回填寫；填寫內容與已揭曉的刮刮樂在翻頁後會保留。原有 Google 表單送出流程仍會顯示 Google 確認頁。
+表單與最後一頁彼此獨立，賓客可以先翻到最後看小禮物，再返回填寫；填寫內容與已揭曉的刮刮樂在翻頁後會保留。送出後留在喜帖並翻到最後一頁；真實收件確認的部署方式見 `integrations/README.md`。
 
 `lineOfficialUrl` 填入官方帳號的 HTTPS 加入好友連結（`lin.ee` 或 `line.me`）。空白時不顯示按鈕。
 
@@ -55,9 +55,11 @@ photos: ['assets/cover.jpg', 'assets/together.jpg', 'assets/smile.jpg', 'assets/
 
 ### 送出行為
 
-送出會在同一分頁顯示 Google 的確認頁。只有 Google 顯示「回覆已記錄」才算完成；若表單關閉、需登入、欄位驗證失敗，Google 會直接顯示原因。移除了原本無法驗證收件結果的隱藏 iframe 與成功提示。若看到錯誤，可回上一頁或使用喜帖中的 Google 表單連結。
+出席人數最多 4 位，素食人數不得超過出席人數（最多 4 位），兒童椅不得超過出席人數且最多 2 張。前端選單與資料建構都檢查這些限制。
 
-此版本不支援照片上傳：原 Google 表單沒有上傳題目，原相簿後端也未包含在附件裡，已隱藏上傳區避免誤導。網站仍保留原版樣式資源。
+送出後留在喜帖，翻到感謝與刮刮樂頁。預設背景傳送原 Google 表單；因無法讀取 Google 的跨來源回應，只能顯示「回覆已送出，收件待確認」，不能當成已存檔。設定 `rsvpEndpoint` 後，只有服務回傳實際回覆識別碼，才顯示「回覆已收到」。設定步驟見 [整合說明](integrations/README.md)。目前尚未部署 Apps Script，也未執行真實送件測試。
+
+網路錯誤時保留填寫內容，讓賓客重試或聯絡新人。相同內容的重試沿用 requestId；Apps Script 端使用鎖與已存識別碼防止重複提交。修改後重新送出會建立新回覆；若要修改已收到的舊回覆，仍請新人在表單／Sheets 核對處理。
 
 ## 3. 建立獨立 GitHub repo
 
@@ -105,8 +107,8 @@ python3 -m http.server 8080
 
 ## 已處理／待完成
 
-已處理：獨立專案結構、缺少的設定檔、資源路徑、移除舊 API 與相簿頁依賴、可見 Google 確認頁、表單欄位資料建構檢查。
-待完成：GitHub 遠端 repo 建立／推送、表單擁有者連結 Sheets、真實表單送件端到端驗證。本套件不代表已完成 Google 帳號內設定。
+已處理：獨立專案結構、缺少的設定檔、資源路徑、移除舊 API 與相簿頁依賴、喜帖內送出流程、表單欄位資料建構檢查。
+待完成：表單擁有者部署收件確認端點、確認 Sheets 連結、真實表單送件端到端驗證。本套件不代表已完成 Google 帳號內設定。
 
 官方說明：
 - https://support.google.com/docs/answer/2917686
@@ -121,3 +123,7 @@ python3 -m http.server 8080
 ## 雜誌封面與景深
 
 首頁以全版合照呈現雜誌封面，`assets/invitation-magazine.css` 負責刊名字體、書脊紙張、陰影及前後景失焦。`assets/invitation-depth.js` 使用滑鼠視差調整 CSS 3D 傾斜與反光，觸控裝置只保留捲動時的分層效果，不要求陀螺儀權限。開啟系統「減少動態效果」時停用視差、入場失焦與額外動態。原有翻頁動畫持續由 `assets/invitation-book.js` 管理，視差隨封面展開淡出。
+
+## 字體
+
+中文字使用 Google Fonts 收錄的「芫荽 Iansui」，並非「凝書體」。字型來自 Google Fonts 官方倉庫 `ofl/iansui/Iansui-Regular.ttf`，無修改字形地轉成 WOFF2 隨網站提供，不需訪客安裝或連到外部字型 CDN。SIL Open Font License 保留於 `assets/fonts/Iansui-OFL.txt`；英文字保留原雜誌排版。

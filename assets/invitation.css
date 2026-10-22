@@ -14,3 +14,7 @@
 #calendar-copy{margin-bottom:12px;text-align:left;line-height:1.8}#calendar-copy-status{font-size:11px;line-height:1.8;color:var(--muted)}#calendar-copy-status:empty{display:none}
 
 .scratch-prize .scratch-redemption{font-size:11px;line-height:1.9;letter-spacing:.3px}.scratch-prize .scratch-redemption strong{font:600 11px/1.9 var(--sans);letter-spacing:.3px;margin:0}@media(max-width:370px){.scratch-prize .scratch-redemption{font-size:10px}.scratch-prize .scratch-redemption strong{font-size:10px}}
+/* Iansui (芫荽), distributed by Google Fonts under the SIL Open Font License. */
+@font-face{font-family:'Iansui';src:url('fonts/Iansui-Regular.woff2') format('woff2');font-style:normal;font-weight:400;font-display:swap}
+:root{--serif:Georgia,'Iansui','Songti TC',serif;--sans:Arial,'Iansui','Songti TC',serif}
+.success-panel{padding:24px 0}.success-panel h3{font-size:25px;line-height:1.6;margin-bottom:16px}.success-panel p{font-size:12px;line-height:1.9}.success-panel button{margin-top:15px}.rsvp-receipt{border:1px solid var(--line);background:#f2f0d2;padding:14px 18px;font-size:12px;line-height:1.8;margin-bottom:25px}.message-footer{justify-content:flex-end}
