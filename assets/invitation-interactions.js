@@ -40,7 +40,7 @@
   const status = document.getElementById('scratch-status');
   const strokes = [];
   let revealed = false, drawing = false, last = null, width = 0, height = 0;
-  let scratchLock = null;
+  let scratchLock = null, activePointer = null, strokeRect = null;
   function lockScratchScroll() {
     if (scratchLock) return;
     const stage = document.querySelector('.book-stage');
@@ -90,7 +90,7 @@
   });
   function erase(stroke) {
     context.globalCompositeOperation = 'destination-out';
-    context.lineWidth = Math.max(34, width * 0.1);
+    context.lineWidth = Math.min(28, Math.max(20, width * 0.065));
     context.lineCap = 'round'; context.lineJoin = 'round';
     context.beginPath();
     context.moveTo(stroke[0] * width, stroke[1] * height);
@@ -120,24 +120,38 @@
     strokes.forEach(erase);
   }
   function point(event) {
-    const rect = canvas.getBoundingClientRect();
+    const rect = strokeRect || canvas.getBoundingClientRect();
     return [(event.clientX - rect.left) / rect.width, (event.clientY - rect.top) / rect.height];
   }
   function scratch(event) {
-    if (!drawing || revealed || !context) return;
-    const next = point(event), stroke = [...(last || next), ...next];
-    strokes.push(stroke); erase(stroke); last = next;
+    if (!drawing || event.pointerId !== activePointer || revealed || !context) return;
+    const samples = event.getCoalescedEvents?.() || [];
+    for (const sample of samples.length ? samples : [event]) {
+      const next = point(sample);
+      // Never join separate fingers or a re-entry from outside the card.
+      if (next.some(value => value < 0 || value > 1)) { last = null; continue; }
+      if (!last) { last = next; continue; }
+      const distance = Math.hypot((next[0] - last[0]) * width, (next[1] - last[1]) * height);
+      if (distance < 3) continue;
+      const stroke = [...last, ...next];
+      strokes.push(stroke); erase(stroke); last = next;
+    }
   }
   canvas.addEventListener('pointerdown', event => {
-    if (event.button !== 0 || !context || revealed) return;
+    if (event.button !== 0 || !event.isPrimary || drawing || !context || revealed) return;
     event.preventDefault();
     lockScratchScroll();
-    drawing = true; last = point(event); canvas.setPointerCapture(event.pointerId); scratch(event);
+    strokeRect = canvas.getBoundingClientRect();
+    activePointer = event.pointerId;
+    drawing = true; last = point(event);
+    canvas.setPointerCapture(event.pointerId);
+    // Touching alone does not erase: the coating follows actual movement.
   });
   canvas.addEventListener('pointermove', scratch);
-  function endStroke() {
+  function endStroke(event) {
+    if (event?.pointerId != null && event.pointerId !== activePointer) return;
     if (!drawing) { unlockScratchScroll(); return; }
-    drawing = false; last = null;
+    drawing = false; last = null; activePointer = null; strokeRect = null;
     const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
     let clear = 0, total = 0;
     for (let i = 3; i < pixels.length; i += 64) { total++; if (pixels[i] < 80) clear++; }

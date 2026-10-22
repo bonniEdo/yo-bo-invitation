@@ -15,7 +15,19 @@
   document.querySelectorAll('[data-short-date]').forEach(el => { el.textContent = shortDate; });
   document.querySelectorAll('[data-weekday]').forEach(el => { el.textContent = new Intl.DateTimeFormat('zh-TW', {weekday:'long',timeZone:'Asia/Taipei'}).format(date); });
   document.querySelectorAll('[data-long-date]').forEach(el => {
-    el.textContent = config.date.replaceAll('-', '/');
+    const parts = config.date.split('-');
+    el.replaceChildren(...parts.map((value, index) => {
+      const group = document.createElement('span');
+      group.className = 'date-part';
+      const number = document.createElement('span');
+      number.className = 'date-number';
+      number.textContent = value;
+      const unit = document.createElement('span');
+      unit.className = 'date-unit';
+      unit.textContent = ['年', '月', '日'][index];
+      group.append(number, unit);
+      return group;
+    }));
   });
   for (const [id, value] of Object.entries({'welcome-time':config.welcomeTime,'banquet-time':config.banquetTime,'venue-name':config.venueName,'venue-room':config.venueRoom,'venue-address':config.venueAddress,'reply-by':config.replyBy.replaceAll('-','.')})) $(id).textContent = value;
   $('venue-room').hidden = !config.venueRoom;

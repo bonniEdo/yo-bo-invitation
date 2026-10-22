@@ -289,3 +289,8 @@ html.book-enabled{scroll-behavior:auto;overflow-anchor:none}
 html.scratch-locked,html.scratch-locked body{overflow:hidden;overscroll-behavior:none;touch-action:none}
 @media(max-width:760px){#details{--event-size:clamp(40px,11vw,54px)}}
 @media(min-width:761px) and (max-width:1000px){#details .details-grid{grid-template-columns:1fr}}
+
+#details .time-card h3{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;white-space:normal}
+#details .date-part{display:inline-flex;align-items:baseline;gap:3px;white-space:nowrap}
+#details .time-card h3 .date-unit,#details .detail-weekday,#details .venue-address{font:400 16px/1.8 var(--zh);letter-spacing:.5px}
+@media(max-width:370px){#details .time-card h3{column-gap:6px}#details .date-part{gap:1px}}
