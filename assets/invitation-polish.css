@@ -278,3 +278,14 @@ html.book-enabled{scroll-behavior:auto;overflow-anchor:none}
 .book-journey{overflow-anchor:none}
 .story-title-names{display:block;font:400 16px/1.6 var(--latin);letter-spacing:1px;margin-top:8px;color:var(--muted)}
 #scratch-canvas{z-index:2;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+
+/* English, numerals and Chinese share the banquet-time handwriting. */
+:root{--latin:var(--zh);--sans:var(--zh);--serif:var(--zh)}
+#details{--event-size:clamp(48px,5vw,72px)}
+#details .detail-top{font-size:20px;letter-spacing:.3px}
+#details .time-card h3,#details .time-row strong,#details #venue-name{font:400 var(--event-size)/1.4 var(--zh);letter-spacing:0}
+#details .time-card h3{display:block;white-space:nowrap}
+#details #venue-name{overflow-wrap:anywhere;text-wrap:balance}
+html.scratch-locked,html.scratch-locked body{overflow:hidden;overscroll-behavior:none;touch-action:none}
+@media(max-width:760px){#details{--event-size:clamp(40px,11vw,54px)}}
+@media(min-width:761px) and (max-width:1000px){#details .details-grid{grid-template-columns:1fr}}

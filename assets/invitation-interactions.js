@@ -40,6 +40,36 @@
   const status = document.getElementById('scratch-status');
   const strokes = [];
   let revealed = false, drawing = false, last = null, width = 0, height = 0;
+  let scratchLock = null;
+  function lockScratchScroll() {
+    if (scratchLock) return;
+    const stage = document.querySelector('.book-stage');
+    const rect = stage?.getBoundingClientRect();
+    scratchLock = {top: window.scrollY, styles: document.body.style.cssText, stage, stageStyles: stage?.style.cssText};
+    document.dispatchEvent(new Event('invitation:lock'));
+    document.documentElement.classList.add('scratch-locked');
+    document.body.style.position = 'fixed';
+    document.body.style.top = `${-scratchLock.top}px`;
+    document.body.style.width = '100%';
+    // A sticky book loses its scroll offset when body becomes fixed. Pin its
+    // rendered position too, so the scratch surface stays beneath the finger.
+    if (stage && rect) {
+      stage.style.position = 'fixed';
+      stage.style.top = `${rect.top}px`;
+      stage.style.left = `${rect.left}px`;
+      stage.style.width = `${rect.width}px`;
+    }
+  }
+  function unlockScratchScroll() {
+    if (!scratchLock) return;
+    const saved = scratchLock;
+    scratchLock = null;
+    if (saved.stage) saved.stage.style.cssText = saved.stageStyles;
+    document.body.style.cssText = saved.styles;
+    document.documentElement.classList.remove('scratch-locked');
+    window.scrollTo({top: saved.top, behavior: 'instant'});
+    document.dispatchEvent(new Event('invitation:unlock'));
+  }
   function reveal() {
     if (revealed) return;
     revealed = true;
@@ -83,9 +113,9 @@
       context.beginPath(); context.moveTo(x, 0); context.lineTo(x + height, height); context.stroke();
     }
     context.fillStyle = '#30382b'; context.textAlign = 'center'; context.textBaseline = 'middle';
-    context.font = '42px Georgia'; context.fillText('✷', width / 2, height / 2 - 42);
+    context.font = '42px "LXGW WenKai TC"'; context.fillText('✷', width / 2, height / 2 - 42);
     context.font = '20px "LXGW WenKai TC"'; context.fillText('要刮不刮的🤭', width / 2, height / 2 + 7);
-    context.font = '12px Arial, sans-serif'; context.fillText('A LITTLE LOVE, RESERVED FOR YOU', width / 2, height / 2 + 38);
+    context.font = '12px "LXGW WenKai TC"'; context.fillText('A LITTLE LOVE, RESERVED FOR YOU', width / 2, height / 2 + 38);
     context.strokeStyle = '#000';
     strokes.forEach(erase);
   }
@@ -101,20 +131,30 @@
   canvas.addEventListener('pointerdown', event => {
     if (event.button !== 0 || !context || revealed) return;
     event.preventDefault();
+    lockScratchScroll();
     drawing = true; last = point(event); canvas.setPointerCapture(event.pointerId); scratch(event);
   });
   canvas.addEventListener('pointermove', scratch);
   function endStroke() {
-    if (!drawing) return;
+    if (!drawing) { unlockScratchScroll(); return; }
     drawing = false; last = null;
     const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
     let clear = 0, total = 0;
     for (let i = 3; i < pixels.length; i += 64) { total++; if (pixels[i] < 80) clear++; }
     if (clear / total > 0.42) reveal();
+    unlockScratchScroll();
   }
   canvas.addEventListener('pointerup', endStroke);
   canvas.addEventListener('pointercancel', endStroke);
   canvas.addEventListener('lostpointercapture', endStroke);
+  // Prevent iOS rubber-banding and wheel scrolling throughout a held stroke,
+  // including when the captured finger leaves the canvas.
+  canvas.addEventListener('touchstart', event => { if (!revealed) event.preventDefault(); }, {passive: false});
+  const preventScratchScroll = event => { if (scratchLock) event.preventDefault(); };
+  document.addEventListener('touchmove', preventScratchScroll, {passive: false});
+  document.addEventListener('wheel', preventScratchScroll, {passive: false});
+  window.addEventListener('blur', endStroke);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) endStroke(); });
   if (context) { new ResizeObserver(paint).observe(card); paint(); document.fonts?.ready.then(() => { width = 0; height = 0; paint(); }); }
   else canvas.hidden = true;
 
