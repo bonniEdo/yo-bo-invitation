@@ -18,7 +18,7 @@
   for (const [id, value] of Object.entries({'welcome-time':config.welcomeTime,'banquet-time':config.banquetTime,'venue-name':config.venueName,'venue-room':config.venueRoom,'venue-address':config.venueAddress,'venue-note':config.venueNote,'reply-by':config.replyBy.replaceAll('-','.')})) $(id).textContent = value;
   $('venue-room').hidden = !config.venueRoom;
   $('venue-address').hidden = !config.venueAddress;
-  document.title = `${config.coupleNames}｜我們結婚了`;
+  document.title = `${config.englishNames} ${config.coupleNames}｜我們結婚了`;
   $('sample-label').hidden = !config.isSample;
   if (config.mapsQuery) {
     $('map-link').href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(config.mapsQuery)}`;
