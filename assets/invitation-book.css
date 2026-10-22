@@ -120,3 +120,37 @@ html.book-enabled{overflow-x:clip}.book-journey{width:min(1260px,calc(100% - 64p
 .backcover-magazine:before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#15251b55,transparent 35%,#14201720 50%,#142017da)}
 .backcover-magazine .backcover-top{margin-bottom:auto}.backcover-magazine .backcover-copy{margin-top:auto;padding-top:40px}
 .backcover-magazine .backcover-copy h2{color:var(--yellow)}.backcover-magazine .backcover-bottom{border-color:#fff6}.backcover-magazine .magazine-barcode{filter:invert(1)}
+
+/* Small portraits and an unmistakable invitation to meet each person. */
+.personality-pair{gap:18px}
+.personality{position:relative;align-items:center;text-align:center;padding:24px 16px 18px;border-color:#d9c9ac;border-radius:90px 90px 16px 16px;background:#faf7ee;min-width:0}
+.personality.sunny{background:#faf1d9;transform:rotate(1.5deg)}
+.personality-avatar{display:block;position:relative;width:88px;height:88px;flex-shrink:0;margin:0 auto 17px;border:5px solid #fffdf4;border-radius:50%;outline:1px solid #cdb69c;box-shadow:0 6px 15px #79634617;overflow:hidden;background:#f3e4c9}
+.personality-avatar img{position:absolute;width:300%;height:auto;max-width:none;left:-44%;top:-25%;pointer-events:none}
+.avatar-sunny img{width:280%;left:-134%;top:-43%}
+.personality-name{font-family:var(--serif);font-size:27px}.personality-name small{font-family:var(--sans);font-size:8px;letter-spacing:.8px;margin-top:7px}
+.personality-copy{font-size:13px;line-height:1.9;min-height:48px;margin:16px 0 12px}
+.personality-extra{font-size:12px;line-height:1.9;max-width:220px}
+.personality-hint{display:flex;align-items:center;justify-content:center;width:100%;min-height:44px;margin-top:auto;padding:10px 8px;background:#fffdf5;border:1px solid #d9c3a5;border-radius:24px;font-size:12px;letter-spacing:.3px;color:#73583f}
+.personality[aria-expanded=true] .personality-hint{background:#efe1ca}
+/* The map belongs to the venue card; details appear only once. */
+.book-details .details-grid{grid-template-columns:.85fr 1.15fr;gap:24px;align-items:stretch}
+.book-details .detail-card{border-color:#d8cdb7;border-radius:16px;overflow:hidden}
+.book-details .time-card{display:flex;flex-direction:column;justify-content:center;background:#f4f0df}
+.book-details .time-card:after{content:'with love, always ♡';display:block;font:italic 17px var(--serif);color:#9c7f62;margin-top:28px}
+.book-details .time-card .detail-top{margin-bottom:25px}
+.book-details .venue-card{padding:0;background:#fffcf3;display:flex;flex-direction:column}
+.venue-card-copy{padding:26px 28px 24px}.venue-card .venue-address{line-height:1.9;margin-bottom:18px;font-size:12px}
+.venue-directions{border-radius:30px;background:#eee4ca;border-color:#cdb99b;color:#634d38;padding:12px 18px;min-height:44px;font-size:11px}
+.venue-card .venue-map{border:0;border-top:1px solid #d8cdb7;margin-top:auto}.venue-card .venue-map iframe{height:220px;display:block}
+/* Rounded paper and a delicate arrow on a ribbon, clear of the photograph. */
+#story .gallery-ready{border-radius:22px;border:1px solid #d9cdb7;box-shadow:0 10px 30px #7e65470c}
+#story .gallery-ready .story-frame figcaption{background:#f1eadb}
+#story .gallery-ready .story-controls{top:auto;bottom:18px;left:18px;right:calc(32% + 18px);align-items:center}
+.story-arrow{width:auto;min-width:88px;height:44px;gap:8px;padding:0 12px;display:flex;align-items:center;justify-content:center;border:1px solid #fff9e7;border-radius:28px;background:#fffaf0ed;box-shadow:0 3px 12px #674e3417;color:#7e5d40;backdrop-filter:blur(8px)}
+.story-arrow span{font-size:10px;letter-spacing:.6px}.story-nav-arrow{width:27px;height:18px;flex-shrink:0}.story-arrow:first-child .story-nav-arrow{transform:rotate(180deg)}
+.story-arrow:hover{background:#f7e7c6}.story-arrow:disabled{cursor:default;opacity:.35}
+.story-controls-flourish{color:#fff9e8;font:17px var(--serif);text-shadow:0 1px 6px #563e29;letter-spacing:3px}
+.story-progress button:before{content:'♡';width:auto;height:auto;background:none;font-size:19px;line-height:1;color:#a58a6c}.story-progress button[aria-current]:before{content:'♥';background:none;color:#a66f55}
+@media(max-width:760px){.personality-pair{gap:12px}.personality{padding:18px 10px 12px;border-radius:75px 75px 14px 14px}.personality-avatar{width:70px;height:70px;border-width:4px;margin-bottom:14px}.personality-name{font-size:22px}.personality-name small{font-size:7px;letter-spacing:.2px}.personality-copy{font-size:11px;min-height:42px;margin:12px 0}.personality-hint{font-size:11px;padding-inline:5px}.book-details .details-grid{grid-template-columns:1fr;gap:18px}.book-details .time-card:after{margin-top:16px}.venue-card-copy{padding:24px}.venue-card .venue-map iframe{height:210px}#story .gallery-ready .story-controls{bottom:171px;right:12px;left:12px}.story-arrow{min-width:82px;padding-inline:10px}.story-controls-flourish{font-size:14px;letter-spacing:1px}}
+@media(max-width:370px){.personality-avatar{width:60px;height:60px}.personality-hint{font-size:10px}.personality-name{font-size:20px}.personality-name small{font-size:6px}}

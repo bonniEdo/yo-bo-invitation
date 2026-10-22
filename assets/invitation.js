@@ -15,14 +15,12 @@
   document.querySelectorAll('[data-short-date]').forEach(el => { el.textContent = shortDate; });
   document.querySelectorAll('[data-weekday]').forEach(el => { el.textContent = new Intl.DateTimeFormat('zh-TW', {weekday:'long',timeZone:'Asia/Taipei'}).format(date); });
   document.querySelectorAll('[data-long-date]').forEach(el => { el.textContent = new Intl.DateTimeFormat('zh-TW', {year:'numeric',month:'long',day:'numeric',timeZone:'Asia/Taipei'}).format(date); });
-  for (const [id, value] of Object.entries({'welcome-time':config.welcomeTime,'banquet-time':config.banquetTime,'venue-name':config.venueName,'venue-room':config.venueRoom,'venue-address':config.venueAddress,'venue-note':config.venueNote,'reply-by':config.replyBy.replaceAll('-','.')})) $(id).textContent = value;
+  for (const [id, value] of Object.entries({'welcome-time':config.welcomeTime,'banquet-time':config.banquetTime,'venue-name':config.venueName,'venue-room':config.venueRoom,'venue-address':config.venueAddress,'reply-by':config.replyBy.replaceAll('-','.')})) $(id).textContent = value;
   $('venue-room').hidden = !config.venueRoom;
   $('venue-address').hidden = !config.venueAddress;
   document.title = `${config.englishNames} ${config.coupleNames}｜我們結婚了`;
   $('sample-label').hidden = !config.isSample;
   if (config.mapsQuery) {
-    $('map-link').href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(config.mapsQuery)}`;
-    $('map-link').hidden = false;
     $('directions-link').href = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(config.mapsQuery)}`;
     $('venue-map-frame').src = `https://maps.google.com/maps?q=${encodeURIComponent(config.mapsQuery)}&output=embed&hl=zh-TW`;
   }
@@ -30,9 +28,7 @@
     try {
       const url = new URL(config.mapsUrl);
       if (url.protocol === 'https:' && ['maps.app.goo.gl', 'maps.google.com', 'www.google.com'].includes(url.hostname) && !url.username && !url.password) {
-        $('map-link').href = url.href;
         $('directions-link').href = url.href;
-        $('map-link').hidden = false;
       }
     } catch { /* Keep the name-based map as a fallback. */ }
   }

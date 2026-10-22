@@ -29,7 +29,8 @@
       const expanded = button.getAttribute('aria-expanded') === 'true';
       button.setAttribute('aria-expanded', String(!expanded));
       button.querySelector('.personality-extra').hidden = expanded;
-      button.querySelector('.personality-hint').textContent = expanded ? '再認識一點 ＋' : '剛剛好的我們 −';
+      const name = button.classList.contains('quiet') ? 'Walker' : 'Bonnie';
+      button.querySelector('.personality-hint').textContent = expanded ? `認識 ${name} ＋` : '收起小祕密 −';
     });
   });
 
