@@ -119,7 +119,7 @@
     }
     let url;
     try { url = new URL(photo, location.href); } catch { return; }
-    if (!['http:', 'https:'].includes(url.protocol)) return;
+    if (!['http:', 'https:'].includes(url.protocol) && !(location.protocol === 'file:' && url.protocol === 'file:')) return;
     const img = new Image();
     img.alt = Number(slot.dataset.photo) === 0 ? '鑫佑與宛瑩的合照' : '鑫佑與宛瑩的生活照片';
     img.loading = Number(slot.dataset.photo) === 0 ? 'eager' : 'lazy';
@@ -134,8 +134,6 @@
     slot.addEventListener('click', open);
     slot.addEventListener('keydown', event => { if (['Enter', ' '].includes(event.key)) { event.preventDefault(); open(); } });
   });
-  const galleryItems = [...document.querySelectorAll('.photo-item')].filter(item => !item.hidden);
-  document.querySelector('.photo-grid').classList.toggle('single-photo', galleryItems.length === 1);
   document.getElementById('photo-close').addEventListener('click', () => dialog.close());
   dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
   function updateCountdown() {

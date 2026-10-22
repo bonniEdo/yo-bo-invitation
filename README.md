@@ -14,7 +14,13 @@
 photos: ['assets/cover.jpg', 'assets/together.jpg', 'assets/smile.jpg', 'assets/moments.jpg'],
 ```
 
-目前封面與相簿使用新人提供的 `assets/walker-bonnie.jpg` 合照；未配置的相簿格會隱藏。照片載入後可點擊或用鍵盤 Enter 放大，Esc 關閉。照片建議先縮至長邊 1600–2000px，移除不想公開的 EXIF 資訊再上傳。
+目前封面與故事頁使用新人提供的 `assets/walker-bonnie.jpg` 合照；依新人選擇，故事頁先用同一張合照做三種取景。`photos[0]` 是封面，`photos[1]`、`photos[2]`、`photos[3]` 是依序漸變的三個故事畫面，可各自替換。照片載入後可點擊或用鍵盤 Enter 放大，Esc 關閉。照片建議先縮至長邊 1600–2000px，移除不想公開的 EXIF 資訊再上傳。
+
+### 五頁喜帖
+
+依序為封面（`#invitation`）、我們的小故事與照片（`#story`）、婚宴時間／地點／小地圖（`#details`）、出席回覆表單（`#rsvp`）、感謝與禮物兌換刮刮樂（`#thanks`）。每頁先捲動閱讀內容，再向左翻頁；頁內的前後頁連結也會播放翻頁動畫。故事頁的照片窗會在捲動時停留，讓三個畫面依序漸變，再繼續往下閱讀。偏好減少動態效果時，三個故事畫面會依序排列。
+
+表單與最後一頁彼此獨立，賓客可以先翻到最後看小禮物，再返回填寫；填寫內容與已揭曉的刮刮樂在翻頁後會保留。原有 Google 表單送出流程仍會顯示 Google 確認頁。
 
 `lineOfficialUrl` 填入官方帳號的 HTTPS 加入好友連結（`lin.ee` 或 `line.me`）。空白時不顯示按鈕。
 
