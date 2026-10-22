@@ -41,9 +41,14 @@
     const fit = reducedMotion.matches ? 0 : zoom;
     const closing = reducedMotion.matches ? 1 : clamp((offset - layout.entries[lastPage].enter) / layout.zoom);
     const backFit = 1 - closing;
+    const closingTurn = turns[lastPage - 1];
+    backFlight.style.transformOrigin = closingTurn < 1 ? '0 50%' : '50% 50%';
     backFlight.style.width = `${mix(layout.back.width, layout.width, backFit)}px`;
     backFlight.style.height = `${mix(layout.back.height, layout.scene, backFit)}px`;
-    backFlight.style.transform = `translate(${-layout.back.left * backFit}px, ${-layout.back.top * backFit}px) rotate(${-5 * closing}deg)`;
+    // The final sheet has two faces. Its right edge sweeps left around the
+    // spine, revealing the photo printed on its reverse before settling down.
+    const hinge = reducedMotion.matches ? '' : ` translateX(${layout.width * closingTurn}px) perspective(5000px) rotateY(${-180 * closingTurn}deg) translateX(${layout.width}px) rotateY(180deg)`;
+    backFlight.style.transform = `translate(${-layout.back.left * backFit}px, ${-layout.back.top * backFit}px)${closingTurn < 1 ? hinge : ''} rotate(${-5 * closing}deg)`;
     backMagazine.style.setProperty('--back-fit', backFit);
     pages[lastPage].style.setProperty('--closing-progress', closing);
     pages[lastPage].querySelector('.backcover-actions').inert = closing < 0.9;
@@ -79,6 +84,9 @@
       page.style.transform = reducedMotion.matches
         ? `translateY(${-reads[index]}px)`
         : `translateY(${-reads[index]}px) perspective(5000px) rotateY(${-180 * turns[index]}deg)`;
+      if (index === lastPage - 1 && !reducedMotion.matches) {
+        page.style.transform = `translateY(${-reads[index]}px) translateX(${layout.width * turns[index]}px) perspective(5000px) rotateY(${-180 * turns[index]}deg)`;
+      }
       const notOpened = index === 1 ? zoom < 1 : turns[index - 1] === 0;
       const turned = index !== lastPage && turns[index] >= (reducedMotion.matches ? 0.5 : 1);
       page.style.visibility = notOpened || turned ? 'hidden' : 'visible';

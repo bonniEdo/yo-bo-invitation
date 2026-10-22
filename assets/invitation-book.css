@@ -97,7 +97,7 @@ html.book-enabled{overflow-x:clip}.book-journey{width:min(1260px,calc(100% - 64p
 @media(prefers-reduced-motion:reduce){#story .gallery-ready .story-track{transition:none;will-change:auto}.backcover-magazine{transform:none}}
 #story .gallery-ready .story-progress{pointer-events:auto}
 
-/* Close with the inverse of the opening zoom, using the same book dimensions. */
+/* The last sheet turns right-to-left; its photo reverse becomes the back cover. */
 .backcover-anchor{position:relative;width:clamp(220px,calc((100svh - 280px)*.68),420px);aspect-ratio:2/3}.backcover-flight{width:100%;height:100%}
 .backcover-magazine{width:100%;height:100%;aspect-ratio:auto;transform:none;min-height:0}
 .book-enabled .book-backcover{display:block;padding:0;height:var(--scene-height);min-height:var(--scene-height);overflow:visible}
@@ -110,3 +110,13 @@ html.book-enabled{overflow-x:clip}.book-journey{width:min(1260px,calc(100% - 64p
 .whole-book-flip .whole-book-face{position:absolute;inset:0;width:100%;height:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;transform:none;overflow:hidden;box-shadow:0 20px 45px #28311d2b}
 .whole-book-flip .whole-book-front{transform:rotateY(180deg)}
 @media(prefers-reduced-motion:reduce){.book-enabled .backcover-flight{will-change:auto}}
+
+/* A photograph printed on the reverse of the closing sheet. */
+.book-enabled .backcover-flight{transform-origin:0 50%;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.backcover-magazine{isolation:isolate;color:#fffef0;background:#253326;overflow:hidden}
+.book-enabled .backcover-magazine{padding:25px}
+.backcover-magazine .backcover-photo,.book-enabled .backcover-magazine .backcover-photo{position:absolute;inset:0;width:100%;height:100%;margin:0;z-index:-2;aspect-ratio:auto}
+.backcover-magazine .backcover-photo img{width:100%;height:100%;object-fit:cover;object-position:center 44%}
+.backcover-magazine:before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,#15251b55,transparent 35%,#14201720 50%,#142017da)}
+.backcover-magazine .backcover-top{margin-bottom:auto}.backcover-magazine .backcover-copy{margin-top:auto;padding-top:40px}
+.backcover-magazine .backcover-copy h2{color:var(--yellow)}.backcover-magazine .backcover-bottom{border-color:#fff6}.backcover-magazine .magazine-barcode{filter:invert(1)}
