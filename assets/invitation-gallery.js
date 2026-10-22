@@ -13,7 +13,6 @@
   viewer.tabIndex = 0;
   viewer.querySelector('.story-controls').hidden = false;
   viewer.querySelector('.story-progress').hidden = false;
-  document.getElementById('story-enlarge').hidden = false;
   function show(requested) {
     index = Math.max(0, Math.min(frames.length - 1, requested));
     track.style.transform = `translateX(${-index * 100}%)`;
@@ -43,6 +42,7 @@
     if (performance.now() < suppressClickUntil) {
       event.preventDefault(); event.stopPropagation(); return;
     }
+    if (event.target.closest('button, a')) return;
     const photo = event.target.closest('.story-photo');
     if (!photo) return;
     const box = photo.getBoundingClientRect();
@@ -64,12 +64,14 @@
   window.addEventListener('pointercancel', () => { gesture = null; }, {passive:true});
   viewer.addEventListener('dragstart', event => event.preventDefault());
   viewer.querySelectorAll('.story-photo img').forEach(img => { img.draggable = false; });
-  document.getElementById('story-enlarge').addEventListener('click', () => {
-    const img = frames[index].querySelector('img');
-    if (!img) return;
-    const full = document.getElementById('photo-full');
-    full.src = img.src; full.alt = img.alt;
-    window.InvitationModal.open(document.getElementById('photo-dialog'), document.getElementById('photo-close'));
+  viewer.querySelectorAll('.story-photo-zoom').forEach(button => {
+    button.addEventListener('click', () => {
+      const img = button.closest('.story-frame').querySelector('img');
+      if (!img) return;
+      const full = document.getElementById('photo-full');
+      full.src = img.src; full.alt = img.alt;
+      window.InvitationModal.open(document.getElementById('photo-dialog'), document.getElementById('photo-close'));
+    });
   });
   show(0);
 })();

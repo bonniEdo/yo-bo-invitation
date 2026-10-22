@@ -105,3 +105,42 @@ dialog .action-control:disabled{opacity:.42;cursor:default;box-shadow:none}
 @media(max-width:370px){#story .personality .personality-name{font-size:22px}#story .personality .profile-toggle{font-size:10px}#story .gallery-ready .story-frame figcaption h3{font-size:23px}.story-reader-header{padding:16px}.story-reader-header h2{font-size:18px}.story-reader-body{padding:20px}#story-dialog #story-close{padding-inline:12px}.site-footer{gap:12px}.site-footer>span{width:100%;order:3}.site-footer .action-control{font-size:10px;padding:10px 12px}}
 @media(max-width:760px){.site-header nav>a.action-control:first-child{display:none}}
 .cover-portrait,.backcover-photo{cursor:default}.story-photo{cursor:ew-resize}
+
+/* The opening view contains only the physical magazine. */
+html.is-cover .site-header{visibility:hidden;pointer-events:none}
+#invitation .hero-copy{display:none}
+.book-cover.hero,.book-enabled .book-cover.hero{gap:0}
+/* A profile opens once; no second control is needed to close it. */
+.personality-extra:focus{outline:none}
+/* Photograph edge to edge, with its zoom action on the image itself. */
+#story .gallery-ready{border:0;border-radius:0;box-shadow:none;background:none}
+#story .story-photo{border:0;border-radius:0}
+#story .story-photo-zoom{position:absolute;top:12px;right:12px;z-index:4;font-size:11px;min-height:44px;padding:9px 14px;touch-action:manipulation}
+#story .story-progress .heart-dot{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;cursor:pointer}
+#story .story-progress .heart-dot[aria-current]{background:none;border:0;box-shadow:none}
+#story .story-progress .heart-dot:focus-visible{outline:2px solid #8d704e;outline-offset:0;border-radius:8px}
+#story .story-scroll-note{justify-content:center;font-size:10px;line-height:1.8;text-align:center}
+.story-next-chapter .eyebrow{font-size:9px;letter-spacing:1px}.story-next-chapter h3{font-size:clamp(24px,3vw,32px)}
+/* Previous and next stay on opposite sides, including on a small phone. */
+.page-actions{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:12px;width:100%}
+.page-actions>.action-control{flex:0 1 auto;max-width:calc(50% - 6px);min-width:0;margin:0}
+.page-actions>.action-control:last-child{margin-left:auto}
+#backcover .backcover-actions{display:flex;flex-direction:row;flex-wrap:nowrap;justify-content:space-between;gap:12px;padding-inline:22px}
+#backcover .backcover-actions>.action-control{max-width:calc(50% - 6px)}
+#backcover .backcover-photo-zoom{position:absolute;right:18px;top:42px;z-index:3;padding:8px 12px;font-size:10px}
+/* Gift first: reveal controls and the response receipt sit below the scratch card. */
+.book-thanks .scratch-section{display:block;max-width:750px;margin:0 auto 24px;padding:0;border:0}
+.book-thanks .scratch-card{width:100%;min-height:300px}
+#thanks #scratch-reveal{display:flex;margin:16px auto 0;width:max-content}
+.book-thanks .rsvp-receipt{max-width:750px;margin:24px auto}
+.book-thanks .thankyou-footer{margin-top:25px}.thankyou-footer small{font-size:10px}
+.rsvp-reply-by{font-size:11px;line-height:1.7;color:#79644e;margin:10px 0 0}
+@media(max-width:760px){
+  .page-actions{flex-direction:row;align-items:center;gap:10px}
+  .page-actions>.action-control{max-width:calc(50% - 5px);font-size:11px;padding:10px 12px;gap:6px;text-align:center}
+  .page-actions>.action-control .icon{width:14px;flex-basis:14px}
+  #backcover .backcover-actions{padding-inline:18px}
+  .book-thanks .scratch-card,.book-thanks .scratch-prize{min-height:270px}
+  #story .story-photo-zoom{top:10px;right:10px;padding:8px 12px}
+}
+@media(max-width:370px){.page-actions>.action-control{font-size:10px;padding-inline:10px}.page-actions .icon{display:none}#backcover .backcover-actions{padding-inline:12px}}

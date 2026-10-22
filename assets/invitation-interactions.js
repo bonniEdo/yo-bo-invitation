@@ -20,18 +20,16 @@
       animation.onfinish = () => bit.remove();
     }
   }
-  document.getElementById('celebrate-button').addEventListener('click', event => {
-    const box = event.currentTarget.getBoundingClientRect();
-    celebrate(box.x + box.width / 2, box.y + box.height / 2);
-  });
   document.querySelectorAll('.profile-toggle').forEach(button => {
     button.addEventListener('click', () => {
-      const expanded = button.getAttribute('aria-expanded') === 'true';
       const card = button.closest('.personality');
-      button.setAttribute('aria-expanded', String(!expanded));
-      card.classList.toggle('is-expanded', !expanded);
-      card.querySelector('.personality-extra').hidden = expanded;
-      button.textContent = expanded ? `認識${button.dataset.person} ＋` : '收起小祕密 −';
+      const extra = card.querySelector('.personality-extra');
+      button.setAttribute('aria-expanded', 'true');
+      card.classList.add('is-expanded');
+      extra.hidden = false;
+      extra.tabIndex = -1;
+      extra.focus({preventScroll: true});
+      button.hidden = true;
     });
   });
 

@@ -103,7 +103,7 @@
     form.hidden = false;
     openFixedDialog(rsvpDialog, $('rsvp-dialog-title'));
   }
-  $('rsvp-open').addEventListener('click', openRsvp);
+  document.querySelectorAll('[data-rsvp-open]').forEach(button => button.addEventListener('click', openRsvp));
   $('rsvp-close').addEventListener('click', () => rsvpDialog.close());
   const storyDialog = $('story-dialog');
   $('story-read').addEventListener('click', () => openFixedDialog(storyDialog, $('story-reader-title')));
@@ -135,21 +135,18 @@
   function showReceipt(confirmed, record) {
     const message = confirmed ? '回覆已收到，謝謝你。' : '回覆已送出，收件待確認。';
     rsvpDialog.close();
-    $('rsvp-prompt').hidden = true;
-    $('success-panel').hidden = false;
-    $('success-title').textContent = '謝謝你的回覆。';
-    $('success-message').textContent = message;
-    $('success-summary').textContent = record.attending
+    const summary = record.attending
       ? `${record.guestName}・${record.guestCount} 位出席・素食 ${record.vegetarianCount} 位・兒童椅 ${record.childSeats} 張`
       : `${record.guestName}・無法出席`;
-    $('rsvp-receipt').textContent = message;
+    $('rsvp-receipt').textContent = `${message} ${summary}`;
     $('rsvp-receipt').hidden = false;
-    // Wait for the resized RSVP sheet to be measured before turning it.
-    requestAnimationFrame(() => requestAnimationFrame(() => $('rsvp-next').click()));
+    requestAnimationFrame(() => requestAnimationFrame(() => $('details-next').click()));
   }
-  $('rsvp-edit').addEventListener('click', () => {
-    openRsvp();
-  });
+  // Older invitation links still lead directly to the reply dialog.
+  if (location.hash === '#rsvp') {
+    try { history.replaceState(null, '', '#details'); } catch { /* File previews may restrict history. */ }
+    window.addEventListener('pageshow', () => requestAnimationFrame(() => requestAnimationFrame(openRsvp)), {once: true});
+  }
   form.addEventListener('submit', async event => {
     event.preventDefault();
     if (submitting || !form.reportValidity()) return;

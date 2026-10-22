@@ -6,7 +6,8 @@
   const stage = book.querySelector('.book-stage');
   const pages = [...book.querySelectorAll('[data-book-page]')];
   const lastPage = pages.length - 1;
-  const coverLink = document.querySelector('.site-header a[href="#invitation"]');
+  const coverLink = document.getElementById('hero-title');
+  const header = document.querySelector('.site-header');
   const headings = pages.map(page => document.getElementById(page.getAttribute('aria-labelledby')) || page.querySelector('h1, h2'));
   const anchor = book.querySelector('.paper-anchor');
   const flight = book.querySelector('.paper-flight');
@@ -106,6 +107,8 @@
       }
     }
     book.dataset.page = String(active);
+    document.documentElement.classList.toggle('is-cover', active === 0);
+    if (header) header.inert = active === 0;
   }
 
   function measure() {
