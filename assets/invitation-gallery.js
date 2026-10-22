@@ -14,7 +14,8 @@
   viewer.querySelector('.story-controls').hidden = false;
   viewer.querySelector('.story-progress').hidden = false;
   function show(requested) {
-    index = Math.max(0, Math.min(frames.length - 1, requested));
+    // Only explicit carousel controls change the photo; scrolling never does.
+    index = (requested + frames.length) % frames.length;
     track.style.transform = `translateX(${-index * 100}%)`;
     frames.forEach((frame, i) => {
       frame.classList.toggle('is-current', i === index);
@@ -25,8 +26,6 @@
       if (i === index) dot.setAttribute('aria-current', 'true');
       else dot.removeAttribute('aria-current');
     });
-    previous.disabled = index === 0;
-    next.disabled = index === frames.length - 1;
     status.textContent = `第 ${index + 1} 張，共 ${frames.length} 張`;
   }
   function enlarge(photo) {
