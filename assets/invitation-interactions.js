@@ -77,8 +77,8 @@
     }
     context.fillStyle = '#30382b'; context.textAlign = 'center'; context.textBaseline = 'middle';
     context.font = '42px Georgia'; context.fillText('✷', width / 2, height / 2 - 42);
-    context.font = '16px sans-serif'; context.fillText('刮開一點，靠近幸福。', width / 2, height / 2 + 7);
-    context.font = '8px sans-serif'; context.fillText('A LITTLE LOVE, RESERVED FOR YOU', width / 2, height / 2 + 38);
+    context.font = '20px "LXGW WenKai TC"'; context.fillText('刮開一點，靠近幸福。', width / 2, height / 2 + 7);
+    context.font = '18px "Great Vibes"'; context.fillText('A LITTLE LOVE, RESERVED FOR YOU', width / 2, height / 2 + 38);
     context.strokeStyle = '#000';
     strokes.forEach(erase);
   }
@@ -106,7 +106,7 @@
   }
   canvas.addEventListener('pointerup', endStroke);
   canvas.addEventListener('pointercancel', endStroke);
-  if (context) { new ResizeObserver(paint).observe(card); paint(); }
+  if (context) { new ResizeObserver(paint).observe(card); paint(); document.fonts?.ready.then(() => { width = 0; height = 0; paint(); }); }
   else canvas.hidden = true;
 
   const dialog = document.getElementById('photo-dialog');

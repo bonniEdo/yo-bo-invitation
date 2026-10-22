@@ -21,6 +21,7 @@
   const mix = (from, to, amount) => from + (to - from) * amount;
   let layout = {}, frame = 0, measureFrame = 0, active = -1;
   let animationFrame = 0, animationTarget = null, wholeFlip = null, modalLocked = false;
+  let settleTimer = 0, touchActive = false, manualScroll = false, scrollDirection = 1, previousScroll = window.scrollY, snapping = false;
 
   pages.forEach((page, index) => { page.style.zIndex = String(pages.length - index); });
   document.documentElement.classList.add('book-enabled');
@@ -52,7 +53,6 @@
     backFlight.style.transform = `translate(${-layout.back.left * backFit}px, ${-layout.back.top * backFit}px)${closingTurn < 1 ? hinge : ''} rotate(${-5 * closing}deg)`;
     backMagazine.style.setProperty('--back-fit', backFit);
     pages[lastPage].style.setProperty('--closing-progress', closing);
-    pages[lastPage].querySelector('.backcover-actions').inert = closing < 0.9;
     book.style.setProperty('--cover-presence', String(1 - zoom));
     book.style.setProperty('--depth-scroll', String(reducedMotion.matches ? 0 : clamp(offset / Math.max(1, layout.coverRead + layout.zoom))));
 
@@ -108,12 +108,15 @@
     }
     book.dataset.page = String(active);
     document.documentElement.classList.toggle('is-cover', active === 0);
-    if (header) header.inert = active === 0;
+    document.documentElement.classList.toggle('is-backcover', active === lastPage);
+    if (header) header.inert = active === 0 || active === lastPage;
   }
 
   function measure() {
     measureFrame = 0;
     if (modalLocked) return;
+    const resumeSnap = snapping;
+    if (resumeSnap) { cancelAnimation(); manualScroll = true; }
     const previous = layout.entries?.[active];
     const local = previous ? window.scrollY - layout.start - previous.enter : 0;
     const preserveReading = active > 0 && previous && local >= 0 && (active === lastPage || local <= previous.read) && !animationFrame;
@@ -151,12 +154,15 @@
       if (Math.abs(window.scrollY - nextTop) > 1) window.scrollTo({ top: nextTop, behavior: 'instant' });
     }
     render();
+    if (resumeSnap) scheduleSettle();
   }
 
   function requestRender() { if (!frame) frame = requestAnimationFrame(render); }
   function requestMeasure() { if (!measureFrame) measureFrame = requestAnimationFrame(measure); }
   function chapterPosition(index) { return layout.start + layout.entries[index].enter + (index === lastPage ? layout.zoom : 0); }
   function cancelAnimation() {
+    clearTimeout(settleTimer);
+    snapping = false;
     if (wholeFlip) { wholeFlip.cancel(); wholeFlip = null; }
     document.querySelector('.whole-book-flip')?.remove();
     stage.style.opacity = '';
@@ -166,6 +172,7 @@
   }
   function goToPage(index, focus = true) {
     cancelAnimation();
+    manualScroll = false;
     if (index === 0 && active === lastPage && !reducedMotion.matches) {
       flipWholeBook(focus);
       return;
@@ -263,8 +270,53 @@
     }).catch(() => {});
   }
 
-  document.addEventListener('invitation:lock', () => { cancelAnimation(); modalLocked = true; });
-  document.addEventListener('invitation:unlock', () => { modalLocked = false; requestMeasure(); });
+  // Let native scrolling read long pages; settle only a partly turned sheet.
+  function scheduleSettle() {
+    clearTimeout(settleTimer);
+    if (!manualScroll || modalLocked || touchActive || animationFrame || wholeFlip) return;
+    settleTimer = setTimeout(settleTurn, 220);
+  }
+  function settleTurn() {
+    if (!manualScroll || modalLocked || touchActive || animationFrame || wholeFlip) return;
+    manualScroll = false;
+    const offset = window.scrollY - layout.start;
+    const intervals = [
+      {start: layout.coverRead, end: layout.coverRead + layout.zoom, kind: 'cover'},
+      ...layout.entries.slice(0, -1).map((entry, index) => ({start: entry.turnStart, end: entry.turnStart + layout.turn, kind: index === 0 ? 'cover' : index === lastPage - 1 ? 'close' : 'sheet'})),
+      {start: layout.entries[lastPage].enter, end: layout.end, kind: 'close'}
+    ];
+    const interval = intervals.find(part => offset > part.start + 1 && offset < part.end - 1);
+    if (!interval) return;
+    const fraction = (offset - interval.start) / (interval.end - interval.start);
+    const forward = scrollDirection >= 0 ? fraction > 0.18 : fraction >= 0.82;
+    let target = layout.start + (forward ? interval.end : interval.start);
+    if (interval.kind === 'cover') target = chapterPosition(forward ? 1 : 0);
+    if (interval.kind === 'close') target = forward ? chapterPosition(lastPage) : layout.start + layout.entries[lastPage - 1].turnStart;
+    const from = window.scrollY;
+    const move = top => { window.scrollTo({top, behavior: 'instant'}); cancelAnimationFrame(frame); render(); };
+    if (reducedMotion.matches || Math.abs(target - from) < 2) { move(target); return; }
+    const started = performance.now();
+    snapping = true;
+    function tick(now) {
+      const progress = clamp((now - started) / 560);
+      const eased = 1 - (1 - progress) ** 3;
+      move(mix(from, target, eased));
+      if (progress === 1) { animationFrame = 0; snapping = false; return; }
+      animationFrame = requestAnimationFrame(tick);
+    }
+    animationFrame = requestAnimationFrame(tick);
+  }
+  function returnToCover() {
+    if (active !== lastPage || Number(pages[lastPage].style.getPropertyValue('--closing-progress')) < 0.95) return;
+    try { history.replaceState(null, '', '#invitation'); } catch { /* File previews may restrict history. */ }
+    goToPage(0);
+  }
+  backMagazine.addEventListener('click', returnToCover);
+  backMagazine.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); returnToCover(); }
+  });
+  document.addEventListener('invitation:lock', () => { cancelAnimation(); manualScroll = false; modalLocked = true; });
+  document.addEventListener('invitation:unlock', () => { modalLocked = false; previousScroll = window.scrollY; manualScroll = true; requestMeasure(); scheduleSettle(); });
 
   document.addEventListener('click', event => {
     const link = event.target.closest('a[href^="#"]');
@@ -275,15 +327,43 @@
     try { history.replaceState(null, '', `#${pages[index].id}`); } catch { /* Local HTML can disallow history changes. */ }
     goToPage(index);
   });
-  window.addEventListener('scroll', requestRender, { passive: true });
-  ['wheel', 'touchstart', 'pointerdown'].forEach(type => {
-    window.addEventListener(type, cancelAnimation, { passive: true });
-  });
+  window.addEventListener('scroll', () => {
+    if (manualScroll && Math.abs(window.scrollY - previousScroll) > 1) scrollDirection = Math.sign(window.scrollY - previousScroll);
+    previousScroll = window.scrollY;
+    requestRender();
+    scheduleSettle();
+  }, {passive: true});
+  window.addEventListener('wheel', event => {
+    if (modalLocked) return;
+    cancelAnimation(); manualScroll = true;
+    if (event.deltaY) scrollDirection = Math.sign(event.deltaY);
+    scheduleSettle();
+  }, {passive: true});
+  window.addEventListener('pointerdown', () => {
+    if (modalLocked) return;
+    cancelAnimation(); manualScroll = true; scheduleSettle();
+  }, {passive: true});
+  window.addEventListener('touchstart', () => {
+    if (modalLocked) return;
+    touchActive = true; cancelAnimation(); manualScroll = true;
+  }, {passive: true});
+  ['touchend', 'touchcancel'].forEach(type => window.addEventListener(type, () => {
+    touchActive = false; scheduleSettle();
+  }, {passive: true}));
+  window.addEventListener('scrollend', scheduleSettle, {passive: true});
   window.addEventListener('keydown', event => {
-    if (event.defaultPrevented || event.target?.closest('input, textarea, select, [contenteditable="true"]')) return;
-    if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) cancelAnimation();
+    if (event.defaultPrevented || event.target?.closest('input, textarea, select, [contenteditable="true"]') || modalLocked) return;
+    if (['ArrowDown', 'ArrowUp', 'PageDown', 'PageUp', 'Home', 'End', ' '].includes(event.key)) {
+      cancelAnimation(); manualScroll = true;
+      scrollDirection = ['ArrowUp', 'PageUp', 'Home'].includes(event.key) ? -1 : 1;
+      scheduleSettle();
+    }
   });
-  window.addEventListener('resize', () => { cancelAnimation(); requestMeasure(); }, { passive: true });
+  window.addEventListener('resize', () => {
+    const continueSnap = snapping || manualScroll || Boolean(animationFrame);
+    cancelAnimation(); requestMeasure();
+    if (continueSnap) { manualScroll = true; scheduleSettle(); }
+  }, {passive: true});
   window.addEventListener('hashchange', () => {
     const index = pages.findIndex(page => `#${page.id}` === location.hash);
     if (index !== -1) goToPage(index);
