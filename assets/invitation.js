@@ -14,7 +14,12 @@
   document.querySelectorAll('[data-couple]').forEach(el => { el.textContent = config.coupleNames; });
   document.querySelectorAll('[data-short-date]').forEach(el => { el.textContent = shortDate; });
   document.querySelectorAll('[data-weekday]').forEach(el => { el.textContent = new Intl.DateTimeFormat('zh-TW', {weekday:'long',timeZone:'Asia/Taipei'}).format(date); });
-  document.querySelectorAll('[data-long-date]').forEach(el => { el.textContent = new Intl.DateTimeFormat('zh-TW', {year:'numeric',month:'long',day:'numeric',timeZone:'Asia/Taipei'}).format(date); });
+  document.querySelectorAll('[data-long-date]').forEach(el => { el.replaceChildren(...new Intl.DateTimeFormat('zh-TW', {year:'numeric',month:'long',day:'numeric',timeZone:'Asia/Taipei'}).formatToParts(date).map(part => {
+    const span = document.createElement('span');
+    span.className = part.type === 'literal' ? 'date-unit' : 'date-number';
+    span.textContent = part.value;
+    return span;
+  })); });
   for (const [id, value] of Object.entries({'welcome-time':config.welcomeTime,'banquet-time':config.banquetTime,'venue-name':config.venueName,'venue-room':config.venueRoom,'venue-address':config.venueAddress,'reply-by':config.replyBy.replaceAll('-','.')})) $(id).textContent = value;
   $('venue-room').hidden = !config.venueRoom;
   $('venue-address').hidden = !config.venueAddress;

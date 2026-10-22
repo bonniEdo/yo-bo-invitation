@@ -258,3 +258,17 @@ html.is-backcover .site-header,html.is-backcover .site-footer,html.is-backcover 
   #story .personality .personality-copy{font-size:13px}
   #story .personality-type{font-size:11px;letter-spacing:1px}
 }
+
+/* Keep photo dimensions independent of mobile browser toolbar height. */
+#story .gallery-ready{height:clamp(420px,48vw,640px)}
+#story .gallery-ready .story-photo img,#story .gallery-ready .story-photo:hover img{transform:none;transition:none}
+.book-cover .paper-title,.book-enabled .paper-flight .paper-title{font-family:var(--serif);font-size:clamp(38px,15cqw,68px);letter-spacing:-1px}
+#story .story-next-chapter h3{font-family:var(--zh);line-height:1.6;letter-spacing:0}
+#details .time-card h3{display:flex;align-items:baseline;gap:clamp(5px,1vw,12px);font-family:var(--zh);font-size:clamp(27px,3vw,38px);line-height:1.8;letter-spacing:0;margin:24px 0 12px;white-space:nowrap}
+#details .time-card h3 .date-unit{font-size:.55em}
+#details .time-row{margin-top:30px;margin-bottom:30px}
+#backcover .backcover-return.action-control{position:absolute;right:-26px;top:50%;z-index:6;width:56px;height:56px;min-width:56px;padding:8px;border:0;border-radius:0;background:none;color:#514b3e;box-shadow:none;transform:translateY(-50%);opacity:var(--closing-progress,0);pointer-events:none}
+html.is-backcover #backcover .backcover-return{pointer-events:auto}
+#backcover .backcover-return svg{width:38px;height:38px;flex-shrink:0;filter:drop-shadow(0 1px 2px #fff9);animation:cover-tap 2.2s ease-in-out infinite}
+@media(max-width:760px){#story .gallery-ready{height:calc(clamp(290px,95vw,540px) + 320px)}}
+@media(prefers-reduced-motion:reduce){#backcover .backcover-return svg{animation:none}}
