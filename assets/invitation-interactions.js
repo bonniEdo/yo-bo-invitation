@@ -40,7 +40,7 @@
   const status = document.getElementById('scratch-status');
   const strokes = [];
   let revealed = false, drawing = false, last = null, width = 0, height = 0;
-  let scratchLock = null, activePointer = null, strokeRect = null;
+  let scratchLock = null, activePointer = null, strokeRect = null, inputKind = null, lastCheck = 0;
   function lockScratchScroll() {
     if (scratchLock) return;
     const stage = document.querySelector('.book-stage');
@@ -90,7 +90,7 @@
   });
   function erase(stroke) {
     context.globalCompositeOperation = 'destination-out';
-    context.lineWidth = Math.min(28, Math.max(20, width * 0.065));
+    context.lineWidth = Math.min(36, Math.max(26, width * 0.08));
     context.lineCap = 'round'; context.lineJoin = 'round';
     context.beginPath();
     context.moveTo(stroke[0] * width, stroke[1] * height);
@@ -123,50 +123,66 @@
     const rect = strokeRect || canvas.getBoundingClientRect();
     return [(event.clientX - rect.left) / rect.width, (event.clientY - rect.top) / rect.height];
   }
-  function scratch(event) {
-    if (!drawing || event.pointerId !== activePointer || revealed || !context) return;
-    const samples = event.getCoalescedEvents?.() || [];
-    for (const sample of samples.length ? samples : [event]) {
-      const next = point(sample);
-      // Never join separate fingers or a re-entry from outside the card.
-      if (next.some(value => value < 0 || value > 1)) { last = null; continue; }
-      if (!last) { last = next; continue; }
-      const distance = Math.hypot((next[0] - last[0]) * width, (next[1] - last[1]) * height);
-      if (distance < 3) continue;
-      const stroke = [...last, ...next];
-      strokes.push(stroke); erase(stroke); last = next;
-    }
-  }
-  canvas.addEventListener('pointerdown', event => {
-    if (event.button !== 0 || !event.isPrimary || drawing || !context || revealed) return;
-    event.preventDefault();
-    lockScratchScroll();
-    strokeRect = canvas.getBoundingClientRect();
-    activePointer = event.pointerId;
-    drawing = true; last = point(event);
-    canvas.setPointerCapture(event.pointerId);
-    // Touching alone does not erase: the coating follows actual movement.
-  });
-  canvas.addEventListener('pointermove', scratch);
-  function endStroke(event) {
-    if (event?.pointerId != null && event.pointerId !== activePointer) return;
-    if (!drawing) { unlockScratchScroll(); return; }
-    drawing = false; last = null; activePointer = null; strokeRect = null;
+  function checkCoverage() {
     const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
     let clear = 0, total = 0;
     for (let i = 3; i < pixels.length; i += 64) { total++; if (pixels[i] < 80) clear++; }
-    if (clear / total > 0.42) reveal();
+    if (clear / total > 0.34) reveal();
+  }
+  function scratch(sample) {
+    if (!drawing || revealed || !context) return;
+    const next = point(sample);
+    if (next.some(value => value < 0 || value > 1)) { last = null; return; }
+    if (!last) { last = next; return; }
+    if (Math.hypot((next[0] - last[0]) * width, (next[1] - last[1]) * height) < 0.6) return;
+    const stroke = [...last, ...next];
+    strokes.push(stroke); erase(stroke); last = next;
+    if (performance.now() - lastCheck > 150) { lastCheck = performance.now(); checkCoverage(); }
+  }
+  function startStroke(sample, kind, id) {
+    if (drawing || !context || revealed) return;
+    lockScratchScroll();
+    strokeRect = canvas.getBoundingClientRect();
+    activePointer = id; inputKind = kind;
+    drawing = true; last = point(sample); lastCheck = performance.now();
+  }
+  function endStroke() {
+    if (drawing && !revealed) checkCoverage();
+    drawing = false; last = null; activePointer = null; strokeRect = null; inputKind = null;
     unlockScratchScroll();
   }
-  canvas.addEventListener('pointerup', endStroke);
-  canvas.addEventListener('pointercancel', endStroke);
-  canvas.addEventListener('lostpointercapture', endStroke);
-  // Prevent iOS rubber-banding and wheel scrolling throughout a held stroke,
-  // including when the captured finger leaves the canvas.
-  canvas.addEventListener('touchstart', event => { if (!revealed) event.preventDefault(); }, {passive: false});
-  const preventScratchScroll = event => { if (scratchLock) event.preventDefault(); };
-  document.addEventListener('touchmove', preventScratchScroll, {passive: false});
-  document.addEventListener('wheel', preventScratchScroll, {passive: false});
+  // iOS/LINE touch events have their own path. Preventing touch defaults while
+  // relying on pointer moves can cancel the pointer stream in embedded browsers.
+  canvas.addEventListener('touchstart', event => {
+    if (revealed || drawing) return;
+    const touch = event.changedTouches[0];
+    if (!touch) return;
+    event.preventDefault();
+    startStroke(touch, 'touch', touch.identifier);
+  }, {passive: false});
+  document.addEventListener('touchmove', event => {
+    if (inputKind !== 'touch') return;
+    event.preventDefault();
+    const touch = [...event.touches].find(item => item.identifier === activePointer);
+    if (touch) scratch(touch);
+  }, {passive: false});
+  ['touchend', 'touchcancel'].forEach(type => document.addEventListener(type, event => {
+    if (inputKind === 'touch' && [...event.changedTouches].some(item => item.identifier === activePointer)) endStroke();
+  }));
+  canvas.addEventListener('pointerdown', event => {
+    if (event.pointerType === 'touch' || event.button !== 0 || !event.isPrimary || drawing || revealed) return;
+    event.preventDefault(); startStroke(event, 'pointer', event.pointerId);
+    canvas.setPointerCapture(event.pointerId);
+  });
+  document.addEventListener('pointermove', event => {
+    if (inputKind !== 'pointer' || event.pointerId !== activePointer) return;
+    const samples = event.getCoalescedEvents?.() || [];
+    (samples.length ? samples : [event]).forEach(scratch);
+  });
+  ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(type => document.addEventListener(type, event => {
+    if (inputKind === 'pointer' && event.pointerId === activePointer) endStroke();
+  }));
+  document.addEventListener('wheel', event => { if (scratchLock) event.preventDefault(); }, {passive: false});
   window.addEventListener('blur', endStroke);
   document.addEventListener('visibilitychange', () => { if (document.hidden) endStroke(); });
   if (context) { new ResizeObserver(paint).observe(card); paint(); document.fonts?.ready.then(() => { width = 0; height = 0; paint(); }); }
