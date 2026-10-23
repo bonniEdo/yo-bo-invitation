@@ -13,15 +13,14 @@ if target == source or not (target / '.git').exists():
     parser.error('Use a separate git checkout of main as --target.')
 output = target / 'survey-preview'
 (output / 'assets').mkdir(parents=True, exist_ok=True)
-files = ['index.html', 'survey-config.js', 'assets/survey.css', 'assets/survey.js']
+files = ['index.html', 'survey-config.js', 'assets/survey.css', 'assets/survey.js', 'assets/survey-snow-couple.jpg']
 version = hashlib.sha256(b''.join((source / item).read_bytes() for item in files)).hexdigest()[:12]
 html = (source / 'index.html').read_text()
 html = html.replace('<meta name="theme-color"', '<meta name="robots" content="noindex,nofollow"><meta name="theme-color"')
-html = html.replace('src="assets/walker-bonnie.jpg"', 'src="../assets/walker-bonnie.jpg"')
 html = html.replace('?v=3', '?v=' + version)
 (output / 'index.html').write_text(html)
 css = (source / 'assets/survey.css').read_text().replace("url('fonts/", "url('../../assets/fonts/")
 (output / 'assets/survey.css').write_text(css)
-for item in ['survey-config.js', 'assets/survey.js']:
+for item in ['survey-config.js', 'assets/survey.js', 'assets/survey-snow-couple.jpg']:
     (output / item).write_bytes((source / item).read_bytes())
 print('Exported preview to', output)
