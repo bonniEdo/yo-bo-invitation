@@ -51,18 +51,22 @@
     if (!['yes','maybe','no'].includes(record.attendance)||!['yes','maybe','no'].includes(record.bus)||!Number.isInteger(record.guestCount)||record.guestCount<0||record.guestCount>4||!Number.isInteger(record.busCount)||record.busCount<0||record.busCount>record.guestCount) { status.textContent='請確認出席與搭車人數。'; return; }
     const config=window.SURVEY_CONFIG||{},fields=config.googleFields,choices=config.choiceValues;
     if (!fields || !choices) { status.textContent='表單連線設定中，暫時請直接告訴鑫佑或宛瑩。'; status.focus(); return; }
+    if (record.attendance === 'no' && !choices.guestCount?.['0']) {
+      status.textContent='無法出席的回覆尚未開放送出，請先直接告訴鑫佑或宛瑩。'; status.focus(); return;
+    }
     let url,body;
     try {
       url=new URL(config.googleFormUrl);
       if(url.origin!=='https://docs.google.com'||!/^\/forms\/d\/e\/[\w-]+\/viewform$/.test(url.pathname)||url.username||url.password)throw new Error();
       const params=new URLSearchParams({fvv:'1',pageHistory:'0'});
       const message=[record.message,`【基隆遊覽車】${{yes:'需要搭乘',no:'自行前往',maybe:'尚未確定'}[record.bus]}${record.busCount?`，${record.busCount} 位`:''}`].filter(Boolean).join('\n');
-      const values={...record,attendance:choices.attendance?.[record.attendance],bus:choices.bus?.[record.bus],message};
+      const values={...record,attendance:choices.attendance?.[record.attendance],guestCount:choices.guestCount?.[String(record.guestCount)],bus:choices.bus?.[record.bus],message};
       for(const key of ['guestName','attendance','guestCount','message'])if(!/^entry\.\d+$/.test(fields[key]||''))throw new Error();
-      if(typeof values.attendance!=='string'||!values.attendance)throw new Error();
+      if(typeof values.attendance!=='string'||!values.attendance||typeof values.guestCount!=='string'||!values.guestCount)throw new Error();
       for(const [key,id] of Object.entries(fields)){
         if(!/^entry\.\d+$/.test(id)||!(key in values)||values[key]==null)throw new Error();
         params.set(id,String(values[key]));
+        if (config.checkboxFields?.includes(key)) params.set(`${id}_sentinel`, '');
       }
       body=params;
     }catch{status.textContent='目前無法送出，請直接聯絡鑫佑或宛瑩。';return;}
