@@ -13,7 +13,7 @@
   });
   document.body.append(pageHearts); dialog.append(dialogHearts);
   document.addEventListener('click', event => {
-    if (reducedMotion.matches || event.detail === 0 || event.button !== 0 || event.target.closest('input,textarea,select,option,label')) return;
+    if (reducedMotion.matches || event.detail === 0 || event.button !== 0 || event.target.closest('input,textarea,select,option,label,#love-charge')) return;
     const layer = dialog.open ? dialogHearts : pageHearts;
     const rect = dialog.open ? dialog.getBoundingClientRect() : {left:0,top:0};
     for (let i=0;i<6;i++) {
@@ -36,6 +36,59 @@
       ],{duration:900+Math.random()*450,easing:'cubic-bezier(.2,.6,.4,1)',fill:'forwards'});
       animation.onfinish=animation.oncancel=()=>heart.remove();
     }
+  });
+
+  const charge = document.getElementById('love-charge');
+  const water = charge.querySelector('.love-water-level');
+  const chargeArt = charge.querySelector('.love-charge-art');
+  const chargeHint = document.getElementById('love-charge-hint');
+  const chargeStatus = document.getElementById('love-charge-status');
+  let loveLevel = 0, loveBusy = false, lovePulse = null;
+  function burstLove() {
+    charge.classList.add('is-full');
+    chargeHint.textContent = '期待值滿滿，等你來啦！';
+    chargeStatus.textContent = '愛心補滿了！';
+    charge.setAttribute('aria-label','愛心已補滿，再點一次重新開始');
+    if (reducedMotion.matches) { loveBusy = false; return; }
+    const bloom = chargeArt.animate([
+      {transform:'scale(1)'}, {transform:'scale(.9)',offset:.12},
+      {transform:'scale(1.9)',offset:.46}, {transform:'scale(1.12)',offset:.78},
+      {transform:'scale(1.18)'}
+    ], {duration:900,easing:'cubic-bezier(.2,.7,.3,1)'});
+    const ring = document.createElement('span'); ring.className='love-burst-ring'; ring.setAttribute('aria-hidden','true');charge.append(ring);
+    const ripple=ring.animate([
+      {transform:'translate(-50%,-50%) scale(.7)',opacity:.8},
+      {transform:'translate(-50%,-50%) scale(2.8)',opacity:0}
+    ],{duration:850,easing:'ease-out'});
+    ripple.onfinish=ripple.oncancel=()=>ring.remove();
+    for(let i=0;i<12;i++){
+      const heart=document.createElementNS('http://www.w3.org/2000/svg','svg');heart.setAttribute('viewBox','0 0 24 24');heart.setAttribute('aria-hidden','true');heart.classList.add('love-burst-heart');
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d','M12 21s-9-5.6-9-12a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.4-9 12-9 12Z');heart.append(path);charge.append(heart);
+      const angle=i/12*Math.PI*2,dx=Math.cos(angle)*95,dy=Math.sin(angle)*85;
+      const flight=heart.animate([
+        {transform:'translate(-50%,-50%) scale(.3)',opacity:0},
+        {transform:`translate(calc(-50% + ${dx*.55}px),calc(-50% + ${dy*.55}px)) scale(1)`,opacity:1,offset:.25},
+        {transform:`translate(calc(-50% + ${dx}px),calc(-50% + ${dy+20}px)) scale(.5)`,opacity:0}
+      ],{duration:1000,easing:'cubic-bezier(.2,.7,.3,1)'});
+      flight.onfinish=flight.oncancel=()=>heart.remove();
+    }
+    bloom.finished.catch(()=>{}).finally(()=>{loveBusy=false;});
+  }
+  charge.addEventListener('click',()=>{
+    if(loveBusy)return;
+    if(loveLevel===100){loveLevel=0;charge.classList.remove('is-full');}
+    loveLevel+=25;
+    charge.dataset.charge=String(loveLevel);
+    // The visible heart occupies y=14..89; its wave rises from the tip to the top.
+    water.style.transform=`translateY(${90-loveLevel*.9}px)`;
+    charge.setAttribute('aria-label',`點一下幫愛心加滿，目前 ${loveLevel}%`);
+    chargeStatus.textContent=`愛心已補滿 ${loveLevel}%`;
+    chargeHint.textContent=loveLevel<100?'再點一下，期待多一點。':'愛心補滿啦！';
+    if(lovePulse){lovePulse.cancel();lovePulse=null;}
+    if(!reducedMotion.matches&&loveLevel<100)lovePulse=chargeArt.animate([
+      {transform:'scale(1)'},{transform:'scale(1.12)'},{transform:'scale(1)'}
+    ],{duration:280,easing:'ease-out'});
+    if(loveLevel===100){loveBusy=true;setTimeout(burstLove,reducedMotion.matches?0:460);}
   });
 
   const count = document.getElementById('guest-count');
