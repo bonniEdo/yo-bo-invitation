@@ -62,11 +62,10 @@
   dialog.addEventListener('click', event => { if (event.target === dialog) { const r=dialog.getBoundingClientRect(); if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom) close(); } });
   function sync() {
     const data = new FormData(form);
-    const attending = ['yes','maybe'].includes(data.get('attendance'));
     const confirmed = data.get('attendance') === 'yes';
     document.getElementById('count-field').hidden = !confirmed; count.disabled = !confirmed;
     document.getElementById('no-attendance-reaction').hidden = data.get('attendance') !== 'no';
-    document.getElementById('bus-field').hidden = !attending; document.getElementById('bus-field').disabled = !attending;
+    document.getElementById('bus-field').hidden = !confirmed; document.getElementById('bus-field').disabled = !confirmed;
     const takingBus = confirmed && form.querySelector('[name=bus]:checked')?.value === 'yes';
     document.getElementById('bus-count-field').hidden = !takingBus; busCount.disabled = !takingBus;
     const guests = Number(count.value);
@@ -84,7 +83,7 @@
     event.preventDefault();
     if (pending || !form.reportValidity()) return;
     const data = new FormData(form);
-    const record = {guestName:String(data.get('guestName')||'').trim(),attendance:data.get('attendance'),guestCount:data.get('attendance')==='yes'?Number(count.value):data.get('attendance')==='no'?0:null,bus:data.get('attendance')==='no'?'no':data.get('bus'),busCount:data.get('attendance')==='yes'&&data.get('bus')==='yes'?Number(busCount.value):0,message:String(data.get('message')||'').trim()};
+    const record = {guestName:String(data.get('guestName')||'').trim(),attendance:data.get('attendance'),guestCount:data.get('attendance')==='yes'?Number(count.value):data.get('attendance')==='no'?0:null,bus:data.get('attendance')==='yes'?data.get('bus'):data.get('attendance')==='maybe'?'maybe':'no',busCount:data.get('attendance')==='yes'&&data.get('bus')==='yes'?Number(busCount.value):0,message:String(data.get('message')||'').trim()};
     if (!record.guestName) { status.textContent='請填寫您的姓名。'; document.getElementById('guest-name').focus(); return; }
     if (!['yes','maybe','no'].includes(record.attendance)||!['yes','maybe','no'].includes(record.bus)||(record.attendance==='yes'&&(!Number.isSafeInteger(record.guestCount)||record.guestCount<1))||!Number.isSafeInteger(record.busCount)||record.busCount<0||record.busCount>(record.guestCount||0)) { status.textContent='請確認出席與搭車人數。'; return; }
     const config=window.SURVEY_CONFIG||{},fields=config.googleFields,choices=config.choiceValues;
