@@ -12,3 +12,15 @@
 #survey-dialog>.survey-heart-layer{position:absolute;z-index:5}
 .survey-tap-heart{position:absolute;aspect-ratio:1;height:auto;fill:currentColor;pointer-events:none;will-change:transform,opacity}
 .survey-section:before{content:'♡';display:block;color:#a28c3b;font-size:52px;line-height:1.2;margin-bottom:15px}
+
+/* Mobile information reads along one centered axis. */
+@media(max-width:600px){
+  .masthead{flex-direction:column;align-items:center;text-align:center;gap:8px}
+  .edition{max-width:none;text-align:center}
+  .hero-copy,.day-strip,.shuttle-note,.survey-section,footer{text-align:center}
+  .shuttle-note{flex-direction:column;align-items:center;gap:10px}
+  .shuttle-note>div{width:100%}
+  footer{align-items:center;justify-content:center}
+  footer>span{width:100%}
+  .shuttle-note p,.survey-section>p{text-wrap:balance}
+}
