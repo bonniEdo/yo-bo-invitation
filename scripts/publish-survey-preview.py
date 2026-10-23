@@ -18,7 +18,7 @@ version = hashlib.sha256(b''.join((source / item).read_bytes() for item in files
 html = (source / 'index.html').read_text()
 html = html.replace('<meta name="theme-color"', '<meta name="robots" content="noindex,nofollow"><meta name="theme-color"')
 html = html.replace('src="assets/walker-bonnie.jpg"', 'src="../assets/walker-bonnie.jpg"')
-html = html.replace('?v=2', '?v=' + version)
+html = html.replace('?v=3', '?v=' + version)
 (output / 'index.html').write_text(html)
 css = (source / 'assets/survey.css').read_text().replace("url('fonts/", "url('../../assets/fonts/")
 (output / 'assets/survey.css').write_text(css)
