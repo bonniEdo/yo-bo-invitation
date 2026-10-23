@@ -17,13 +17,8 @@ files = ['index.html', 'survey-config.js', 'assets/survey.css', 'assets/survey.j
 version = hashlib.sha256(b''.join((source / item).read_bytes() for item in files)).hexdigest()[:12]
 html = (source / 'index.html').read_text()
 html = html.replace('<meta name="theme-color"', '<meta name="robots" content="noindex,nofollow"><meta name="theme-color"')
-html = html.replace('src="assets/story-confetti.png"', 'src="../assets/story-confetti.png"')
-html = html.replace('?v=1', '?v=' + version)
-# Let reviewers inspect the whole form without implying that collection is live.
-if "endpoint: ''" in (source / 'survey-config.js').read_text():
-    html = html.replace('<p id="form-status" class="status" role="status" tabindex="-1"></p>', '<p id="form-status" class="status" role="status" tabindex="-1">設計預覽，目前尚未開放收件。</p>')
-    html = html.replace('id="submit-button" class="button primary submit" type="submit"', 'id="submit-button" class="button primary submit" type="submit" disabled')
-    html = html.replace('送出我的意願 <span aria-hidden="true">♡</span>', '調查即將開放 <span aria-hidden="true">♡</span>')
+html = html.replace('src="assets/walker-bonnie.jpg"', 'src="../assets/walker-bonnie.jpg"')
+html = html.replace('?v=2', '?v=' + version)
 (output / 'index.html').write_text(html)
 css = (source / 'assets/survey.css').read_text().replace("url('fonts/", "url('../../assets/fonts/")
 (output / 'assets/survey.css').write_text(css)

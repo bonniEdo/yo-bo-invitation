@@ -1,43 +1,28 @@
-# 婚禮前期意願調查
+# 婚禮出席意願調查
 
-分支：`feature/attendance-survey`。正式喜帖保留在 `main`；這個分支的首頁是獨立單頁調查，不載入翻書、故事、相簿或刮刮樂程式。兩者不要直接互相合併來發布。
-
-## 調查與估算
-
-- 出席意願：應該可以／還不確定／無法出席，分開統計，並非最終 RSVP。
-- 預估人數：含本人 1–4 位；無法出席為 0。特殊人數可填留言。
-- 喜餅：每戶／每組一份，選想收到／不需要／之後再確認。不出席也能登記喜餅。
-- 姓名必填，聯絡方式及留言選填。不收地址、兒童椅、飲食資料，正式喜帖再確認。
-- 收件試算表提供出席人數、未定人數、喜餅份數、以可調整每桌人數計算的桌數。
-
-## 啟用收件（擁有者設定一次）
-
-目前 `survey-config.js` 的 endpoint 留空；這是可預覽的設計版，尚不能對外收件。送出不會假裝成功，也不會寫到原本的正式出席 Google Form。
-
-1. 在 https://script.google.com 建立新的獨立專案，貼入 `integrations/attendance-survey.gs`。
-2. 執行 `setupSurvey()` 並授權。執行紀錄會顯示新建立的試算表網址；重跑不會重新建表。
-3. 部署為網頁應用程式：執行身分「自己」，存取權「任何人」。
-4. 將正式 `/exec` 網址填入 `survey-config.js` 的 `endpoint`。不要填原 RSVP 端點。
-5. 用手機送出一筆真實測試，核對新試算表的「意願回覆」與「統計」。完成前請勿將預覽當正式調查發送。
-
-只有收到後端明確 receipt 才顯示完成。失敗保留欄位；同一份內容重試沿用 requestId，後端防止重複寫入。賓客要修改已送出的內容，直接聯絡新人，再由新人調整表格。
-
-## 預覽與部署
-
-本地執行 `python -m http.server 8090`。請用獨立的預覽部署／網址發布此分支；不要改動原正式喜帖的 production 分支設定。分支推送本身不代表已部署可分享的調查網址。
-
-尚未連接真實收件服務；前端測試使用攔截的模擬回應，沒有替你送出任何賓客資料。
-
-## 同一個 GitHub Pages 的獨立預覽路徑
-
-調查原始碼繼續留在 `feature/attendance-survey`；`main` 的 `survey-preview/` 是發布副本，首頁仍是正式喜帖。預覽網址：
+分支：`feature/attendance-survey`。正式喜帖保留於 main 根目錄。獨立預覽位於 main 的 `survey-preview/`：
 
 https://bonniedo.github.io/yo-bo-invitation/survey-preview/
 
-更新此分支後，可在獨立的 main checkout 匯出：
+目前版本使用新人提供的 Google 表單，兩個「填寫出席意願調查」按鈕直接開啟同一份表單（同分頁，不嵌入、不重複蒐集資料）：
+
+https://docs.google.com/forms/d/e/1FAIpQLSchkwGkWyiMbEgX8mKo9tgsprheZJftJVKG8UlztxMXeD_wtw/viewform
+
+頁面沒有喜餅、聯絡方式欄位，也不再使用原有自訂表單或 Apps Script endpoint。Google 表單內的題目與是否開放收件由表單擁有者管理；目前環境無法存取 docs.google.com，未驗證 Google 表單內部題目或真實送件。舊 `integrations/attendance-survey.gs` 僅為備用程式，本版不使用它。
+
+## 設計
+
+- 使用舉杯合照原圖，3:2 完整呈現，不裁切人臉。
+- 中文主標題與導引、20px 正文、高對比文字、60px 以上按鈕。
+- 用清楚邀請說明與婚宴資訊，適合親友與長輩閱讀。
+- 正式喜帖後續另行送上。
+
+## 發布
+
+更新此分支後，在獨立 main checkout 匯出：
 
 ```sh
 python scripts/publish-survey-preview.py --target /path/to/main-checkout
 ```
 
-檢查 main checkout 只有 `survey-preview/` 變動，再提交推送至 main。預覽沿用 root 的現有插畫與字體，不複製整個喜帖。收件尚未設定時，發布副本顯示「設計預覽，目前尚未開放收件」，並停用送出；設計表單其他欄位都能操作。
+只提交 main 的 survey-preview/ 目錄，不替換根目錄正式喜帖。預覽共用 main 既有的合照與字體，並依來源內容更新快取版本。

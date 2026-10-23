@@ -1,4 +1,4 @@
-// Separate from the final invitation. Never point this at the RSVP endpoint.
+// This survey uses the Google Form supplied by the couple.
 window.SURVEY_CONFIG = {
-  endpoint: '', // Deploy integrations/attendance-survey.gs, then paste its public /exec URL.
+  googleFormUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSchkwGkWyiMbEgX8mKo9tgsprheZJftJVKG8UlztxMXeD_wtw/viewform',
 };
