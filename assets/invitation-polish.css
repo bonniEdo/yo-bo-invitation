@@ -286,7 +286,6 @@ html.book-enabled{scroll-behavior:auto;overflow-anchor:none}
 #details .time-card h3,#details .time-row strong,#details #venue-name{font:400 var(--event-size)/1.4 var(--zh);letter-spacing:0}
 #details .time-card h3{display:block;white-space:nowrap}
 #details #venue-name{overflow-wrap:anywhere;text-wrap:balance}
-html.scratch-locked,html.scratch-locked body{overflow:hidden;overscroll-behavior:none;touch-action:none}
 @media(max-width:760px){#details{--event-size:clamp(40px,11vw,54px)}}
 @media(min-width:761px) and (max-width:1000px){#details .details-grid{grid-template-columns:1fr}}
 
@@ -313,3 +312,7 @@ html.scratch-locked,html.scratch-locked body{overflow:hidden;overscroll-behavior
 .magazine-barcode>span:last-child{font:400 8px/1.2 var(--latin);text-align:center;letter-spacing:.4px;white-space:nowrap}
 .backcover-magazine .magazine-barcode{height:auto;opacity:1;filter:none}
 .magazine-barcode .barcode-bars{flex-shrink:0}
+
+/* Translucent foil treatment, echoing the cover names without a white label. */
+.backcover-magazine .magazine-barcode{background:transparent;color:#fffef0;filter:drop-shadow(0 1px 3px #0009);text-shadow:0 1px 5px #0009}
+.magazine-barcode .barcode-bars{background:repeating-linear-gradient(90deg,#fffef0e6 0 2px,transparent 2px 3px,#fffef0e6 3px 4px,transparent 4px 7px,#fffef0e6 7px 10px,transparent 10px 12px,#fffef0e6 12px 13px,transparent 13px 17px)}

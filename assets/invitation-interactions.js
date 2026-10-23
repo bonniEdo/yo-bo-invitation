@@ -43,33 +43,26 @@
   let scratchLock = null, activePointer = null, strokeRect = null, inputKind = null, lastCheck = 0;
   function lockScratchScroll() {
     if (scratchLock) return;
-    const stage = document.querySelector('.book-stage');
-    const rect = stage?.getBoundingClientRect();
-    scratchLock = {top: window.scrollY, styles: document.body.style.cssText, stage, stageStyles: stage?.style.cssText};
+    scratchLock = {top: window.scrollY, left: window.scrollX};
+    // Do not change body/sticky-stage positioning during an iOS touch. Moving
+    // the hit-tested layer can cancel the gesture or invalidate its coordinates.
     document.dispatchEvent(new Event('invitation:lock'));
-    document.documentElement.classList.add('scratch-locked');
-    document.body.style.position = 'fixed';
-    document.body.style.top = `${-scratchLock.top}px`;
-    document.body.style.width = '100%';
-    // A sticky book loses its scroll offset when body becomes fixed. Pin its
-    // rendered position too, so the scratch surface stays beneath the finger.
-    if (stage && rect) {
-      stage.style.position = 'fixed';
-      stage.style.top = `${rect.top}px`;
-      stage.style.left = `${rect.left}px`;
-      stage.style.width = `${rect.width}px`;
-    }
   }
   function unlockScratchScroll() {
     if (!scratchLock) return;
-    const saved = scratchLock;
     scratchLock = null;
-    if (saved.stage) saved.stage.style.cssText = saved.stageStyles;
-    document.body.style.cssText = saved.styles;
-    document.documentElement.classList.remove('scratch-locked');
-    window.scrollTo({top: saved.top, behavior: 'instant'});
     document.dispatchEvent(new Event('invitation:unlock'));
   }
+  const stopScrollDuringScratch = event => {
+    if (scratchLock && event.cancelable) event.preventDefault();
+  };
+  document.addEventListener('touchmove', stopScrollDuringScratch, {passive: false, capture: true});
+  document.addEventListener('wheel', stopScrollDuringScratch, {passive: false, capture: true});
+  window.addEventListener('scroll', () => {
+    if (scratchLock && (window.scrollY !== scratchLock.top || window.scrollX !== scratchLock.left)) {
+      window.scrollTo({top: scratchLock.top, left: scratchLock.left, behavior: 'instant'});
+    }
+  }, {passive: true});
   function reveal() {
     if (revealed) return;
     revealed = true;
@@ -163,11 +156,11 @@
   document.addEventListener('touchmove', event => {
     if (inputKind !== 'touch') return;
     event.preventDefault();
-    const touch = [...event.touches].find(item => item.identifier === activePointer);
+    const touch = Array.from(event.touches).find(item => item.identifier === activePointer);
     if (touch) scratch(touch);
   }, {passive: false});
   ['touchend', 'touchcancel'].forEach(type => document.addEventListener(type, event => {
-    if (inputKind === 'touch' && [...event.changedTouches].some(item => item.identifier === activePointer)) endStroke();
+    if (inputKind === 'touch' && Array.from(event.changedTouches).some(item => item.identifier === activePointer)) endStroke();
   }));
   canvas.addEventListener('pointerdown', event => {
     if (event.pointerType === 'touch' || event.button !== 0 || !event.isPrimary || drawing || revealed) return;
@@ -182,7 +175,6 @@
   ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(type => document.addEventListener(type, event => {
     if (inputKind === 'pointer' && event.pointerId === activePointer) endStroke();
   }));
-  document.addEventListener('wheel', event => { if (scratchLock) event.preventDefault(); }, {passive: false});
   window.addEventListener('blur', endStroke);
   document.addEventListener('visibilitychange', () => { if (document.hidden) endStroke(); });
   if (context) { new ResizeObserver(paint).observe(card); paint(); document.fonts?.ready.then(() => { width = 0; height = 0; paint(); }); }
