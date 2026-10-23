@@ -27,3 +27,17 @@
 本地執行 `python -m http.server 8090`。請用獨立的預覽部署／網址發布此分支；不要改動原正式喜帖的 production 分支設定。分支推送本身不代表已部署可分享的調查網址。
 
 尚未連接真實收件服務；前端測試使用攔截的模擬回應，沒有替你送出任何賓客資料。
+
+## 同一個 GitHub Pages 的獨立預覽路徑
+
+調查原始碼繼續留在 `feature/attendance-survey`；`main` 的 `survey-preview/` 是發布副本，首頁仍是正式喜帖。預覽網址：
+
+https://bonniedo.github.io/yo-bo-invitation/survey-preview/
+
+更新此分支後，可在獨立的 main checkout 匯出：
+
+```sh
+python scripts/publish-survey-preview.py --target /path/to/main-checkout
+```
+
+檢查 main checkout 只有 `survey-preview/` 變動，再提交推送至 main。預覽沿用 root 的現有插畫與字體，不複製整個喜帖。收件尚未設定時，發布副本顯示「設計預覽，目前尚未開放收件」，並停用送出；設計表單其他欄位都能操作。
