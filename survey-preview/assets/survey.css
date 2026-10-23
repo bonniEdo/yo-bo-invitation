@@ -36,7 +36,6 @@
 .love-water-level{transition:transform .45s cubic-bezier(.22,.7,.3,1)}
 .love-wave{animation:love-wave-drift 2.2s linear infinite}
 .love-charge.is-full .love-charge-art{animation:love-full-breathe 2.8s ease-in-out infinite}
-.love-charge-hint{font-size:16px;color:#896449;margin-top:12px;line-height:1.7}
 .love-burst-heart{position:absolute;left:50%;top:50%;width:18px;height:18px;fill:currentColor;color:#eb8c4c;pointer-events:none;will-change:transform,opacity}
 .love-burst-ring{position:absolute;left:50%;top:50%;width:80px;height:80px;border:2px solid #efa367;border-radius:50%;pointer-events:none}
 .shuttle-note{flex-direction:column;align-items:center;justify-content:center;text-align:center}
@@ -45,3 +44,6 @@
 @keyframes love-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
 @keyframes love-full-breathe{0%,100%{transform:scale(1.18)}50%{transform:scale(1.28)}}
 @media(prefers-reduced-motion:reduce){.love-charge-art,.love-wave,.love-charge.is-full .love-charge-art{animation:none}.love-water-level{transition:none}.love-charge.is-full .love-charge-art{transform:scale(1.18)}}
+
+.love-charge-art{filter:drop-shadow(0 2px 3px #b57b4620)}
+.love-celebration{position:absolute;left:50%;top:49%;z-index:2;display:block;width:180px;max-width:none;font:400 76px/1 var(--font);letter-spacing:1px;color:#fff7e8;text-align:center;transform:translate(-50%,-50%) rotate(-8deg);text-shadow:0 2px 2px #c1713da6,0 4px 14px #9d5c314d;-webkit-text-stroke:.7px #d78d58;pointer-events:none}
