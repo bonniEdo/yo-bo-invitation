@@ -4,6 +4,40 @@
   const form = document.getElementById('survey-form');
   const status = document.getElementById('form-status');
   const submit = document.getElementById('submit-button');
+
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+  const pageHearts = document.createElement('div');
+  const dialogHearts = document.createElement('div');
+  [pageHearts, dialogHearts].forEach(layer => {
+    layer.className = 'survey-heart-layer'; layer.setAttribute('aria-hidden','true');
+  });
+  document.body.append(pageHearts); dialog.append(dialogHearts);
+  document.addEventListener('click', event => {
+    if (reducedMotion.matches || event.detail === 0 || event.button !== 0 || event.target.closest('input,textarea,select,option,label')) return;
+    const layer = dialog.open ? dialogHearts : pageHearts;
+    const rect = dialog.open ? dialog.getBoundingClientRect() : {left:0,top:0};
+    for (let i=0;i<6;i++) {
+      while (layer.childElementCount>=72) {
+        const old=layer.firstElementChild;
+        old.getAnimations().forEach(animation=>animation.cancel()); old.remove();
+      }
+      const heart=document.createElementNS('http://www.w3.org/2000/svg','svg');
+      heart.setAttribute('viewBox','0 0 24 24'); heart.classList.add('survey-tap-heart');
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d','M12 21s-9-5.6-9-12a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.4-9 12-9 12Z');heart.append(path);
+      heart.style.left=`${event.clientX-rect.left}px`;heart.style.top=`${event.clientY-rect.top}px`;
+      heart.style.width=`${12+Math.random()*12}px`;heart.style.color=['#ee9857','#e77835','#f5b477'][i%3];
+      layer.append(heart);
+      const dx=(Math.random()-.5)*130,rise=65+Math.random()*100;
+      const animation=heart.animate([
+        {transform:'translate(-50%,-50%) scale(.35)',opacity:0},
+        {transform:`translate(calc(-50% + ${dx*.3}px),-35px) scale(1)`,opacity:1,offset:.2},
+        {transform:`translate(calc(-50% + ${dx}px),-${rise}px) scale(.7) rotate(${dx*.5}deg)`,opacity:0}
+      ],{duration:900+Math.random()*450,easing:'cubic-bezier(.2,.6,.4,1)',fill:'forwards'});
+      animation.onfinish=animation.oncancel=()=>heart.remove();
+    }
+  });
+
   const count = document.getElementById('guest-count');
   const busCount = document.getElementById('bus-count');
   let saved = null, pending = false;
@@ -33,11 +67,13 @@
     document.getElementById('bus-field').hidden = !attending; document.getElementById('bus-field').disabled = !attending;
     const takingBus = attending && form.querySelector('[name=bus]:checked')?.value === 'yes';
     document.getElementById('bus-count-field').hidden = !takingBus; busCount.disabled = !takingBus;
-    const previous = busCount.value;
-    busCount.replaceChildren(...Array.from({length:Number(count.value)},(_,i)=>new Option(`${i+1} 位`,String(i+1))));
-    busCount.value = String(Math.min(Number(previous)||1,Number(count.value)));
+    const guests = Number(count.value);
+    if (Number.isSafeInteger(guests) && guests >= 1) {
+      busCount.max = String(guests);
+      if (Number(busCount.value) > guests) busCount.value = String(guests);
+    } else busCount.removeAttribute('max');
   }
-  form.addEventListener('change',sync); sync();
+  form.addEventListener('change',sync); count.addEventListener('input',sync); sync();
   if (!window.SURVEY_CONFIG?.googleFields || !window.SURVEY_CONFIG?.choiceValues) {
     status.textContent = '調查表設定中，暫未開放送出。';
     submit.disabled = true;
@@ -48,7 +84,7 @@
     const data = new FormData(form);
     const record = {guestName:String(data.get('guestName')||'').trim(),attendance:data.get('attendance'),guestCount:data.get('attendance')==='no'?0:Number(count.value),bus:data.get('attendance')==='no'?'no':data.get('bus'),busCount:data.get('attendance')!=='no'&&data.get('bus')==='yes'?Number(busCount.value):0,message:String(data.get('message')||'').trim()};
     if (!record.guestName) { status.textContent='請填寫您的姓名。'; document.getElementById('guest-name').focus(); return; }
-    if (!['yes','maybe','no'].includes(record.attendance)||!['yes','maybe','no'].includes(record.bus)||!Number.isInteger(record.guestCount)||record.guestCount<0||record.guestCount>4||!Number.isInteger(record.busCount)||record.busCount<0||record.busCount>record.guestCount) { status.textContent='請確認出席與搭車人數。'; return; }
+    if (!['yes','maybe','no'].includes(record.attendance)||!['yes','maybe','no'].includes(record.bus)||!Number.isSafeInteger(record.guestCount)||record.guestCount<(record.attendance==='no'?0:1)||!Number.isSafeInteger(record.busCount)||record.busCount<0||record.busCount>record.guestCount) { status.textContent='請確認出席與搭車人數。'; return; }
     const config=window.SURVEY_CONFIG||{},fields=config.googleFields,choices=config.choiceValues;
     if (!fields || !choices) { status.textContent='表單連線設定中，暫時請直接告訴鑫佑或宛瑩。'; status.focus(); return; }
     if (record.attendance === 'no' && !choices.guestCount?.['0']) {
@@ -59,8 +95,8 @@
       url=new URL(config.googleFormUrl);
       if(url.origin!=='https://docs.google.com'||!/^\/forms\/d\/e\/[\w-]+\/viewform$/.test(url.pathname)||url.username||url.password)throw new Error();
       const params=new URLSearchParams({fvv:'1',pageHistory:'0'});
-      const message=[record.message,`【基隆遊覽車】${{yes:'需要搭乘',no:'自行前往',maybe:'尚未確定'}[record.bus]}${record.busCount?`，${record.busCount} 位`:''}`].filter(Boolean).join('\n');
-      const values={...record,attendance:choices.attendance?.[record.attendance],guestCount:choices.guestCount?.[String(record.guestCount)],bus:choices.bus?.[record.bus],message};
+      const message=[record.message,record.attendance==='no'?'【出席人數】不出席':`【出席人數】${record.guestCount} 位`,`【基隆遊覽車】${{yes:'需要搭乘',no:'自行前往',maybe:'尚未確定'}[record.bus]}${record.busCount?`，${record.busCount} 位`:''}`].filter(Boolean).join('\n');
+      const values={...record,attendance:choices.attendance?.[record.attendance],guestCount:choices.guestCount?.[String(record.guestCount)]||(record.guestCount>0?config.customGuestCount:null),bus:choices.bus?.[record.bus],message};
       for(const key of ['guestName','attendance','guestCount','message'])if(!/^entry\.\d+$/.test(fields[key]||''))throw new Error();
       if(typeof values.attendance!=='string'||!values.attendance||typeof values.guestCount!=='string'||!values.guestCount)throw new Error();
       for(const [key,id] of Object.entries(fields)){

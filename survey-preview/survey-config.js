@@ -8,6 +8,7 @@ window.SURVEY_CONFIG = {
     message: 'entry.1949204995',
   },
   checkboxFields: ['attendance'],
+  customGuestCount: '其他', // Add this exact option to the Google dropdown; actual count is saved in the message.
   choiceValues: {
     attendance: {
       yes: '肯定去的辣',
