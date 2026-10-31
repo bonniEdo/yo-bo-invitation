@@ -15,13 +15,12 @@
   viewer.querySelector('.story-progress').hidden = false;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   let introduced = false, effects = [], sourcePhoto = null, closingPhoto = false;
-  function celebrate(reveal = false) {
+  function celebrate() {
     effects.forEach(animation => animation.cancel()); effects = [];
     if (reduced.matches) return;
     const frame = frames[index], photo = frame.querySelector('.story-photo');
     const animate = (node, keys, options) => { if (node) effects.push(node.animate(keys, options)); };
     const timing = {duration: 850, easing: 'cubic-bezier(.2,.7,.2,1)'};
-    if (reveal) animate(photo, [{clipPath:'inset(100% 0 0)'},{clipPath:'inset(0% 0 0)'}], timing);
     animate(photo.querySelector('img'), [{transform:'scale(1.045)',opacity:.45},{transform:'scale(1)',opacity:1}], timing);
     animate(frame.querySelector('figcaption'), [{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}], {...timing,delay:150,fill:'backwards'});
     animate(dots[index], [{transform:'scale(1)'},{transform:'scale(1.28)',offset:.5},{transform:'scale(1)'}], {duration:650});
@@ -113,7 +112,7 @@
   dialog.addEventListener('click', event => { if(event.target===dialog) closePhoto(event); }, true);
   const observer = new IntersectionObserver(entries => {
     if (introduced || innerWidth >= 1000 || document.getElementById('story').getAttribute('aria-hidden') === 'true') return;
-    if (entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= .45)) { introduced=true; celebrate(true); observer.disconnect(); }
+    if (entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= .45)) { introduced=true; celebrate(); observer.disconnect(); }
   }, {threshold:[0,.45,.7]});
   observer.observe(frames[0].querySelector('.story-photo'));
   show(0, false);
