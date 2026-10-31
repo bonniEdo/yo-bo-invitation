@@ -47,3 +47,5 @@
 
 .love-charge-art{filter:drop-shadow(0 2px 3px #b57b4620)}
 .love-celebration{position:absolute;left:50%;top:49%;z-index:2;display:block;width:180px;max-width:none;font:400 76px/1 var(--font);letter-spacing:1px;color:#fff7e8;text-align:center;transform:translate(-50%,-50%) rotate(-8deg);text-shadow:0 2px 2px #c1713da6,0 4px 14px #9d5c314d;-webkit-text-stroke:.7px #d78d58;pointer-events:none}
+
+.venue-hall{font-size:24px;margin:0 0 12px;color:var(--ink)}
