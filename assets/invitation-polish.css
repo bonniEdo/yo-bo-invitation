@@ -316,3 +316,10 @@ html.book-enabled{scroll-behavior:auto;overflow-anchor:none}
 /* Translucent foil treatment, echoing the cover names without a white label. */
 .backcover-magazine .magazine-barcode{background:transparent;color:#fffef0;filter:drop-shadow(0 1px 3px #0009);text-shadow:0 1px 5px #0009}
 .magazine-barcode .barcode-bars{background:repeating-linear-gradient(90deg,#fffef0e6 0 2px,transparent 2px 3px,#fffef0e6 3px 4px,transparent 4px 7px,#fffef0e6 7px 10px,transparent 10px 12px,#fffef0e6 12px 13px,transparent 13px 17px)}
+
+/* The final invitation reminds confirmed guests of the day and hall. */
+#details .venue-room{font:400 28px/1.6 var(--zh);letter-spacing:1px;margin:8px 0 18px;color:var(--ink)}
+#details .attendance-reminder{padding:28px 18px;border-block:1px solid var(--rule);gap:8px}
+#details .attendance-reminder .reminder-heading{font:400 28px/1.5 var(--zh);color:#816c35}
+#story .story-progress{gap:2px;flex-wrap:wrap}
+@media(max-width:760px){#details .venue-room{font-size:26px}#details .attendance-reminder .reminder-heading{font-size:25px}}

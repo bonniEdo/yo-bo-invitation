@@ -4,8 +4,8 @@
   const settings = window.WEDDING_CONFIG?.INVITATION || {};
   const config = {
     isSample:false, coupleNames:'鑫佑 & 宛瑩', englishNames:'Walker & Bonnie', date:'2027-06-19', welcomeTime:'12:00',
-    banquetTime:'12:30', endTime:'15:00', replyBy:'2027-04-30',
-    venueName:'晶宴・御豐館', venueRoom:'',
+    banquetTime:'12:30', endTime:'15:00',
+    venueName:'晶宴・御豐館', venueRoom:'綺麗劇場',
     venueAddress:'300新竹市東區光復里公道五路三段1號2樓', venueNote:'點選導航，從你的位置出發。', mapsQuery:'', ...settings,
   };
   const date = new Date(`${config.date}T12:00:00+08:00`);
@@ -29,7 +29,7 @@
       return group;
     }));
   });
-  for (const [id, value] of Object.entries({'welcome-time':config.welcomeTime,'banquet-time':config.banquetTime,'venue-name':config.venueName,'venue-room':config.venueRoom,'venue-address':config.venueAddress,'reply-by':config.replyBy.replaceAll('-','.')})) $(id).textContent = value;
+  for (const [id, value] of Object.entries({'welcome-time':config.welcomeTime,'banquet-time':config.banquetTime,'venue-name':config.venueName,'venue-room':config.venueRoom,'venue-address':config.venueAddress})) $(id).textContent = value;
   $('venue-room').hidden = !config.venueRoom;
   $('venue-address').hidden = !config.venueAddress;
   document.title = `${config.coupleNames}｜${config.englishNames} 婚禮邀請`;
@@ -91,9 +91,6 @@
     if (event.target === calendarDialog && (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom)) calendarDialog.close();
   });
 
-  const form = $('rsvp-form');
-  let submitting = false;
-  const rsvpDialog = $('rsvp-dialog');
   function openFixedDialog(dialog, focusTarget) {
     if (dialog.open) return;
     const savedScroll = window.scrollY;
@@ -113,118 +110,17 @@
     focusTarget?.focus({ preventScroll: true });
   }
   window.InvitationModal = {open: openFixedDialog};
-  function openRsvp() {
-    form.hidden = false;
-    openFixedDialog(rsvpDialog, $('rsvp-dialog-title'));
-  }
-  document.querySelectorAll('[data-rsvp-open]').forEach(button => button.addEventListener('click', openRsvp));
-  $('rsvp-close').addEventListener('click', () => rsvpDialog.close());
   const storyDialog = $('story-dialog');
   $('story-read').addEventListener('click', () => openFixedDialog(storyDialog, $('story-reader-title')));
   [$('story-close'), $('story-reader-back')].forEach(button => {
     button.addEventListener('click', () => storyDialog.close());
   });
-  function syncVegetarians() {
-    const previous = Number($('vegetarian-count').value);
-    $('vegetarian-count').replaceChildren(...Array.from({length:Math.min(4,Number($('guest-count').value))+1}, (_,i) => new Option(i ? `${i} 位素食` : '無素食需求', i)));
-    $('vegetarian-count').value = Math.min(previous, Number($('guest-count').value));
-    const seats = Number($('child-seats').value);
-    $('child-seats').replaceChildren(...Array.from({length:Math.min(2,Number($('guest-count').value))+1}, (_,i) => new Option(i ? `${i} 張` : '不需要', i)));
-    $('child-seats').value = Math.min(seats, 2, Number($('guest-count').value));
-  }
-  form.addEventListener('change', event => {
-    if (event.target.name === 'attendance') {
-      const attending = event.target.value === 'yes';
-      $('attending-details').hidden = !attending;
-      $('attending-details').disabled = !attending;
-    }
-    if (event.target.id === 'guest-count') syncVegetarians();
-  });
-  form.addEventListener('input', () => {
-    $('message-count').textContent = `${$('guest-message').value.length} / 2000`;
-  });
-  syncVegetarians();
-  let requestId = null;
-  let lastPayload = null;
-  function showReceipt(confirmed, record) {
-    const message = confirmed ? '回覆已收到，謝謝你。' : '回覆已送出，收件待確認。';
-    rsvpDialog.close();
-    const summary = record.attending
-      ? `${record.guestName}・${record.guestCount} 位出席・素食 ${record.vegetarianCount} 位・兒童椅 ${record.childSeats} 張`
-      : `${record.guestName}・無法出席`;
-    $('rsvp-receipt').textContent = `${message} ${summary}`;
-    $('rsvp-receipt').hidden = false;
-    requestAnimationFrame(() => requestAnimationFrame(() => $('details-next').click()));
-  }
-  // Older invitation links still lead directly to the reply dialog.
-  if (location.hash === '#rsvp') {
-    try { history.replaceState(null, '', '#details'); } catch { /* File previews may restrict history. */ }
-    window.addEventListener('pageshow', () => requestAnimationFrame(() => requestAnimationFrame(openRsvp)), {once: true});
-  }
-  form.addEventListener('submit', async event => {
-    event.preventDefault();
-    if (submitting || !form.reportValidity()) return;
-    if (!$('guest-name').value.trim()) {
-      $('guest-name').setCustomValidity('請填寫姓名。'); $('guest-name').reportValidity(); return;
-    }
-    const data = new FormData(form);
-    const attending = data.get('attendance') === 'yes';
-    const record = {
-      guestName: String(data.get('guestName')).trim(), attending,
-      guestCount: attending ? Number(data.get('guestCount')) : 0,
-      vegetarianCount: attending ? Number(data.get('vegetarianCount')) : 0,
-      childSeats: attending ? Number(data.get('childSeats')) : 0,
-      dietNotes: attending ? String(data.get('dietNotes') || '') : '',
-      message: String(data.get('message') || ''),
-    };
-    let timeout;
-    try {
-      if (navigator.onLine === false) throw new Error('目前沒有網路，請連線後再送出。');
-      const submission = window.InvitationGoogleForm.build(record, config.googleFormUrl || window.InvitationGoogleForm.url);
-      const payload = JSON.stringify(record);
-      if (payload !== lastPayload) {
-        requestId = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-        lastPayload = payload;
-      }
-      submitting = true;
-      $('submit-button').disabled = true;
-      form.setAttribute('aria-busy', 'true');
-      $('form-status').textContent = '正在送出…';
-      const controller = new AbortController();
-      timeout = setTimeout(() => controller.abort(), 20000);
-      let confirmed = false;
-      if (config.rsvpEndpoint) {
-        const endpoint = new URL(config.rsvpEndpoint);
-        if (endpoint.origin !== 'https://script.google.com' || !/^\/macros\/s\/[^/]+\/exec$/.test(endpoint.pathname)) throw new Error('回覆連線設定有誤，請聯絡新人。');
-        const response = await fetch(endpoint.href, {
-          method: 'POST', headers: {'Content-Type': 'text/plain;charset=UTF-8'},
-          body: JSON.stringify({requestId, ...record}), credentials: 'omit', signal: controller.signal,
-        });
-        if (!response.ok) throw new Error('目前無法確認收件，請稍後再試。');
-        const result = await response.json();
-        if (result.ok !== true || typeof result.receipt !== 'string' || !result.receipt) throw new Error(result.error || '目前無法確認收件，請稍後再試。');
-        confirmed = true;
-      } else {
-        // Google Forms returns an opaque cross-origin response. This only
-        // establishes a send attempt, never a verified saved response.
-        await fetch(submission.action, {
-          method: 'POST', mode: 'no-cors', credentials: 'omit',
-          body: new URLSearchParams(submission.inputs), signal: controller.signal,
-        });
-      }
-      $('form-status').textContent = '';
-      showReceipt(confirmed, record);
-    } catch (error) {
-      $('form-status').textContent = error.name === 'AbortError'
-        ? '連線逾時，收件狀態未確認。請稍後聯絡新人確認。'
-        : error instanceof TypeError ? '連線中斷，收件狀態未確認。請稍後再試。' : error.message;
-      $('form-status').focus();
-    } finally {
-      clearTimeout(timeout);
-      submitting = false;
-      $('submit-button').disabled = false;
-      form.removeAttribute('aria-busy');
-    }
-  });
-  $('guest-name').addEventListener('input', () => $('guest-name').setCustomValidity(''));
+  // Incoming links from the former reply page now show the wedding details.
+  const restoreLegacyLink = () => {
+    if (location.hash !== '#rsvp') return;
+    history.replaceState(null, '', '#details');
+    window.dispatchEvent(new Event('hashchange'));
+  };
+  window.addEventListener('pageshow', () => requestAnimationFrame(restoreLegacyLink));
+  window.addEventListener('hashchange', restoreLegacyLink);
 })();
