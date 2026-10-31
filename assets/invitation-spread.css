@@ -1,0 +1,61 @@
+/* The cover and its reverse keep one portrait shape on every viewport. */
+.book-cover .paper-anchor{aspect-ratio:2/3;height:auto}
+.book-cover .paper-content,.book-cover .cover-portrait{aspect-ratio:2/3}
+.book-cover .cover-portrait img,.backcover-magazine .backcover-photo img{object-fit:cover;object-position:center 44%}
+@media(min-width:1000px){
+  .book-journey{width:min(1260px,calc(100% - 64px),calc((var(--scene-height,800px) - 32px)*4/3))}
+  .book-enabled .book-page:not(.book-cover):not(.book-backcover){padding:24px 0 80px;background:transparent}
+  .has-spreads .spread-body{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:calc(var(--scene-height) - 100px);align-items:stretch;isolation:isolate}
+  .has-spreads .spread-body:before{content:'';position:absolute;left:50%;top:0;bottom:0;width:36px;transform:translateX(-50%);background:linear-gradient(90deg,transparent,#8b795b08 25%,#8b795b25 48%,#fff9 51%,#8b795b0b 65%,transparent);z-index:4;pointer-events:none}
+  .has-spreads .spread-leaf{position:relative;min-width:0;padding:12px 30px;background:var(--paper);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+  .has-spreads .spread-leaf-right{z-index:2;transform-origin:0 50%;will-change:transform}
+  .has-spreads .spread-leaf-right:after{content:'';position:absolute;inset:0;background:rgb(36 38 34 / var(--leaf-shade,0));pointer-events:none}
+  .has-spreads .book-story .couple-intro{display:block;margin:0 0 22px}
+  .has-spreads #story .duo-heading{font-size:32px;max-width:none;margin:12px 0 24px;line-height:1.25}
+  .has-spreads #story .personality{padding:18px 0;grid-template-columns:48px minmax(0,1fr) auto;gap:8px 12px}
+  .has-spreads #story .personality-avatar{width:48px;height:48px}
+  .has-spreads #story .personality .personality-name{font-size:23px}
+  .has-spreads #story .personality .personality-copy{font-size:14px}
+  .has-spreads #story .story-introduction{font-size:13px;line-height:1.9;letter-spacing:0;margin:20px 0}
+  .has-spreads #story .story-next-chapter{padding:22px 0 0;margin-top:18px}
+  .has-spreads #story .story-next-chapter h3{font-size:27px;margin-bottom:16px}
+  .has-spreads #story .story-next-chapter>p{font-size:14px;line-height:1.9}
+  .has-spreads #story .spread-leaf-right{display:flex}
+  .has-spreads #story .gallery-ready{height:auto;min-height:700px;width:100%;flex:1}
+  .has-spreads #story .gallery-ready .story-photo{inset:0 0 300px;height:auto}
+  .has-spreads #story .gallery-ready .story-frame figcaption{inset:auto 0 0;width:100%;height:300px;padding:20px 14px 72px;justify-content:center}
+  .has-spreads #story .gallery-ready .story-frame figcaption h3{font-size:28px;line-height:1.45;margin:8px 0 12px}
+  .has-spreads #story .gallery-ready .story-frame figcaption>p{font-size:14px;line-height:1.85;max-width:none}
+  .has-spreads #story .gallery-ready .story-frame figcaption .eyebrow{font-size:13px}
+  .has-spreads #story .gallery-ready .story-controls{top:auto;bottom:314px;left:8px;right:8px}
+  .has-spreads #story .gallery-ready .story-progress{bottom:14px;left:0;right:0;width:100%}
+  .has-spreads .book-details>.details-grid{display:none}
+  .has-spreads .book-details .section-heading{margin-bottom:26px}
+  .has-spreads .book-details .section-heading h2{font-size:36px}
+  .has-spreads .book-details .section-heading .eyebrow{font-size:10px}
+  .has-spreads .book-details .sample-label{display:none}
+  .has-spreads .book-details .detail-card{padding-top:24px}
+  .has-spreads #details .time-row{gap:12px}
+  .has-spreads #details .time-card h3,.has-spreads #details .time-row strong,.has-spreads #details #venue-name{font-size:clamp(40px,4.5vw,60px)}
+  .has-spreads #details .time-card h3{gap:4px 8px}
+  .has-spreads #details .attendance-reminder{padding:20px 8px;margin-top:26px}
+  .has-spreads #details .attendance-reminder .reminder-heading{font-size:25px}
+  .has-spreads .book-details .venue-card{height:100%;padding-top:0;border-top:0}
+  .has-spreads .book-details .venue-card .detail-top{padding-top:0}
+  .has-spreads .book-details .venue-card-copy{padding:0 0 22px}
+  .has-spreads .book-details .venue-map{margin-top:24px}
+  .has-spreads .book-details .venue-map iframe{height:300px}
+  .has-spreads .book-thanks .spread-leaf{display:flex;align-items:center;justify-content:center}
+  .has-spreads .book-thanks .scratch-section{width:100%;margin:0}
+  .has-spreads .book-thanks .scratch-card,.has-spreads .book-thanks .scratch-prize{min-height:350px}
+  .has-spreads .book-thanks .thankyou-footer{flex-direction:column;text-align:center;gap:30px}
+  .has-spreads .book-thanks .countdown strong{font-size:110px}
+  .has-spreads .book-thanks .thankyou-footer>p{font-size:25px}
+  .has-spreads .page-actions{margin:28px 30px 0;width:calc(100% - 60px)}
+}
+@media(min-width:1000px) and (max-width:1150px){
+  .has-spreads .spread-leaf{padding-inline:24px}
+  .has-spreads #story .duo-heading{font-size:28px}
+  .has-spreads #story .gallery-ready .story-frame figcaption h3{font-size:25px}
+}
+@media(prefers-reduced-motion:reduce){.has-spreads .spread-leaf-right{will-change:auto}}

@@ -27,6 +27,47 @@
   pages.forEach((page, index) => { page.style.zIndex = String(pages.length - index); });
   document.documentElement.classList.add('book-enabled');
 
+  // Preserve the original mobile document order. On desktop, move the same
+  // live nodes into facing leaves; existing controls keep their event handlers.
+  const spreadGroups = [
+    {page: pages[1], left: ['.couple-intro', '.story-introduction', '.story-next-chapter'], right: ['.story-viewer']},
+    {page: pages[2], left: ['.section-heading', '.time-card', '.attendance-reminder'], right: ['.venue-card']},
+    {page: pages[3], left: ['.scratch-section'], right: ['.thankyou-footer']},
+  ].map(group => ({...group, body: null, nodes: ['left','right'].flatMap(side => group[side].map(selector => {
+    const node = group.page.querySelector(selector);
+    const marker = document.createComment('single-page position');
+    node.before(marker);
+    return {node, marker, side};
+  }))}));
+  let spreadMounted = false;
+  function syncSpreads() {
+    const desktop = window.innerWidth >= 1000;
+    if (desktop === spreadMounted) return desktop;
+    const focused = document.activeElement;
+    spreadGroups.forEach(group => {
+      if (desktop) {
+        const body = document.createElement('div'); body.className = 'spread-body';
+        const leaves = {};
+        ['left','right'].forEach(side => {
+          const leaf = document.createElement('div'); leaf.className = `spread-leaf spread-leaf-${side}`;
+          body.append(leaf); leaves[side] = leaf;
+        });
+        group.nodes.forEach(item => leaves[item.side].append(item.node));
+        group.page.prepend(body); group.body = body;
+      } else {
+        group.nodes.forEach(item => item.marker.after(item.node));
+        group.body.remove(); group.body = null;
+        group.page.querySelectorAll('.page-actions,.page-folio').forEach(footer => {
+          footer.style.opacity = ''; footer.style.pointerEvents = ''; footer.inert = false;
+        });
+      }
+    });
+    spreadMounted = desktop;
+    book.classList.toggle('has-spreads', desktop);
+    if (focused !== document.body && document.activeElement !== focused && focused?.isConnected) focused.focus({preventScroll: true});
+    return desktop;
+  }
+
   function readOffset(index, offset) {
     if (index === lastPage) return 0;
     const entry = layout.entries[index];
@@ -45,13 +86,20 @@
     const closing = reducedMotion.matches ? 1 : clamp((offset - layout.entries[lastPage].enter) / layout.zoom);
     const backFit = 1 - closing;
     const closingTurn = turns[lastPage - 1];
-    backFlight.style.transformOrigin = closingTurn < 1 ? '0 50%' : '50% 50%';
-    backFlight.style.width = `${mix(layout.back.width, layout.width, backFit)}px`;
-    backFlight.style.height = `${mix(layout.back.height, layout.scene, backFit)}px`;
-    // The final sheet has two faces. Its right edge sweeps left around the
-    // spine, revealing the photo printed on its reverse before settling down.
-    const hinge = reducedMotion.matches ? '' : ` translateX(${layout.width * closingTurn}px) perspective(5000px) rotateY(${-180 * closingTurn}deg) translateX(${layout.width}px) rotateY(180deg)`;
-    backFlight.style.transform = `translate(${-layout.back.left * backFit}px, ${-layout.back.top * backFit}px)${closingTurn < 1 ? hinge : ''} rotate(${-5 * closing}deg)`;
+    const backWidth = mix(layout.open.width, layout.back.width, closing);
+    backFlight.style.width = `${backWidth}px`;
+    backFlight.style.height = `${backWidth * 1.5}px`;
+    if (closingTurn < 1 && !reducedMotion.matches) {
+      // The reverse of the final right leaf becomes visible after the hinge
+      // passes 90 degrees. On desktop it lands to the left of the spine.
+      backFlight.style.transformOrigin = '0 50%';
+      const travel = layout.desktop ? 0 : layout.open.width * closingTurn;
+      backFlight.style.transform = `translate(${layout.open.left - layout.back.left + travel}px, ${layout.open.top - layout.back.top}px) perspective(5000px) rotateY(${-180 * closingTurn}deg) translateX(${layout.open.width}px) rotateY(180deg)`;
+    } else {
+      backFlight.style.transformOrigin = '50% 50%';
+      const openLeft = layout.desktop ? layout.open.left - layout.open.width : layout.open.left;
+      backFlight.style.transform = `translate(${(openLeft - layout.back.left) * backFit}px, ${(layout.open.top - layout.back.top) * backFit}px) rotate(${-5 * closing}deg)`;
+    }
     backMagazine.style.setProperty('--back-fit', backFit);
     pages[lastPage].style.setProperty('--closing-progress', closing);
     book.style.setProperty('--cover-presence', String(1 - zoom));
@@ -66,7 +114,7 @@
     stage.style.height = `${visibleHeight}px`;
     stage.style.clipPath = 'inset(-50px -50px 0px -50px)';
 
-    // Keep the existing cover: fit the magazine to the stage, then turn it left.
+    // A single scale controls both axes: the printed photo always stays 2:3.
     pages[0].style.transform = `translateY(${-coverRead}px)`;
     const introOpacity = reducedMotion.matches ? 1 : 1 - clamp(zoom * 1.8);
     const focusedIntro = intro.contains(document.activeElement);
@@ -74,25 +122,43 @@
     if (intro.inert && focusedIntro) coverLink?.focus({ preventScroll: true });
     pages[0].style.setProperty('--intro-opacity', introOpacity);
     pages[0].style.visibility = turns[0] >= (reducedMotion.matches ? 0.5 : 1) ? 'hidden' : 'visible';
-    flight.style.width = `${mix(layout.paper.width, layout.width, fit)}px`;
-    flight.style.height = `${mix(layout.paper.height, layout.scene, fit)}px`;
-    flight.style.transform = `translate(${-layout.paper.left * fit}px, ${(coverRead - layout.paper.top) * fit}px) rotate(${-5 * (1 - fit)}deg)`;
+    const coverWidth = mix(layout.paper.width, layout.open.width, fit);
+    flight.style.width = `${coverWidth}px`;
+    flight.style.height = `${coverWidth * 1.5}px`;
+    flight.style.transform = `translate(${(layout.open.left - layout.paper.left) * fit}px, ${(coverRead + layout.open.top - layout.paper.top) * fit}px) rotate(${-5 * (1 - fit)}deg)`;
     flight.style.setProperty('--paper-fit', fit);
     paper.style.transform = reducedMotion.matches ? 'none' : `perspective(5000px) rotateY(${-180 * turns[0]}deg)`;
     paper.style.setProperty('--turn-shade', Math.sin(turns[0] * Math.PI) * 0.19);
 
     pages.slice(1).forEach((page, relative) => {
       const index = relative + 1;
-      page.style.transform = reducedMotion.matches
-        ? `translateY(${-reads[index]}px)`
-        : `translateY(${-reads[index]}px) perspective(5000px) rotateY(${-180 * turns[index]}deg)`;
-      if (index === lastPage - 1 && !reducedMotion.matches) {
-        page.style.transform = `translateY(${-reads[index]}px) translateX(${layout.width * turns[index]}px) perspective(5000px) rotateY(${-180 * turns[index]}deg)`;
+      if (layout.desktop && index < lastPage) {
+        page.style.transform = `translateY(${-reads[index]}px)`;
+        const left = page.querySelector('.spread-leaf-left');
+        const right = page.querySelector('.spread-leaf-right');
+        // Swap the resting left leaf edge-on; overlapping text must never fade through.
+        left.style.opacity = !reducedMotion.matches && (turns[index] >= .5 || turns[index - 1] < .5) ? '0' : '1';
+        right.style.transform = reducedMotion.matches ? 'none' : `perspective(5000px) rotateY(${-180 * turns[index]}deg)`;
+        right.style.setProperty('--leaf-shade', Math.sin(turns[index] * Math.PI) * .12);
+        // Chapter navigation stays on its own spread, without two footers
+        // overlapping while the right leaf exposes the following chapter.
+        const resting = turns[index] === 0 && turns[index - 1] === 1;
+        page.querySelectorAll('.page-actions,.page-folio').forEach(footer => {
+          footer.style.opacity = resting ? '1' : '0';
+          footer.style.pointerEvents = resting ? '' : 'none'; footer.inert = !resting;
+        });
+      } else {
+        page.style.transform = reducedMotion.matches
+          ? `translateY(${-reads[index]}px)`
+          : `translateY(${-reads[index]}px) perspective(5000px) rotateY(${-180 * turns[index]}deg)`;
+        if (index === lastPage - 1 && !reducedMotion.matches) {
+          page.style.transform = `translateY(${-reads[index]}px) translateX(${layout.width * turns[index]}px) perspective(5000px) rotateY(${-180 * turns[index]}deg)`;
+        }
       }
       const notOpened = index === 1 ? zoom < 1 : turns[index - 1] === 0;
-      const turned = index !== lastPage && turns[index] >= (reducedMotion.matches ? 0.5 : 1);
+      const turned = index !== lastPage && turns[index] >= (reducedMotion.matches ? .5 : 1);
       page.style.visibility = notOpened || turned ? 'hidden' : 'visible';
-      page.style.setProperty('--turn-shade', Math.sin(turns[index] * Math.PI) * 0.19);
+      page.style.setProperty('--turn-shade', layout.desktop ? 0 : Math.sin(turns[index] * Math.PI) * .19);
     });
 
     const next = turns.reduce((index, progress, turning) => progress >= 0.5 ? turning + 1 : index, 0);
@@ -121,6 +187,7 @@
     const previous = layout.entries?.[active];
     const local = previous ? window.scrollY - layout.start - previous.enter : 0;
     const preserveReading = active > 0 && previous && local >= 0 && (active === lastPage || local <= previous.read) && !animationFrame;
+    const desktop = syncSpreads();
     const top = window.innerWidth <= 760 ? 16 : 24;
     const scene = Math.max(300, viewportHeight - top - 24);
     const zoom = Math.max(420, Math.round(scene * 0.95));
@@ -148,8 +215,14 @@
     backAnchor.style.width = `${geometry.width}px`;
     backAnchor.style.height = `${geometry.height}px`;
     const backGeometry = { width: backAnchor.offsetWidth, height: backAnchor.offsetHeight, left: backAnchor.offsetLeft - backAnchor.offsetWidth / 2, top: backAnchor.offsetTop - backAnchor.offsetHeight / 2 };
-    layout = { back: backGeometry, scene, zoom, turn, coverRead, entries, end, heights, height, paper: geometry, width: stage.offsetWidth,
-      start: window.scrollY + book.getBoundingClientRect().top - top };
+    const width = stage.offsetWidth;
+    // Desktop opens around the middle spine. Mobile has one centered portrait.
+    const openWidth = Math.min(desktop ? width / 2 : width, (scene - 24) * 2 / 3);
+    const open = {width: openWidth, height: openWidth * 1.5,
+      left: desktop ? width / 2 : (width - openWidth) / 2,
+      top: (scene - openWidth * 1.5) / 2};
+    layout = {desktop, open, back: backGeometry, scene, zoom, turn, coverRead, entries, end, heights, height, paper: geometry, width,
+      start: window.scrollY + book.getBoundingClientRect().top - top};
     if (preserveReading) {
       const nextLocal = active === lastPage ? local : clamp(local, 0, entries[active].read);
       const nextTop = layout.start + entries[active].enter + nextLocal;
