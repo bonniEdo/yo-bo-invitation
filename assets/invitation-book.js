@@ -163,14 +163,16 @@
           page.style.transform = `translateY(${-reads[index]}px) translateX(${layout.width * turns[index]}px) perspective(5000px) rotateY(${-180 * turns[index]}deg)`;
         }
       }
-      const notOpened = index === 1 ? zoom < 1 : turns[index - 1] === 0;
+      // The reverse cover must not show through the front of the final leaf.
+      // Explicit visibility also covers independently composited paper-edge layers.
+      const notOpened = index === lastPage ? closingTurn <= .5 : index === 1 ? zoom < 1 : turns[index - 1] === 0;
       const turned = index !== lastPage && turns[index] >= (reducedMotion.matches ? .5 : 1);
       const hidden = notOpened || turned;
       page.style.visibility = hidden ? 'hidden' : 'visible';
       // Opacity also hides separately composited iframe layers in WebKit.
       page.style.opacity = hidden ? '0' : '1';
       page.style.pointerEvents = hidden ? 'none' : '';
-      page.style.clipPath = revealBottom !== null && index === turningIndex + 1 && index < lastPage
+      page.style.clipPath = revealBottom !== null && index === turningIndex + 1
         ? `inset(0px 0px ${Math.max(0, layout.heights[index] - revealBottom)}px 0px)` : '';
       page.style.setProperty('--turn-shade', layout.desktop ? 0 : Math.sin(turns[index] * Math.PI) * .19);
     });
