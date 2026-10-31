@@ -1,0 +1,47 @@
+/* Paper edges sit outside the printed face, preserving its 2:3 geometry. */
+.magazine-depth,.backcover-flight{--paper-edge:clamp(14px,1.5vw,22px);--paper-bottom:clamp(10px,1vw,16px)}
+.magazine-depth{transform:perspective(1800px) rotateX(calc((2deg + var(--tilt-y,0deg))*var(--cover-presence,1))) rotateY(calc((-7deg + var(--tilt-x,0deg))*var(--cover-presence,1)))}
+.book-cover .magazine-pages,.backcover-page-stack{
+  position:absolute;inset:5px calc(-1*var(--paper-edge)) calc(-1*var(--paper-bottom)) 7px;
+  border:1px solid #c4b89d;border-radius:1px 3px 3px 1px;
+  background:repeating-linear-gradient(0deg,#f6f1e2 0 2px,#d8cfba 2px 3px,#eee7d6 3px 5px);
+  transform:translateZ(-8px);pointer-events:none;
+  box-shadow:2px 2px 0 #bcb094,4px 4px 0 #e5dcc7,9px 13px 16px #4d49322b,22px 30px 35px -12px #41402e45;
+}
+.book-cover .magazine-pages{z-index:-1;opacity:var(--cover-stack-opacity,1)}
+.book-cover .magazine-pages:before,.backcover-page-stack:before{
+  content:'';position:absolute;top:0;right:0;bottom:0;width:var(--paper-edge);
+  background:repeating-linear-gradient(90deg,#c7bea8 0 1px,#fcf8ed 1px 3px,#e1d8c4 3px 4px);
+  border-left:1px solid #aa9d81;border-radius:0 3px 3px 0;
+  box-shadow:inset 3px 0 5px #9d8c6655,inset -1px 0 2px #fff9;
+  transform:skewY(18deg);transform-origin:left top;
+}
+.book-cover .magazine-pages:after,.backcover-page-stack:after{
+  content:'';position:absolute;left:0;right:1px;bottom:0;height:var(--paper-bottom);
+  background:repeating-linear-gradient(0deg,#a99b7e 0 1px,#f4eddc 1px 3px,#d2c6ad 3px 4px);
+  border-top:1px solid #fff9;border-bottom:1px solid #aa9b7c;
+  transform:skewX(40deg);transform-origin:right top;
+}
+.magazine-depth:before{
+  content:'';position:absolute;left:0;top:2px;bottom:-4px;width:11px;z-index:3;pointer-events:none;
+  background:linear-gradient(90deg,#20271f66,#fff2 36%,#0002 68%,transparent);
+  border-radius:2px 0 0 2px;opacity:var(--cover-stack-opacity,1);
+}
+.book-cover .invitation-paper{box-shadow:inset 4px 0 7px #0003,2px 1px 2px #322d2126}
+.backcover-flight{isolation:isolate;transform-style:preserve-3d}
+.backcover-page-stack{z-index:-1;opacity:1}
+.book-enabled .backcover-magazine{box-shadow:inset 4px 0 7px #0002,1px 1px 1px #322d2133}
+.has-spreads .spread-body{
+  box-shadow:3px 3px 0 #efe9d9,5px 5px 0 #c8bea7,7px 7px 0 #eee7d5,9px 9px 0 #c8bea7,12px 15px 22px -6px #4c47352b;
+}
+.whole-book-flip .whole-book-face{
+  box-shadow:4px 3px 0 #eee6d3,7px 5px 0 #bdb197,10px 7px 0 #eee6d3,13px 9px 0 #c9bea5,20px 28px 36px -10px #3333224d;
+}
+#invitation .cover-open.action-control{right:-44px}
+#backcover .backcover-return.action-control{right:-42px}
+@media(max-width:760px){
+  .book-cover .paper-anchor{max-width:calc(100vw - 96px)}
+  #invitation .cover-open.action-control{right:-36px}
+  #backcover .backcover-return.action-control{right:-34px}
+}
+@media(prefers-reduced-motion:reduce){.magazine-depth{transform:none}}

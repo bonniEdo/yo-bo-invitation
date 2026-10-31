@@ -103,6 +103,7 @@
     backMagazine.style.setProperty('--back-fit', backFit);
     pages[lastPage].style.setProperty('--closing-progress', closing);
     book.style.setProperty('--cover-presence', String(1 - zoom));
+    book.style.setProperty('--cover-stack-opacity', String(1 - clamp(turns[0] * 1.4)));
     book.style.setProperty('--depth-scroll', String(reducedMotion.matches ? 0 : clamp(offset / Math.max(1, layout.coverRead + layout.zoom))));
 
     let sheet = 0;
@@ -112,7 +113,8 @@
     // Size the sticky stage to the visible sheet. A tallest-sheet spacer with
     // a negative margin leaves overflow below the footer and breaks its links.
     stage.style.height = `${visibleHeight}px`;
-    stage.style.clipPath = 'inset(-50px -50px 0px -50px)';
+    stage.style.clipPath = sheet === 0 || sheet === lastPage
+      ? 'inset(-50px -50px -48px -50px)' : 'inset(-50px -50px 0px -50px)';
 
     // A single scale controls both axes: the printed photo always stays 2:3.
     pages[0].style.transform = `translateY(${-coverRead}px)`;

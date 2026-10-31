@@ -14,7 +14,7 @@
 
 封面與封底始終維持直式 2:3，開合時使用等比尺寸，照片不會因桌機寬度被裁成橫幅。視窗寬度達 1000px 時，內頁以左右兩葉及中央書脊呈現，右葉向左翻；較窄視窗維持原本單頁順序。改變視窗寬度時會搬回同一批內容節點，保留相簿、故事與行事曆事件。
 
-`assets/invitation-spread.css` 是最後載入的跨頁版面；`assets/invitation-book.js` 控制等比開合、節點分葉及翻頁動畫。意願調查使用獨立樣式與程式，未受影響。
+`assets/invitation-spread.css` 控制跨頁版面，`assets/invitation-material.css` 最後載入並繪製書脊、右側書口、底部疊頁與立體陰影；`assets/invitation-book.js` 控制等比開合、節點分葉及翻頁動畫。意願調查使用獨立樣式與程式，未受影響。
 
 ## 更新
 
