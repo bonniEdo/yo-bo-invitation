@@ -59,3 +59,6 @@
   .has-spreads #story .gallery-ready .story-frame figcaption h3{font-size:25px}
 }
 @media(prefers-reduced-motion:reduce){.has-spreads .spread-leaf-right{will-change:auto}}
+
+/* Keep separately composited maps off the back of the current spread. */
+.book-enabled .book-page[aria-hidden="true"] .venue-map{visibility:hidden;opacity:0;pointer-events:none}

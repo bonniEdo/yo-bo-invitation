@@ -130,6 +130,12 @@
     paper.style.transform = reducedMotion.matches ? 'none' : `perspective(5000px) rotateY(${-180 * turns[0]}deg)`;
     paper.style.setProperty('--turn-shade', Math.sin(turns[0] * Math.PI) * 0.19);
 
+    // An incoming spread must fit inside the outgoing paper's visible body,
+    // rather than exposing its taller lower content below the current gallery.
+    const turningIndex = turns.findIndex((progress, index) => index > 0 && progress > 0 && progress < 1);
+    const outgoingBody = layout.desktop && turningIndex > 0 ? pages[turningIndex].querySelector('.spread-body') : null;
+    const revealBottom = outgoingBody ? Math.max(0, outgoingBody.offsetTop + outgoingBody.offsetHeight - reads[turningIndex]) : null;
+
     pages.slice(1).forEach((page, relative) => {
       const index = relative + 1;
       if (layout.desktop && index < lastPage) {
@@ -157,7 +163,13 @@
       }
       const notOpened = index === 1 ? zoom < 1 : turns[index - 1] === 0;
       const turned = index !== lastPage && turns[index] >= (reducedMotion.matches ? .5 : 1);
-      page.style.visibility = notOpened || turned ? 'hidden' : 'visible';
+      const hidden = notOpened || turned;
+      page.style.visibility = hidden ? 'hidden' : 'visible';
+      // Opacity also hides separately composited iframe layers in WebKit.
+      page.style.opacity = hidden ? '0' : '1';
+      page.style.pointerEvents = hidden ? 'none' : '';
+      page.style.clipPath = revealBottom !== null && index === turningIndex + 1 && index < lastPage
+        ? `inset(0px 0px ${Math.max(0, layout.heights[index] - revealBottom)}px 0px)` : '';
       page.style.setProperty('--turn-shade', layout.desktop ? 0 : Math.sin(turns[index] * Math.PI) * .19);
     });
 
