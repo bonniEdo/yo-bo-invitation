@@ -321,5 +321,4 @@ html.book-enabled{scroll-behavior:auto;overflow-anchor:none}
 #details .venue-room{font:400 28px/1.6 var(--zh);letter-spacing:1px;margin:8px 0 18px;color:var(--ink)}
 #details .attendance-reminder{padding:28px 18px;border-block:1px solid var(--rule);gap:8px}
 #details .attendance-reminder .reminder-heading{font:400 28px/1.5 var(--zh);color:#816c35}
-#story .story-progress{gap:2px;flex-wrap:wrap}
 @media(max-width:760px){#details .venue-room{font-size:26px}#details .attendance-reminder .reminder-heading{font-size:25px}}

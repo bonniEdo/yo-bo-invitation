@@ -8,7 +8,7 @@
 - `feature/attendance-survey`：先詢問是否有意願出席，保留 Google 表單、大家庭人數及基隆接駁調查。
 - `main/survey-preview/`：調查分支的發布副本。預覽網址為 https://bonniedo.github.io/yo-bo-invitation/survey-preview/ 。
 
-正式喜帖相簿目前有五張：三張婚禮插畫、雪山合照與日常合照，支援左右切換、愛心選圖與點圖放大。日後可在 `config.js` 的 `photos` 替換為婚紗照；第 0 張為封面／封底，其後五張對應相簿。
+正式喜帖相簿目前恢復為原本三張婚禮插畫，支援左右切換、愛心選圖與點圖放大。日後可在 `config.js` 的 `photos` 替換為婚紗照；第 0 張為封面／封底，其後三張對應相簿。
 
 ## 更新
 
