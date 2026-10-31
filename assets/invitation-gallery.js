@@ -13,7 +13,23 @@
   viewer.tabIndex = 0;
   viewer.querySelector('.story-controls').hidden = false;
   viewer.querySelector('.story-progress').hidden = false;
-  function show(requested) {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  let introduced = false, effects = [], sourcePhoto = null, closingPhoto = false;
+  function celebrate(reveal = false) {
+    effects.forEach(animation => animation.cancel()); effects = [];
+    if (reduced.matches) return;
+    const frame = frames[index], photo = frame.querySelector('.story-photo');
+    const animate = (node, keys, options) => { if (node) effects.push(node.animate(keys, options)); };
+    const timing = {duration: 850, easing: 'cubic-bezier(.2,.7,.2,1)'};
+    if (reveal) animate(photo, [{clipPath:'inset(100% 0 0)'},{clipPath:'inset(0% 0 0)'}], timing);
+    animate(photo.querySelector('img'), [{transform:'scale(1.045)',opacity:.45},{transform:'scale(1)',opacity:1}], timing);
+    animate(frame.querySelector('figcaption'), [{opacity:0,transform:'translateY(12px)'},{opacity:1,transform:'none'}], {...timing,delay:150,fill:'backwards'});
+    animate(dots[index], [{transform:'scale(1)'},{transform:'scale(1.28)',offset:.5},{transform:'scale(1)'}], {duration:650});
+    let light = photo.querySelector('.photo-golden-light');
+    if (!light) { light = document.createElement('span'); light.className='photo-golden-light'; light.setAttribute('aria-hidden','true'); photo.append(light); }
+    animate(light, [{transform:'translateX(-120%)',opacity:0},{opacity:.55,offset:.45},{transform:'translateX(120%)',opacity:0}], {duration:1000,easing:'ease-in-out'});
+  }
+  function show(requested, animate = true) {
     // Only explicit carousel controls change the photo; scrolling never does.
     index = (requested + frames.length) % frames.length;
     track.style.transform = `translateX(${-index * 100}%)`;
@@ -26,14 +42,21 @@
       if (i === index) dot.setAttribute('aria-current', 'true');
       else dot.removeAttribute('aria-current');
     });
+    if (animate) { introduced = true; celebrate(); }
     status.textContent = `第 ${index + 1} 張，共 ${frames.length} 張`;
   }
   function enlarge(photo) {
     const img = photo.querySelector('img');
     if (!img) return;
     const full = document.getElementById('photo-full');
+    sourcePhoto = img;
+    const start = img.getBoundingClientRect();
     full.src = img.src; full.alt = img.alt;
     window.InvitationModal.open(document.getElementById('photo-dialog'), document.getElementById('photo-close'));
+    if (!reduced.matches) {
+      const end = full.getBoundingClientRect();
+      if (end.width && end.height) full.animate([{transform:`translate(${start.x-end.x}px,${start.y-end.y}px) scale(${start.width/end.width},${start.height/end.height})`},{transform:'none'}],{duration:700,easing:'cubic-bezier(.2,.7,.2,1)'});
+    }
   }
   previous.addEventListener('click', () => show(index - 1));
   next.addEventListener('click', () => show(index + 1));
@@ -74,5 +97,24 @@
     const img = photo.querySelector('img');
     if (img) img.draggable = false;
   });
-  show(0);
+  const dialog = document.getElementById('photo-dialog');
+  function closePhoto(event) {
+    if (!sourcePhoto || reduced.matches) return;
+    event.preventDefault(); event.stopImmediatePropagation();
+    if (closingPhoto) return;
+    closingPhoto = true;
+    const full = document.getElementById('photo-full'), start = full.getBoundingClientRect(), end = sourcePhoto.getBoundingClientRect();
+    full.getAnimations().forEach(a => a.cancel());
+    const animation = full.animate([{transform:'none',opacity:1},{transform:`translate(${end.x-start.x}px,${end.y-start.y}px) scale(${end.width/start.width},${end.height/start.height})`,opacity:.2}],{duration:450,easing:'cubic-bezier(.4,0,.2,1)'});
+    animation.finished.catch(() => {}).finally(() => { dialog.close(); closingPhoto=false; sourcePhoto=null; });
+  }
+  document.getElementById('photo-close').addEventListener('click', closePhoto, true);
+  dialog.addEventListener('cancel', closePhoto);
+  dialog.addEventListener('click', event => { if(event.target===dialog) closePhoto(event); }, true);
+  const observer = new IntersectionObserver(entries => {
+    if (introduced || innerWidth >= 1000 || document.getElementById('story').getAttribute('aria-hidden') === 'true') return;
+    if (entries.some(entry => entry.isIntersecting && entry.intersectionRatio >= .45)) { introduced=true; celebrate(true); observer.disconnect(); }
+  }, {threshold:[0,.45,.7]});
+  observer.observe(frames[0].querySelector('.story-photo'));
+  show(0, false);
 })();

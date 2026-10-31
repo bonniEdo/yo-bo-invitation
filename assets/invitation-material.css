@@ -46,3 +46,13 @@
 
 /* Decorative edges share the printed cover visibility, including Safari layers. */
 .book-backcover[aria-hidden="true"] .backcover-page-stack{visibility:hidden;opacity:0}
+
+/* A closed back cover has its fore-edge on the left, with the spine on the right. */
+.backcover-page-stack{inset:2px 2px calc(-1*var(--paper-bottom)) calc(-1*var(--paper-edge));box-shadow:-1px 1px 0 #e2dfd3,-2px 2px 0 #f8f6ee,-5px 8px 14px #4d493218,-14px 22px 32px -12px #41402e35}
+.backcover-page-stack:before{left:0;right:auto;border-left:0;border-right:1px solid #e0dbcd;transform:skewY(-4deg);transform-origin:right top}
+.backcover-page-stack:after{transform:skewX(-8deg);transform-origin:left top}
+.book-enabled .backcover-magazine{box-shadow:inset -2px 0 5px #0001,-1px 1px 1px #322d2133}
+.photo-golden-light{position:absolute;inset:0;pointer-events:none;opacity:0;background:linear-gradient(110deg,transparent 25%,#fff4cf77 48%,#fffbe8aa 51%,transparent 75%);z-index:2}
+#photo-full{transform-origin:0 0}
+#story .gallery-ready .story-track{transition-duration:.8s}
+@media(prefers-reduced-motion:reduce){#story .gallery-ready .story-track{transition:none}}
