@@ -179,3 +179,6 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 
 /* Keep the longer attendance option readable on one line. */
 #survey-form .choices label:has(input[name="attendance"][value="no"]){grid-column:1 / -1;font-size:clamp(20px,7vw,30px);letter-spacing:0;white-space:nowrap}
+
+#survey-form .invitation-choices{grid-template-columns:1fr 1fr}
+@media(max-width:600px){#survey-form .invitation-choices{grid-template-columns:1fr}}
