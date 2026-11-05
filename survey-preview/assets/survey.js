@@ -86,8 +86,8 @@
     if(loveLevel===100){loveLevel=20;charge.classList.remove('is-full');loveCelebration.hidden=true;}
     else loveLevel+=20;
     charge.dataset.charge=String(loveLevel);
-    // The visible heart occupies y=14..89; its wave rises from the tip to the top.
-    water.style.transform=`translateY(${90-loveLevel*.9}px)`;
+    // Match the visible font heart (y=21..79) as the wave rises.
+    water.style.transform=`translateY(${80-loveLevel*.6}px)`;
     charge.setAttribute('aria-label',`點一下幫愛心加滿，目前 ${loveLevel}%`);
     chargeStatus.textContent=`愛心已補滿 ${loveLevel}%`;
     if(lovePulse){lovePulse.cancel();lovePulse=null;}
