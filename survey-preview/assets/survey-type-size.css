@@ -157,3 +157,16 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 @keyframes love-invite-ring{0%{transform:scale(.85);opacity:0}25%{opacity:.7}100%{transform:scale(1.25);opacity:0}}
 @keyframes love-tap{0%,60%,100%{transform:translate(4px,5px) rotate(-12deg)}25%,40%{transform:translate(0,0) rotate(-12deg) scale(.9)}}
 @media(prefers-reduced-motion:reduce){.love-charge::before{animation:none}.love-tap-hint{animation:none}.love-charge{transition:none}}
+
+/* A delicate tap gesture and a kiss when the heart is full. */
+.love-tap-hint{width:32px;height:38px;right:1px;bottom:3px;color:#bd8867;filter:drop-shadow(0 2px 2px #965c3418)}
+.love-celebration{font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;font-size:80px;letter-spacing:0;text-shadow:none;-webkit-text-stroke:0}
+.success-heart{position:relative;isolation:isolate;width:112px;height:112px;margin:12px auto 26px;color:#e08b73;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 30% 25%,#fffdf8,#fbe3d980 65%,#f4cab540);border:1px solid #eac4b780;box-shadow:inset 0 2px 8px #fff9,0 8px 24px #d8927020}
+.success-heart-main{font-size:62px;line-height:1;display:block;animation:success-heart-beat 1.8s ease-in-out infinite}
+.success-heart i{position:absolute;bottom:35%;left:12%;font-size:19px;font-style:normal;opacity:0;animation:success-heart-rise 3s ease-out infinite}
+.success-heart i:nth-of-type(2){left:75%;animation-delay:.7s;font-size:25px}
+.success-heart i:nth-of-type(3){left:35%;animation-delay:1.5s;font-size:16px}
+.success-heart i:nth-of-type(4){left:60%;animation-delay:2.2s;font-size:21px}
+@keyframes success-heart-beat{0%,45%,100%{transform:scale(1)}15%{transform:scale(1.14)}30%{transform:scale(1.04)}}
+@keyframes success-heart-rise{0%{transform:translateY(0) scale(.5);opacity:0}20%{opacity:.85}100%{transform:translateY(-85px) scale(1.1);opacity:0}}
+@media(prefers-reduced-motion:reduce){.success-heart-main{animation:none}.success-heart i{animation:none;display:none}}
