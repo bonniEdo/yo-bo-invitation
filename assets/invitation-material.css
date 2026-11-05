@@ -56,3 +56,8 @@
 #photo-full{transform-origin:0 0}
 #story .gallery-ready .story-track{transition-duration:.8s}
 @media(prefers-reduced-motion:reduce){#story .gallery-ready .story-track{transition:none}}
+
+/* Both faces fill the same physical rectangle during the whole-book flip. */
+.whole-book-flip .whole-book-front:before{display:none}
+.whole-book-flip .whole-book-front>.invitation-paper{position:absolute;inset:0;transform:none;box-shadow:none}
+.whole-book-flip .whole-book-front .paper-content{max-width:none;width:100%;height:100%;margin:0}

@@ -1,2 +1,4 @@
-@font-face{font-family:KaiseiOpti;src:url('../../assets/fonts/KaiseiOpti-Regular.ttf') format('truetype');font-display:swap;font-weight:400}
-:root{--zh:KaiseiOpti,'LXGW WenKai TC',WenKai,serif;--latin:var(--zh);--sans:var(--zh);--serif:var(--zh);--font:var(--zh)}
+@font-face{font-family:'Star Panda Kids';src:url('https://raw.githubusercontent.com/cyberinkflow/StarPandaKidsFonts/1934d8585394d1f0b7b148f25696c121679ef725/StarPandaKidsBeta2.1.otf') format('opentype');font-display:swap;font-weight:400}
+:root{--zh:'Star Panda Kids','LXGW WenKai TC',WenKai,serif;--latin:var(--zh);--sans:var(--zh);--serif:var(--zh);--font:var(--zh)}
+/* This face has one supplied weight; allow browser-synthesized semibold. */
+body,body *{font-weight:600!important;font-synthesis:weight}

@@ -337,6 +337,11 @@
       face.inert = true;
     });
     front.classList.remove('whole-book-face');
+    // The overlay owns the rotation; a second cover tilt clips its corners.
+    front.style.transform = 'none';
+    front.style.width = '100%';
+    front.style.height = '100%';
+    front.style.margin = '0';
     const frontFace = document.createElement('div');
     frontFace.className = 'book-cover whole-book-face whole-book-front';
     frontFace.append(front);
