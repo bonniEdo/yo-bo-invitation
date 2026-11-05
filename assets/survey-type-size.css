@@ -172,3 +172,7 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 @media(prefers-reduced-motion:reduce){.success-heart-main{animation:none}.success-heart i{animation:none;display:none}}
 
 #response-summary,#receipt-note{white-space:pre-line}
+
+.attendance-highlight{color:#3569a8}
+
+.masthead .wordmark,.masthead .wordmark small{color:#3569a8}
