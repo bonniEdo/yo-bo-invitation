@@ -215,8 +215,9 @@
       // An opaque response cannot confirm Google has stored the submission.
       form.hidden=true;document.getElementById('survey-success').hidden=false;
       document.getElementById('success-title').textContent='回覆已送出';
-      document.getElementById('receipt-note').textContent='若有變動，再告訴我們就好。';
-      document.getElementById('response-summary').textContent={yes:"太棒了！can't wait 🥳",maybe:"好的猶豫好再跟我說～🥸",no:"那就另約另約拉 ☺️"}[record.attendance];
+      document.getElementById('receipt-note').textContent='若有變動\n再跟我們說';
+      document.getElementById('receipt-note').hidden=record.attendance==='maybe';
+      document.getElementById('response-summary').textContent={yes:"太棒了！can't wait 🥳",maybe:"好的\n猶豫好再跟我們說",no:"那就另約另約拉 ☺️"}[record.attendance];
       document.getElementById('success-title').focus({preventScroll:true});
     }catch{status.textContent='尚未確認送出，請稍後重試，填寫內容已保留。';status.focus();}
     finally{clearTimeout(timer);pending=false;submit.disabled=false;submit.textContent='送出意願 ♡';}
