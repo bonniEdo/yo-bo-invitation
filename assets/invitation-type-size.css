@@ -1,197 +1,197 @@
-/* Two-pixel readability increase; original responsive size rules are preserved. */
-body{font-size:calc(14px + 2px)}
+/* Four-pixel readability increase; original responsive size rules are preserved. */
+body{font-size:calc(14px + 4px)}
 button, input, select, textarea{font-size:inherit}
-.brand{font-size:calc(13px + 2px)}
-.brand-mark{font-size:calc(25px + 2px)}
-.site-header nav{font-size:calc(12px + 2px)}
-.eyebrow{font-size:calc(9px + 2px)}
-.hero h1{font-size:calc(clamp(52px, 5.3vw, 76px) + 2px)}
-.hero-description{font-size:calc(15px + 2px)}
-.hero-description > span{font-size:calc(12px + 2px)}
-.button{font-size:calc(12px + 2px)}
-.button span{font-size:calc(19px + 2px)}
-.edition{font-size:calc(7px + 2px)}
-.hero-footnote{font-size:calc(8px + 2px)}
-.scroll-cue{font-size:calc(21px + 2px)}
-.paper-topline{font-size:calc(8px + 2px)}
-.paper-topline span:last-child{font-size:calc(15px + 2px)}
-.portrait-mark{font-size:calc(100px + 2px)}
-.portrait-mark > span{font-size:calc(40px + 2px)}
-.photo-note{font-size:calc(7px + 2px)}
-.paper-names{font-size:calc(12px + 2px)}
-.paper-bottom{font-size:calc(8px + 2px)}
-.art-caption{font-size:calc(8px + 2px)}
-.art-note{font-size:calc(19px + 2px)}
-.sun-sticker > span{font-size:calc(104px + 2px)}
-.sun-sticker small{font-size:calc(8px + 2px)}
-.section-heading h2{font-size:calc(42px + 2px)}
-.sample-label{font-size:calc(10px + 2px)}
-.duo-heading{font-size:calc(38px + 2px)}
-.personality-symbol{font-size:calc(40px + 2px)}
-.personality-name{font-size:calc(22px + 2px)}
-.personality-name small{font-size:calc(7px + 2px)}
-.personality-copy{font-size:calc(11px + 2px)}
-.personality-extra{font-size:calc(11px + 2px)}
-.personality-hint{font-size:calc(8px + 2px)}
-.scratch-copy h3{font-size:calc(30px + 2px)}
-.scratch-copy p:not(.eyebrow){font-size:calc(11px + 2px)}
-.scratch-prize > span:first-child{font-size:calc(11px + 2px)}
-.scratch-prize strong{font-size:calc(78px + 2px)}
-.scratch-prize strong span{font-size:calc(8px + 2px)}
-.scratch-prize p{font-size:calc(9px + 2px)}
-.scratch-stamp{font-size:calc(35px + 2px)}
-.text-action{font-size:calc(10px + 2px)}
-.detail-top{font-size:calc(8px + 2px)}
-.detail-top > span:last-child{font-size:calc(21px + 2px)}
-.detail-card h3{font-size:calc(25px + 2px)}
-.detail-weekday{font-size:calc(11px + 2px)}
-.time-row strong{font-size:calc(31px + 2px)}
-.time-row > div > span{font-size:calc(10px + 2px)}
-.venue-room, .venue-address{font-size:calc(12px + 2px)}
-.venue-note{font-size:calc(11px + 2px)}
-.venue-sprig{font-size:calc(45px + 2px)}
-.details-next p{font-size:calc(12px + 2px)}
-.rsvp-intro h2{font-size:calc(45px + 2px)}
-.rsvp-intro > p:not(.eyebrow){font-size:calc(13px + 2px)}
-.reply-deadline > span{font-size:calc(35px + 2px)}
-.reply-deadline p{font-size:calc(11px + 2px)}
-.reply-deadline p span{font-size:calc(10px + 2px)}
-.rsvp-doodle{font-size:calc(110px + 2px)}
-.rsvp-doodle span{font-size:calc(80px + 2px)}
-.form-heading{font-size:calc(9px + 2px)}
-.form-heading > span:last-child{font-size:calc(22px + 2px)}
-.field > label, legend{font-size:calc(12px + 2px)}
-.required-note, .optional-note{font-size:calc(9px + 2px)}
-input:not([type="radio"]):not([type="file"]), select, textarea{font-size:calc(13px + 2px)}
-input::placeholder, textarea::placeholder{font-size:calc(11px + 2px)}
-.choice-icon{font-size:calc(22px + 2px)}
-.attendance-choice strong{font-size:calc(11px + 2px)}
-.attendance-choice small{font-size:calc(8px + 2px)}
-.field-note, .form-footnote, .google-form-alternative{font-size:calc(10px + 2px)}
-.message-footer{font-size:calc(8px + 2px)}
-.form-status{font-size:calc(12px + 2px)}
-.gallery-note{font-size:calc(10px + 2px)}
-.photo-monogram{font-size:calc(clamp(60px,9vw,130px) + 2px)}
-.photo-item figcaption{font-size:calc(9px + 2px)}
-.countdown strong{font-size:calc(120px + 2px)}
-.countdown > span{font-size:calc(8px + 2px)}
-.closing h2{font-size:calc(45px + 2px)}
-.closing h2 > span{font-size:calc(15px + 2px)}
-.closing-signature{font-size:calc(19px + 2px)}
-.site-footer{font-size:calc(10px + 2px)}
-.site-footer > span{font-size:calc(7px + 2px)}
-.footer-couple{font-size:calc(12px + 2px)}
+.brand{font-size:calc(13px + 4px)}
+.brand-mark{font-size:calc(25px + 4px)}
+.site-header nav{font-size:calc(12px + 4px)}
+.eyebrow{font-size:calc(9px + 4px)}
+.hero h1{font-size:calc(clamp(52px, 5.3vw, 76px) + 4px)}
+.hero-description{font-size:calc(15px + 4px)}
+.hero-description > span{font-size:calc(12px + 4px)}
+.button{font-size:calc(12px + 4px)}
+.button span{font-size:calc(19px + 4px)}
+.edition{font-size:calc(7px + 4px)}
+.hero-footnote{font-size:calc(8px + 4px)}
+.scroll-cue{font-size:calc(21px + 4px)}
+.paper-topline{font-size:calc(8px + 4px)}
+.paper-topline span:last-child{font-size:calc(15px + 4px)}
+.portrait-mark{font-size:calc(100px + 4px)}
+.portrait-mark > span{font-size:calc(40px + 4px)}
+.photo-note{font-size:calc(7px + 4px)}
+.paper-names{font-size:calc(12px + 4px)}
+.paper-bottom{font-size:calc(8px + 4px)}
+.art-caption{font-size:calc(8px + 4px)}
+.art-note{font-size:calc(19px + 4px)}
+.sun-sticker > span{font-size:calc(104px + 4px)}
+.sun-sticker small{font-size:calc(8px + 4px)}
+.section-heading h2{font-size:calc(42px + 4px)}
+.sample-label{font-size:calc(10px + 4px)}
+.duo-heading{font-size:calc(38px + 4px)}
+.personality-symbol{font-size:calc(40px + 4px)}
+.personality-name{font-size:calc(22px + 4px)}
+.personality-name small{font-size:calc(7px + 4px)}
+.personality-copy{font-size:calc(11px + 4px)}
+.personality-extra{font-size:calc(11px + 4px)}
+.personality-hint{font-size:calc(8px + 4px)}
+.scratch-copy h3{font-size:calc(30px + 4px)}
+.scratch-copy p:not(.eyebrow){font-size:calc(11px + 4px)}
+.scratch-prize > span:first-child{font-size:calc(11px + 4px)}
+.scratch-prize strong{font-size:calc(78px + 4px)}
+.scratch-prize strong span{font-size:calc(8px + 4px)}
+.scratch-prize p{font-size:calc(9px + 4px)}
+.scratch-stamp{font-size:calc(35px + 4px)}
+.text-action{font-size:calc(10px + 4px)}
+.detail-top{font-size:calc(8px + 4px)}
+.detail-top > span:last-child{font-size:calc(21px + 4px)}
+.detail-card h3{font-size:calc(25px + 4px)}
+.detail-weekday{font-size:calc(11px + 4px)}
+.time-row strong{font-size:calc(31px + 4px)}
+.time-row > div > span{font-size:calc(10px + 4px)}
+.venue-room, .venue-address{font-size:calc(12px + 4px)}
+.venue-note{font-size:calc(11px + 4px)}
+.venue-sprig{font-size:calc(45px + 4px)}
+.details-next p{font-size:calc(12px + 4px)}
+.rsvp-intro h2{font-size:calc(45px + 4px)}
+.rsvp-intro > p:not(.eyebrow){font-size:calc(13px + 4px)}
+.reply-deadline > span{font-size:calc(35px + 4px)}
+.reply-deadline p{font-size:calc(11px + 4px)}
+.reply-deadline p span{font-size:calc(10px + 4px)}
+.rsvp-doodle{font-size:calc(110px + 4px)}
+.rsvp-doodle span{font-size:calc(80px + 4px)}
+.form-heading{font-size:calc(9px + 4px)}
+.form-heading > span:last-child{font-size:calc(22px + 4px)}
+.field > label, legend{font-size:calc(12px + 4px)}
+.required-note, .optional-note{font-size:calc(9px + 4px)}
+input:not([type="radio"]):not([type="file"]), select, textarea{font-size:calc(13px + 4px)}
+input::placeholder, textarea::placeholder{font-size:calc(11px + 4px)}
+.choice-icon{font-size:calc(22px + 4px)}
+.attendance-choice strong{font-size:calc(11px + 4px)}
+.attendance-choice small{font-size:calc(8px + 4px)}
+.field-note, .form-footnote, .google-form-alternative{font-size:calc(10px + 4px)}
+.message-footer{font-size:calc(8px + 4px)}
+.form-status{font-size:calc(12px + 4px)}
+.gallery-note{font-size:calc(10px + 4px)}
+.photo-monogram{font-size:calc(clamp(60px,9vw,130px) + 4px)}
+.photo-item figcaption{font-size:calc(9px + 4px)}
+.countdown strong{font-size:calc(120px + 4px)}
+.countdown > span{font-size:calc(8px + 4px)}
+.closing h2{font-size:calc(45px + 4px)}
+.closing h2 > span{font-size:calc(15px + 4px)}
+.closing-signature{font-size:calc(19px + 4px)}
+.site-footer{font-size:calc(10px + 4px)}
+.site-footer > span{font-size:calc(7px + 4px)}
+.footer-couple{font-size:calc(12px + 4px)}
 @media (max-width: 1000px){
-.hero h1{font-size:calc(50px + 2px)}
-.duo-heading{font-size:calc(31px + 2px)}
-.rsvp-intro h2{font-size:calc(34px + 2px)}
+.hero h1{font-size:calc(50px + 4px)}
+.duo-heading{font-size:calc(31px + 4px)}
+.rsvp-intro h2{font-size:calc(34px + 4px)}
 }
 @media (max-width: 760px){
-.brand{font-size:calc(10px + 2px)}
-.brand-mark{font-size:calc(22px + 2px)}
-.site-header nav{font-size:calc(10px + 2px)}
-.eyebrow{font-size:calc(8px + 2px)}
-.hero h1{font-size:calc(46px + 2px)}
-.hero-description{font-size:calc(12px + 2px)}
-.hero-description > span{font-size:calc(10px + 2px)}
-.button{font-size:calc(11px + 2px)}
-.hero-footnote{font-size:calc(7px + 2px)}
-.paper-title{font-size:calc(29px + 2px)}
-.paper-names{font-size:calc(11px + 2px)}
-.paper-bottom{font-size:calc(6px + 2px)}
-.paper-topline{font-size:calc(6px + 2px)}
-.portrait-mark{font-size:calc(76px + 2px)}
-.portrait-mark > span{font-size:calc(30px + 2px)}
-.photo-note{font-size:calc(6px + 2px)}
-.sun-sticker > span{font-size:calc(80px + 2px)}
-.sun-sticker small{font-size:calc(7px + 2px)}
-.art-caption{font-size:calc(6px + 2px)}
-.art-note{font-size:calc(16px + 2px)}
-.section-heading h2{font-size:calc(32px + 2px)}
-.sample-label{font-size:calc(9px + 2px)}
-.duo-heading{font-size:calc(32px + 2px)}
-.personality-symbol{font-size:calc(34px + 2px)}
-.personality-name{font-size:calc(21px + 2px)}
-.personality-copy{font-size:calc(10px + 2px)}
-.personality-hint{font-size:calc(7px + 2px)}
-.scratch-copy h3{font-size:calc(27px + 2px)}
-.scratch-copy .eyebrow{font-size:calc(7px + 2px)}
-.scratch-prize strong{font-size:calc(65px + 2px)}
-.scratch-prize p{font-size:calc(8px + 2px)}
-.detail-card h3{font-size:calc(23px + 2px)}
-.details-next p{font-size:calc(11px + 2px)}
-.rsvp-intro h2{font-size:calc(36px + 2px)}
-.rsvp-intro > p:not(.eyebrow){font-size:calc(12px + 2px)}
-.attendance-choice small{font-size:calc(7px + 2px)}
-.attendance-choice strong{font-size:calc(10px + 2px)}
-.field > label, legend{font-size:calc(11px + 2px)}
-.photo-monogram{font-size:calc(85px + 2px)}
-.photo-item figcaption{font-size:calc(8px + 2px)}
-.gallery-note{font-size:calc(9px + 2px)}
-.closing .eyebrow{font-size:calc(7px + 2px)}
-.closing h2{font-size:calc(36px + 2px)}
-.closing h2 > span{font-size:calc(12px + 2px)}
-.countdown strong{font-size:calc(100px + 2px)}
-.site-footer{font-size:calc(9px + 2px)}
-.site-footer > span{font-size:calc(6px + 2px)}
-.footer-couple{font-size:calc(11px + 2px)}
+.brand{font-size:calc(10px + 4px)}
+.brand-mark{font-size:calc(22px + 4px)}
+.site-header nav{font-size:calc(10px + 4px)}
+.eyebrow{font-size:calc(8px + 4px)}
+.hero h1{font-size:calc(46px + 4px)}
+.hero-description{font-size:calc(12px + 4px)}
+.hero-description > span{font-size:calc(10px + 4px)}
+.button{font-size:calc(11px + 4px)}
+.hero-footnote{font-size:calc(7px + 4px)}
+.paper-title{font-size:calc(29px + 4px)}
+.paper-names{font-size:calc(11px + 4px)}
+.paper-bottom{font-size:calc(6px + 4px)}
+.paper-topline{font-size:calc(6px + 4px)}
+.portrait-mark{font-size:calc(76px + 4px)}
+.portrait-mark > span{font-size:calc(30px + 4px)}
+.photo-note{font-size:calc(6px + 4px)}
+.sun-sticker > span{font-size:calc(80px + 4px)}
+.sun-sticker small{font-size:calc(7px + 4px)}
+.art-caption{font-size:calc(6px + 4px)}
+.art-note{font-size:calc(16px + 4px)}
+.section-heading h2{font-size:calc(32px + 4px)}
+.sample-label{font-size:calc(9px + 4px)}
+.duo-heading{font-size:calc(32px + 4px)}
+.personality-symbol{font-size:calc(34px + 4px)}
+.personality-name{font-size:calc(21px + 4px)}
+.personality-copy{font-size:calc(10px + 4px)}
+.personality-hint{font-size:calc(7px + 4px)}
+.scratch-copy h3{font-size:calc(27px + 4px)}
+.scratch-copy .eyebrow{font-size:calc(7px + 4px)}
+.scratch-prize strong{font-size:calc(65px + 4px)}
+.scratch-prize p{font-size:calc(8px + 4px)}
+.detail-card h3{font-size:calc(23px + 4px)}
+.details-next p{font-size:calc(11px + 4px)}
+.rsvp-intro h2{font-size:calc(36px + 4px)}
+.rsvp-intro > p:not(.eyebrow){font-size:calc(12px + 4px)}
+.attendance-choice small{font-size:calc(7px + 4px)}
+.attendance-choice strong{font-size:calc(10px + 4px)}
+.field > label, legend{font-size:calc(11px + 4px)}
+.photo-monogram{font-size:calc(85px + 4px)}
+.photo-item figcaption{font-size:calc(8px + 4px)}
+.gallery-note{font-size:calc(9px + 4px)}
+.closing .eyebrow{font-size:calc(7px + 4px)}
+.closing h2{font-size:calc(36px + 4px)}
+.closing h2 > span{font-size:calc(12px + 4px)}
+.countdown strong{font-size:calc(100px + 4px)}
+.site-footer{font-size:calc(9px + 4px)}
+.site-footer > span{font-size:calc(6px + 4px)}
+.footer-couple{font-size:calc(11px + 4px)}
 }
 @media (prefers-reduced-motion: reduce){
 }
-.icon{font-size:calc(0px + 2px) !important}
-.scratch-prize .scratch-message{font-size:calc(44px + 2px)}
-.scratch-message > span{font-size:calc(8px + 2px)}
-.travel-heading h3{font-size:calc(27px + 2px)}
-.travel-heading > p:not(.eyebrow){font-size:calc(11px + 2px)}
-.venue-map > p{font-size:calc(9px + 2px)}
-.closing h2{font-size:calc(42px + 2px)}
+.icon{font-size:calc(0px + 4px) !important}
+.scratch-prize .scratch-message{font-size:calc(44px + 4px)}
+.scratch-message > span{font-size:calc(8px + 4px)}
+.travel-heading h3{font-size:calc(27px + 4px)}
+.travel-heading > p:not(.eyebrow){font-size:calc(11px + 4px)}
+.venue-map > p{font-size:calc(9px + 4px)}
+.closing h2{font-size:calc(42px + 4px)}
 @media (max-width: 760px){
-.scratch-prize .scratch-message{font-size:calc(34px + 2px)}
-.travel-heading h3{font-size:calc(25px + 2px)}
-.venue-map > p{font-size:calc(8px + 2px)}
-.closing h2{font-size:calc(30px + 2px)}
+.scratch-prize .scratch-message{font-size:calc(34px + 4px)}
+.travel-heading h3{font-size:calc(25px + 4px)}
+.venue-map > p{font-size:calc(8px + 4px)}
+.closing h2{font-size:calc(30px + 4px)}
 }
-.dialog-close{font-size:calc(11px + 2px)}
-#calendar-title{font-size:calc(27px + 2px)}
-.calendar-summary{font-size:calc(11px + 2px)}
-#calendar-help{font-size:calc(11px + 2px)}
-.calendar-download{font-size:calc(10px + 2px)}
+.dialog-close{font-size:calc(11px + 4px)}
+#calendar-title{font-size:calc(27px + 4px)}
+.calendar-summary{font-size:calc(11px + 4px)}
+#calendar-help{font-size:calc(11px + 4px)}
+.calendar-download{font-size:calc(10px + 4px)}
 @media (max-width: 420px){
-#calendar-title{font-size:calc(25px + 2px)}
-.calendar-summary{font-size:calc(10px + 2px)}
+#calendar-title{font-size:calc(25px + 4px)}
+.calendar-summary{font-size:calc(10px + 4px)}
 }
-#calendar-copy-status{font-size:calc(11px + 2px)}
-.scratch-prize .scratch-redemption{font-size:calc(11px + 2px)}
-.scratch-prize .scratch-redemption strong{font-size:calc(11px + 2px)}
+#calendar-copy-status{font-size:calc(11px + 4px)}
+.scratch-prize .scratch-redemption{font-size:calc(11px + 4px)}
+.scratch-prize .scratch-redemption strong{font-size:calc(11px + 4px)}
 @media (max-width: 370px){
-.scratch-prize .scratch-redemption{font-size:calc(10px + 2px)}
-.scratch-prize .scratch-redemption strong{font-size:calc(10px + 2px)}
+.scratch-prize .scratch-redemption{font-size:calc(10px + 4px)}
+.scratch-prize .scratch-redemption strong{font-size:calc(10px + 4px)}
 }
-.success-panel h3{font-size:calc(25px + 2px)}
-.success-panel p{font-size:calc(12px + 2px)}
-.rsvp-receipt{font-size:calc(12px + 2px)}
-.rsvp-prompt h3{font-size:calc(35px + 2px)}
-.rsvp-prompt > p{font-size:calc(12px + 2px)}
-.rsvp-modal-header .eyebrow{font-size:calc(8px + 2px)}
-.rsvp-modal-header h2{font-size:calc(27px + 2px)}
-.rsvp-close{font-size:calc(12px + 2px)}
-#rsvp-dialog input, #rsvp-dialog textarea, #rsvp-dialog select{font-size:calc(16px + 2px)}
+.success-panel h3{font-size:calc(25px + 4px)}
+.success-panel p{font-size:calc(12px + 4px)}
+.rsvp-receipt{font-size:calc(12px + 4px)}
+.rsvp-prompt h3{font-size:calc(35px + 4px)}
+.rsvp-prompt > p{font-size:calc(12px + 4px)}
+.rsvp-modal-header .eyebrow{font-size:calc(8px + 4px)}
+.rsvp-modal-header h2{font-size:calc(27px + 4px)}
+.rsvp-close{font-size:calc(12px + 4px)}
+#rsvp-dialog input, #rsvp-dialog textarea, #rsvp-dialog select{font-size:calc(16px + 4px)}
 @media (max-width: 760px){
-.rsvp-modal-header h2{font-size:calc(24px + 2px)}
+.rsvp-modal-header h2{font-size:calc(24px + 4px)}
 }
-.book-enabled .paper-flight .paper-title{font-size:calc(calc(37px + var(--paper-fit,0)*22px) + 2px)}
-.page-folio{font-size:calc(7px + 2px)}
+.book-enabled .paper-flight .paper-title{font-size:calc(calc(37px + var(--paper-fit,0)*22px) + 4px)}
+.page-folio{font-size:calc(7px + 4px)}
 @media (max-width: 1100px){
 }
 @media (max-width: 760px){
-.hero-actions .button{font-size:calc(10px + 2px)}
-.book-enabled .paper-flight .paper-title{font-size:calc(calc(29px + var(--paper-fit,0)*8px) + 2px)}
-.page-folio{font-size:calc(6px + 2px)}
+.hero-actions .button{font-size:calc(10px + 4px)}
+.book-enabled .paper-flight .paper-title{font-size:calc(calc(29px + var(--paper-fit,0)*8px) + 4px)}
+.page-folio{font-size:calc(6px + 4px)}
 }
 @media (max-width: 370px){
-.hero h1{font-size:calc(40px + 2px)}
-.paper-title{font-size:calc(25px + 2px)}
-.book-enabled .paper-flight .paper-title{font-size:calc(calc(25px + var(--paper-fit,0)*8px) + 2px)}
+.hero h1{font-size:calc(40px + 4px)}
+.paper-title{font-size:calc(25px + 4px)}
+.book-enabled .paper-flight .paper-title{font-size:calc(calc(25px + var(--paper-fit,0)*8px) + 4px)}
 }
 @media (prefers-reduced-motion: reduce){
 }
@@ -201,293 +201,293 @@ input::placeholder, textarea::placeholder{font-size:calc(11px + 2px)}
 }
 @media (max-width: 370px){
 }
-.story-introduction{font-size:calc(13px + 2px)}
-.story-frame h3{font-size:calc(32px + 2px)}
-.story-frame figcaption > p{font-size:calc(12px + 2px)}
-.story-scroll-note{font-size:calc(8px + 2px)}
-.thankyou-heading h2{font-size:calc(clamp(42px, 5vw, 64px) + 2px)}
-.thankyou-heading > p:not(.eyebrow):not(.closing-signature){font-size:calc(13px + 2px)}
-.thankyou-footer .countdown strong{font-size:calc(75px + 2px)}
-.thankyou-footer > p{font-size:calc(12px + 2px)}
+.story-introduction{font-size:calc(13px + 4px)}
+.story-frame h3{font-size:calc(32px + 4px)}
+.story-frame figcaption > p{font-size:calc(12px + 4px)}
+.story-scroll-note{font-size:calc(8px + 4px)}
+.thankyou-heading h2{font-size:calc(clamp(42px, 5vw, 64px) + 4px)}
+.thankyou-heading > p:not(.eyebrow):not(.closing-signature){font-size:calc(13px + 4px)}
+.thankyou-footer .countdown strong{font-size:calc(75px + 4px)}
+.thankyou-footer > p{font-size:calc(12px + 4px)}
 @media (max-width: 760px){
-.page-actions .button{font-size:calc(10px + 2px)}
-.story-introduction{font-size:calc(11px + 2px)}
-.story-frame h3{font-size:calc(25px + 2px)}
-.story-frame figcaption > p{font-size:calc(10px + 2px)}
-.story-frame figcaption .eyebrow{font-size:calc(7px + 2px)}
-.story-scroll-note{font-size:calc(6px + 2px)}
-.thankyou-heading h2{font-size:calc(42px + 2px)}
-.thankyou-heading > p:not(.eyebrow):not(.closing-signature){font-size:calc(11px + 2px)}
-.thankyou-footer > p{font-size:calc(10px + 2px)}
-.thankyou-footer .countdown strong{font-size:calc(60px + 2px)}
+.page-actions .button{font-size:calc(10px + 4px)}
+.story-introduction{font-size:calc(11px + 4px)}
+.story-frame h3{font-size:calc(25px + 4px)}
+.story-frame figcaption > p{font-size:calc(10px + 4px)}
+.story-frame figcaption .eyebrow{font-size:calc(7px + 4px)}
+.story-scroll-note{font-size:calc(6px + 4px)}
+.thankyou-heading h2{font-size:calc(42px + 4px)}
+.thankyou-heading > p:not(.eyebrow):not(.closing-signature){font-size:calc(11px + 4px)}
+.thankyou-footer > p{font-size:calc(10px + 4px)}
+.thankyou-footer .countdown strong{font-size:calc(60px + 4px)}
 }
 @media (prefers-reduced-motion: reduce){
 }
-.story-scroll-note{font-size:calc(9px + 2px)}
-.story-scroll-note .text-action{font-size:calc(10px + 2px)}
-.backcover-top, .backcover-bottom{font-size:calc(6px + 2px)}
-.backcover-copy h2{font-size:calc(40px + 2px)}
-.backcover-copy .eyebrow{font-size:calc(6px + 2px)}
-.backcover-copy > p:last-child{font-size:calc(15px + 2px)}
+.story-scroll-note{font-size:calc(9px + 4px)}
+.story-scroll-note .text-action{font-size:calc(10px + 4px)}
+.backcover-top, .backcover-bottom{font-size:calc(6px + 4px)}
+.backcover-copy h2{font-size:calc(40px + 4px)}
+.backcover-copy .eyebrow{font-size:calc(6px + 4px)}
+.backcover-copy > p:last-child{font-size:calc(15px + 4px)}
 @media (max-width: 760px){
-.story-scroll-note{font-size:calc(8px + 2px)}
-.story-scroll-note .text-action{font-size:calc(9px + 2px)}
-.backcover-top, .backcover-bottom{font-size:calc(5px + 2px)}
-.backcover-copy h2{font-size:calc(31px + 2px)}
-.backcover-copy .eyebrow{font-size:calc(5px + 2px)}
-.backcover-copy > p:last-child{font-size:calc(12px + 2px)}
-.backcover-actions .text-action{font-size:calc(10px + 2px)}
+.story-scroll-note{font-size:calc(8px + 4px)}
+.story-scroll-note .text-action{font-size:calc(9px + 4px)}
+.backcover-top, .backcover-bottom{font-size:calc(5px + 4px)}
+.backcover-copy h2{font-size:calc(31px + 4px)}
+.backcover-copy .eyebrow{font-size:calc(5px + 4px)}
+.backcover-copy > p:last-child{font-size:calc(12px + 4px)}
+.backcover-actions .text-action{font-size:calc(10px + 4px)}
 }
 @media (prefers-reduced-motion: reduce){
 }
-.book-enabled .backcover-copy h2{font-size:calc(clamp(28px, 3vw, 40px) + 2px)}
+.book-enabled .backcover-copy h2{font-size:calc(clamp(28px, 3vw, 40px) + 4px)}
 @media (prefers-reduced-motion: reduce){
 }
-.personality-name{font-size:calc(27px + 2px)}
-.personality-name small{font-size:calc(8px + 2px)}
-.personality-copy{font-size:calc(13px + 2px)}
-.personality-extra{font-size:calc(12px + 2px)}
-.personality-hint{font-size:calc(12px + 2px)}
-.book-details .time-card::after{font-size:calc(17px + 2px)}
-.venue-card .venue-address{font-size:calc(12px + 2px)}
-.venue-directions{font-size:calc(11px + 2px)}
-.story-arrow span{font-size:calc(10px + 2px)}
-.story-controls-flourish{font-size:calc(17px + 2px)}
-.story-progress button::before{font-size:calc(19px + 2px)}
+.personality-name{font-size:calc(27px + 4px)}
+.personality-name small{font-size:calc(8px + 4px)}
+.personality-copy{font-size:calc(13px + 4px)}
+.personality-extra{font-size:calc(12px + 4px)}
+.personality-hint{font-size:calc(12px + 4px)}
+.book-details .time-card::after{font-size:calc(17px + 4px)}
+.venue-card .venue-address{font-size:calc(12px + 4px)}
+.venue-directions{font-size:calc(11px + 4px)}
+.story-arrow span{font-size:calc(10px + 4px)}
+.story-controls-flourish{font-size:calc(17px + 4px)}
+.story-progress button::before{font-size:calc(19px + 4px)}
 @media (max-width: 760px){
-.personality-name{font-size:calc(22px + 2px)}
-.personality-name small{font-size:calc(7px + 2px)}
-.personality-copy{font-size:calc(11px + 2px)}
-.personality-hint{font-size:calc(11px + 2px)}
-.story-controls-flourish{font-size:calc(14px + 2px)}
+.personality-name{font-size:calc(22px + 4px)}
+.personality-name small{font-size:calc(7px + 4px)}
+.personality-copy{font-size:calc(11px + 4px)}
+.personality-hint{font-size:calc(11px + 4px)}
+.story-controls-flourish{font-size:calc(14px + 4px)}
 }
 @media (max-width: 370px){
-.personality-hint{font-size:calc(10px + 2px)}
-.personality-name{font-size:calc(20px + 2px)}
-.personality-name small{font-size:calc(6px + 2px)}
+.personality-hint{font-size:calc(10px + 4px)}
+.personality-name{font-size:calc(20px + 4px)}
+.personality-name small{font-size:calc(6px + 4px)}
 }
-.book-cover .hero-actions .button{font-size:calc(11px + 2px)}
-.book-cover .hero-footnote{font-size:calc(7px + 2px)}
-.book-cover .paper-topline{font-size:calc(6px + 2px)}
-.book-cover .paper-topline span:last-child{font-size:calc(6px + 2px)}
-.magazine-masthead{font-size:calc(clamp(56px,7vw,90px) + 2px)}
-.book-cover .paper-names{font-size:calc(9px + 2px)}
-.book-cover .paper-title, .book-enabled .paper-flight .paper-title{font-size:calc(clamp(29px,3vw,43px) + 2px)}
-.magazine-coverline{font-size:calc(9px + 2px)}
-.magazine-coverline span{font-size:calc(5px + 2px)}
-.book-cover .paper-bottom{font-size:calc(5px + 2px)}
-.book-cover .art-caption{font-size:calc(7px + 2px)}
-.book-cover .art-note{font-size:calc(19px + 2px)}
-.book-cover .sun-sticker > span{font-size:calc(95px + 2px)}
-.book-cover .sun-sticker small{font-size:calc(6px + 2px)}
-.book-cover .page-folio{font-size:calc(6px + 2px)}
+.book-cover .hero-actions .button{font-size:calc(11px + 4px)}
+.book-cover .hero-footnote{font-size:calc(7px + 4px)}
+.book-cover .paper-topline{font-size:calc(6px + 4px)}
+.book-cover .paper-topline span:last-child{font-size:calc(6px + 4px)}
+.magazine-masthead{font-size:calc(clamp(56px,7vw,90px) + 4px)}
+.book-cover .paper-names{font-size:calc(9px + 4px)}
+.book-cover .paper-title, .book-enabled .paper-flight .paper-title{font-size:calc(clamp(29px,3vw,43px) + 4px)}
+.magazine-coverline{font-size:calc(9px + 4px)}
+.magazine-coverline span{font-size:calc(5px + 4px)}
+.book-cover .paper-bottom{font-size:calc(5px + 4px)}
+.book-cover .art-caption{font-size:calc(7px + 4px)}
+.book-cover .art-note{font-size:calc(19px + 4px)}
+.book-cover .sun-sticker > span{font-size:calc(95px + 4px)}
+.book-cover .sun-sticker small{font-size:calc(6px + 4px)}
+.book-cover .page-folio{font-size:calc(6px + 4px)}
 @media (max-width: 760px){
-.magazine-masthead{font-size:calc(65px + 2px)}
-.book-cover .paper-names{font-size:calc(7px + 2px)}
-.book-cover .paper-title, .book-enabled .paper-flight .paper-title{font-size:calc(29px + 2px)}
-.book-cover .paper-topline{font-size:calc(5px + 2px)}
-.book-cover .paper-topline span:last-child{font-size:calc(5px + 2px)}
-.book-cover .paper-bottom{font-size:calc(4px + 2px)}
-.magazine-coverline{font-size:calc(7px + 2px)}
-.magazine-coverline span{font-size:calc(4px + 2px)}
-.book-cover .art-caption{font-size:calc(5px + 2px)}
-.book-cover .sun-sticker > span{font-size:calc(60px + 2px)}
-.book-cover .hero-actions .button{font-size:calc(10px + 2px)}
-.book-cover .hero-footnote{font-size:calc(6px + 2px)}
+.magazine-masthead{font-size:calc(65px + 4px)}
+.book-cover .paper-names{font-size:calc(7px + 4px)}
+.book-cover .paper-title, .book-enabled .paper-flight .paper-title{font-size:calc(29px + 4px)}
+.book-cover .paper-topline{font-size:calc(5px + 4px)}
+.book-cover .paper-topline span:last-child{font-size:calc(5px + 4px)}
+.book-cover .paper-bottom{font-size:calc(4px + 4px)}
+.magazine-coverline{font-size:calc(7px + 4px)}
+.magazine-coverline span{font-size:calc(4px + 4px)}
+.book-cover .art-caption{font-size:calc(5px + 4px)}
+.book-cover .sun-sticker > span{font-size:calc(60px + 4px)}
+.book-cover .hero-actions .button{font-size:calc(10px + 4px)}
+.book-cover .hero-footnote{font-size:calc(6px + 4px)}
 }
 @media (max-width: 370px){
-.magazine-masthead{font-size:calc(57px + 2px)}
-.book-cover .paper-title, .book-enabled .paper-flight .paper-title{font-size:calc(26px + 2px)}
-.magazine-coverline{font-size:calc(6px + 2px)}
+.magazine-masthead{font-size:calc(57px + 4px)}
+.book-cover .paper-title, .book-enabled .paper-flight .paper-title{font-size:calc(26px + 4px)}
+.magazine-coverline{font-size:calc(6px + 4px)}
 }
 @media (prefers-reduced-motion: reduce){
 }
 @media (prefers-reduced-motion: reduce){
 }
-.book-cover .magazine-masthead{font-size:calc(clamp(32px, 14cqw, 60px) + 2px)}
-.book-cover .paper-names{font-size:calc(clamp(12px, 5cqw, 22px) + 2px)}
+.book-cover .magazine-masthead{font-size:calc(clamp(32px, 14cqw, 60px) + 4px)}
+.book-cover .paper-names{font-size:calc(clamp(12px, 5cqw, 22px) + 4px)}
 @media (max-width: 760px){
-.site-header .brand{font-size:calc(11px + 2px)}
+.site-header .brand{font-size:calc(11px + 4px)}
 }
 .book-cover .magazine-coverline .cover-ink{font-size:inherit}
 @media (max-width: 760px){
 }
 @media (prefers-reduced-motion: reduce){
 }
-.action-control, #invitation .action-control, #story .action-control, #details .action-control, #rsvp .action-control, #thanks .action-control, #backcover .action-control, #calendar-dialog .action-control, #rsvp-dialog .action-control, #photo-dialog .action-control, #story-dialog .action-control, .site-header .action-control, .site-footer .action-control{font-size:calc(12px + 2px)}
-.name-pair strong{font-size:calc(1em + 2px)}
-.name-pair small{font-size:calc(10px + 2px)}
-.book-cover .paper-names{font-size:calc(clamp(14px, 5cqw, 22px) + 2px)}
-.book-cover .paper-names small{font-size:calc(clamp(8px, 2.8cqw, 12px) + 2px)}
-#invitation .hero-actions .action-control{font-size:calc(11px + 2px)}
-#invitation .sun-sticker > span{font-size:calc(24px + 2px)}
-#invitation .sun-sticker small{font-size:calc(10px + 2px)}
-#story .story-progress button::before{font-size:calc(20px + 2px)}
-#story .personality .personality-name{font-size:calc(28px + 2px)}
-#story .personality .personality-name small{font-size:calc(12px + 2px)}
-#story .duo-heading{font-size:calc(clamp(25px, 3vw, 38px) + 2px)}
-#story .personality-extra{font-size:calc(12px + 2px)}
-#story .gallery-ready .story-frame figcaption h3{font-size:calc(clamp(24px, 2.5vw, 34px) + 2px)}
-#story .gallery-ready .story-frame figcaption > p{font-size:calc(12px + 2px)}
-.story-next-chapter h3{font-size:calc(28px + 2px)}
-.story-next-chapter > p:not(.eyebrow){font-size:calc(13px + 2px)}
-#backcover .backcover-actions .action-control{font-size:calc(11px + 2px)}
-#rsvp-dialog .rsvp-modal-header h2{font-size:calc(25px + 2px)}
-.story-reader-header h2{font-size:calc(28px + 2px)}
-.story-reader-header .eyebrow{font-size:calc(9px + 2px)}
-.story-reader-body p{font-size:calc(15px + 2px)}
-.chapter-number{font-size:calc(31px + 2px)}
-.story-chapter h3{font-size:calc(23px + 2px)}
-.story-reader-ending > p{font-size:calc(19px + 2px)}
+.action-control, #invitation .action-control, #story .action-control, #details .action-control, #rsvp .action-control, #thanks .action-control, #backcover .action-control, #calendar-dialog .action-control, #rsvp-dialog .action-control, #photo-dialog .action-control, #story-dialog .action-control, .site-header .action-control, .site-footer .action-control{font-size:calc(12px + 4px)}
+.name-pair strong{font-size:calc(1em + 4px)}
+.name-pair small{font-size:calc(10px + 4px)}
+.book-cover .paper-names{font-size:calc(clamp(14px, 5cqw, 22px) + 4px)}
+.book-cover .paper-names small{font-size:calc(clamp(8px, 2.8cqw, 12px) + 4px)}
+#invitation .hero-actions .action-control{font-size:calc(11px + 4px)}
+#invitation .sun-sticker > span{font-size:calc(24px + 4px)}
+#invitation .sun-sticker small{font-size:calc(10px + 4px)}
+#story .story-progress button::before{font-size:calc(20px + 4px)}
+#story .personality .personality-name{font-size:calc(28px + 4px)}
+#story .personality .personality-name small{font-size:calc(12px + 4px)}
+#story .duo-heading{font-size:calc(clamp(25px, 3vw, 38px) + 4px)}
+#story .personality-extra{font-size:calc(12px + 4px)}
+#story .gallery-ready .story-frame figcaption h3{font-size:calc(clamp(24px, 2.5vw, 34px) + 4px)}
+#story .gallery-ready .story-frame figcaption > p{font-size:calc(12px + 4px)}
+.story-next-chapter h3{font-size:calc(28px + 4px)}
+.story-next-chapter > p:not(.eyebrow){font-size:calc(13px + 4px)}
+#backcover .backcover-actions .action-control{font-size:calc(11px + 4px)}
+#rsvp-dialog .rsvp-modal-header h2{font-size:calc(25px + 4px)}
+.story-reader-header h2{font-size:calc(28px + 4px)}
+.story-reader-header .eyebrow{font-size:calc(9px + 4px)}
+.story-reader-body p{font-size:calc(15px + 4px)}
+.chapter-number{font-size:calc(31px + 4px)}
+.story-chapter h3{font-size:calc(23px + 4px)}
+.story-reader-ending > p{font-size:calc(19px + 4px)}
 @media (max-width: 760px){
-.site-header nav .action-control{font-size:calc(10px + 2px)}
-.site-header .name-pair strong{font-size:calc(12px + 2px)}
-.site-header .name-pair small{font-size:calc(8px + 2px)}
-#invitation .sun-sticker > span{font-size:calc(20px + 2px)}
-#story .personality .personality-name{font-size:calc(24px + 2px)}
-#story .personality .personality-name small{font-size:calc(11px + 2px)}
-#story .personality .profile-toggle{font-size:calc(11px + 2px)}
-#story .gallery-ready .story-frame figcaption h3{font-size:calc(25px + 2px)}
-#story .gallery-ready .story-frame figcaption > p{font-size:calc(11px + 2px)}
-.story-next-chapter h3{font-size:calc(25px + 2px)}
-.story-next-chapter > p:not(.eyebrow){font-size:calc(12px + 2px)}
-#backcover .backcover-actions .action-control{font-size:calc(10px + 2px)}
-#rsvp-dialog .rsvp-modal-header h2{font-size:calc(22px + 2px)}
-.story-reader-header h2{font-size:calc(21px + 2px)}
-.story-reader-header .eyebrow{font-size:calc(8px + 2px)}
-.story-reader-body p{font-size:calc(14px + 2px)}
-.story-chapter h3{font-size:calc(21px + 2px)}
+.site-header nav .action-control{font-size:calc(10px + 4px)}
+.site-header .name-pair strong{font-size:calc(12px + 4px)}
+.site-header .name-pair small{font-size:calc(8px + 4px)}
+#invitation .sun-sticker > span{font-size:calc(20px + 4px)}
+#story .personality .personality-name{font-size:calc(24px + 4px)}
+#story .personality .personality-name small{font-size:calc(11px + 4px)}
+#story .personality .profile-toggle{font-size:calc(11px + 4px)}
+#story .gallery-ready .story-frame figcaption h3{font-size:calc(25px + 4px)}
+#story .gallery-ready .story-frame figcaption > p{font-size:calc(11px + 4px)}
+.story-next-chapter h3{font-size:calc(25px + 4px)}
+.story-next-chapter > p:not(.eyebrow){font-size:calc(12px + 4px)}
+#backcover .backcover-actions .action-control{font-size:calc(10px + 4px)}
+#rsvp-dialog .rsvp-modal-header h2{font-size:calc(22px + 4px)}
+.story-reader-header h2{font-size:calc(21px + 4px)}
+.story-reader-header .eyebrow{font-size:calc(8px + 4px)}
+.story-reader-body p{font-size:calc(14px + 4px)}
+.story-chapter h3{font-size:calc(21px + 4px)}
 }
 @media (max-width: 370px){
-#story .personality .personality-name{font-size:calc(22px + 2px)}
-#story .personality .profile-toggle{font-size:calc(10px + 2px)}
-#story .gallery-ready .story-frame figcaption h3{font-size:calc(23px + 2px)}
-.story-reader-header h2{font-size:calc(18px + 2px)}
-.site-footer .action-control{font-size:calc(10px + 2px)}
+#story .personality .personality-name{font-size:calc(22px + 4px)}
+#story .personality .profile-toggle{font-size:calc(10px + 4px)}
+#story .gallery-ready .story-frame figcaption h3{font-size:calc(23px + 4px)}
+.story-reader-header h2{font-size:calc(18px + 4px)}
+.site-footer .action-control{font-size:calc(10px + 4px)}
 }
 @media (max-width: 760px){
 }
-#story .story-photo-zoom{font-size:calc(11px + 2px)}
-.story-next-chapter .eyebrow{font-size:calc(9px + 2px)}
-.story-next-chapter h3{font-size:calc(clamp(24px, 3vw, 32px) + 2px)}
-#backcover .backcover-photo-zoom{font-size:calc(10px + 2px)}
-.thankyou-footer small{font-size:calc(10px + 2px)}
-.rsvp-reply-by{font-size:calc(11px + 2px)}
+#story .story-photo-zoom{font-size:calc(11px + 4px)}
+.story-next-chapter .eyebrow{font-size:calc(9px + 4px)}
+.story-next-chapter h3{font-size:calc(clamp(24px, 3vw, 32px) + 4px)}
+#backcover .backcover-photo-zoom{font-size:calc(10px + 4px)}
+.thankyou-footer small{font-size:calc(10px + 4px)}
+.rsvp-reply-by{font-size:calc(11px + 4px)}
 @media (max-width: 760px){
-.page-actions > .action-control{font-size:calc(11px + 2px)}
+.page-actions > .action-control{font-size:calc(11px + 4px)}
 }
 @media (max-width: 370px){
-.page-actions > .action-control{font-size:calc(10px + 2px)}
+.page-actions > .action-control{font-size:calc(10px + 4px)}
 }
-body{font-size:calc(16px + 2px)}
-#story .duo-heading{font-size:calc(clamp(30px,3.2vw,44px) + 2px)}
-#story .couple-intro > div > .eyebrow{font-size:calc(14px + 2px)}
-#story .personality .personality-name{font-size:calc(32px + 2px)}
-#story .personality .personality-name small{font-size:calc(16px + 2px)}
-.personality-type{font-size:calc(15px + 2px)}
-#story .personality .personality-copy{font-size:calc(15px + 2px)}
-#story .personality-extra{font-size:calc(14px + 2px)}
-.book-cover .paper-names{font-size:calc(clamp(16px, 5cqw, 24px) + 2px)}
-.book-cover .paper-names small{font-size:calc(clamp(11px,3.8cqw,16px) + 2px)}
-.site-header .name-pair strong{font-size:calc(16px + 2px)}
-.site-header .name-pair small{font-size:calc(15px + 2px)}
-#story .gallery-ready .story-frame figcaption .eyebrow{font-size:calc(14px + 2px)}
-#story .gallery-ready .story-frame figcaption h3{font-size:calc(30px + 2px)}
-#story .gallery-ready .story-frame figcaption > p{font-size:calc(15px + 2px)}
-#story .story-next-chapter h3{font-size:calc(clamp(28px,3.2vw,42px) + 2px)}
-#story .story-next-chapter > p{font-size:calc(15px + 2px)}
-#story .story-read-link{font-size:calc(14px + 2px)}
-.page-actions .action-control [lang="en"]{font-size:calc(16px + 2px)}
-#details .time-card h3{font-size:calc(34px + 2px)}
-#details .time-card .detail-top{font-size:calc(20px + 2px)}
-#details .time-row strong{font-size:calc(clamp(48px,5vw,72px) + 2px)}
-#details .time-row > div > span{font-size:calc(16px + 2px)}
-#details .details-next > p{font-size:calc(16px + 2px)}
-#details #rsvp-open{font-size:calc(22px + 2px)}
+body{font-size:calc(16px + 4px)}
+#story .duo-heading{font-size:calc(clamp(30px,3.2vw,44px) + 4px)}
+#story .couple-intro > div > .eyebrow{font-size:calc(14px + 4px)}
+#story .personality .personality-name{font-size:calc(32px + 4px)}
+#story .personality .personality-name small{font-size:calc(16px + 4px)}
+.personality-type{font-size:calc(15px + 4px)}
+#story .personality .personality-copy{font-size:calc(15px + 4px)}
+#story .personality-extra{font-size:calc(14px + 4px)}
+.book-cover .paper-names{font-size:calc(clamp(16px, 5cqw, 24px) + 4px)}
+.book-cover .paper-names small{font-size:calc(clamp(11px,3.8cqw,16px) + 4px)}
+.site-header .name-pair strong{font-size:calc(16px + 4px)}
+.site-header .name-pair small{font-size:calc(15px + 4px)}
+#story .gallery-ready .story-frame figcaption .eyebrow{font-size:calc(14px + 4px)}
+#story .gallery-ready .story-frame figcaption h3{font-size:calc(30px + 4px)}
+#story .gallery-ready .story-frame figcaption > p{font-size:calc(15px + 4px)}
+#story .story-next-chapter h3{font-size:calc(clamp(28px,3.2vw,42px) + 4px)}
+#story .story-next-chapter > p{font-size:calc(15px + 4px)}
+#story .story-read-link{font-size:calc(14px + 4px)}
+.page-actions .action-control [lang="en"]{font-size:calc(16px + 4px)}
+#details .time-card h3{font-size:calc(34px + 4px)}
+#details .time-card .detail-top{font-size:calc(20px + 4px)}
+#details .time-row strong{font-size:calc(clamp(48px,5vw,72px) + 4px)}
+#details .time-row > div > span{font-size:calc(16px + 4px)}
+#details .details-next > p{font-size:calc(16px + 4px)}
+#details #rsvp-open{font-size:calc(22px + 4px)}
 @media (max-width: 760px){
-#story .duo-heading{font-size:calc(32px + 2px)}
-#story .personality .personality-name{font-size:calc(28px + 2px)}
-#story .personality .personality-name small{font-size:calc(15px + 2px)}
-#story .personality .personality-copy{font-size:calc(14px + 2px)}
-#story .personality .profile-toggle{font-size:calc(13px + 2px)}
-#story .gallery-ready .story-frame figcaption h3{font-size:calc(27px + 2px)}
-#story .gallery-ready .story-frame figcaption > p{font-size:calc(14px + 2px)}
-#story .story-next-chapter h3{font-size:calc(32px + 2px)}
-#story .story-next-chapter > p{font-size:calc(14px + 2px)}
-#details .time-card h3{font-size:calc(29px + 2px)}
-#details .time-row strong{font-size:calc(clamp(40px, 11vw, 54px) + 2px)}
-#details .details-next > p{font-size:calc(14px + 2px)}
-.site-header .name-pair strong{font-size:calc(14px + 2px)}
-.site-header .name-pair small{font-size:calc(13px + 2px)}
+#story .duo-heading{font-size:calc(32px + 4px)}
+#story .personality .personality-name{font-size:calc(28px + 4px)}
+#story .personality .personality-name small{font-size:calc(15px + 4px)}
+#story .personality .personality-copy{font-size:calc(14px + 4px)}
+#story .personality .profile-toggle{font-size:calc(13px + 4px)}
+#story .gallery-ready .story-frame figcaption h3{font-size:calc(27px + 4px)}
+#story .gallery-ready .story-frame figcaption > p{font-size:calc(14px + 4px)}
+#story .story-next-chapter h3{font-size:calc(32px + 4px)}
+#story .story-next-chapter > p{font-size:calc(14px + 4px)}
+#details .time-card h3{font-size:calc(29px + 4px)}
+#details .time-row strong{font-size:calc(clamp(40px, 11vw, 54px) + 4px)}
+#details .details-next > p{font-size:calc(14px + 4px)}
+.site-header .name-pair strong{font-size:calc(14px + 4px)}
+.site-header .name-pair small{font-size:calc(13px + 4px)}
 }
 @media (max-width: 370px){
-#story .duo-heading{font-size:calc(27px + 2px)}
-#story .personality .personality-copy{font-size:calc(13px + 2px)}
-#story .story-next-chapter h3{font-size:calc(27px + 2px)}
-#story .gallery-ready .story-frame figcaption h3{font-size:calc(24px + 2px)}
+#story .duo-heading{font-size:calc(27px + 4px)}
+#story .personality .personality-copy{font-size:calc(13px + 4px)}
+#story .story-next-chapter h3{font-size:calc(27px + 4px)}
+#story .gallery-ready .story-frame figcaption h3{font-size:calc(24px + 4px)}
 }
-#story .personality .personality-name{font-size:calc(25px + 2px)}
-#story .personality .personality-name small{font-size:calc(13px + 2px)}
-#story .personality-type{font-size:calc(12px + 2px)}
-#story .personality .personality-copy{font-size:calc(14px + 2px)}
-#story .personality-extra{font-size:calc(13px + 2px)}
-#story .personality .profile-toggle{font-size:calc(12px + 2px)}
-#details #rsvp-open{font-size:calc(20px + 2px)}
+#story .personality .personality-name{font-size:calc(25px + 4px)}
+#story .personality .personality-name small{font-size:calc(13px + 4px)}
+#story .personality-type{font-size:calc(12px + 4px)}
+#story .personality .personality-copy{font-size:calc(14px + 4px)}
+#story .personality-extra{font-size:calc(13px + 4px)}
+#story .personality .profile-toggle{font-size:calc(12px + 4px)}
+#details #rsvp-open{font-size:calc(20px + 4px)}
 @media (max-width: 760px){
 }
 @media (max-width: 370px){
-#story .personality .personality-name{font-size:calc(22px + 2px)}
-#story .personality .personality-name small{font-size:calc(12px + 2px)}
-#story .personality .personality-copy{font-size:calc(13px + 2px)}
-#story .personality-type{font-size:calc(11px + 2px)}
+#story .personality .personality-name{font-size:calc(22px + 4px)}
+#story .personality .personality-name small{font-size:calc(12px + 4px)}
+#story .personality .personality-copy{font-size:calc(13px + 4px)}
+#story .personality-type{font-size:calc(11px + 4px)}
 }
-.book-cover .paper-title, .book-enabled .paper-flight .paper-title{font-size:calc(clamp(38px, 15cqw, 68px) + 2px)}
-#details .time-card h3{font-size:calc(clamp(27px, 3vw, 38px) + 2px)}
-#details .time-card h3 .date-unit{font-size:calc(0.55em + 2px)}
+.book-cover .paper-title, .book-enabled .paper-flight .paper-title{font-size:calc(clamp(38px, 15cqw, 68px) + 4px)}
+#details .time-card h3{font-size:calc(clamp(27px, 3vw, 38px) + 4px)}
+#details .time-card h3 .date-unit{font-size:calc(0.55em + 4px)}
 @media (max-width: 760px){
 }
 @media (prefers-reduced-motion: reduce){
 }
-.story-title-names{font-size:calc(16px + 2px)}
-#details .detail-top{font-size:calc(20px + 2px)}
-#details .time-card h3, #details .time-row strong, #details #venue-name{font-size:calc(var(--event-size) + 2px)}
+.story-title-names{font-size:calc(16px + 4px)}
+#details .detail-top{font-size:calc(20px + 4px)}
+#details .time-card h3, #details .time-row strong, #details #venue-name{font-size:calc(var(--event-size) + 4px)}
 @media (max-width: 760px){
 }
 @media (min-width: 761px) and (max-width: 1000px){
 }
-#details .time-card h3 .date-unit, #details .detail-weekday, #details .venue-address{font-size:calc(16px + 2px)}
+#details .time-card h3 .date-unit, #details .detail-weekday, #details .venue-address{font-size:calc(16px + 4px)}
 @media (max-width: 370px){
 }
-.book-cover .cover-person strong{font-size:calc(clamp(20px,7cqw,31px) + 2px)}
-.book-cover .cover-person small{font-size:calc(clamp(13px,4.8cqw,21px) + 2px)}
-.book-cover .paper-title, .book-enabled .paper-flight .paper-title{font-size:calc(clamp(27px,10cqw,44px) + 2px)}
-.magazine-barcode > span:last-child{font-size:calc(8px + 2px)}
-#details .venue-room{font-size:calc(28px + 2px)}
-#details .attendance-reminder .reminder-heading{font-size:calc(28px + 2px)}
+.book-cover .cover-person strong{font-size:calc(clamp(20px,7cqw,31px) + 4px)}
+.book-cover .cover-person small{font-size:calc(clamp(13px,4.8cqw,21px) + 4px)}
+.book-cover .paper-title, .book-enabled .paper-flight .paper-title{font-size:calc(clamp(27px,10cqw,44px) + 4px)}
+.magazine-barcode > span:last-child{font-size:calc(8px + 4px)}
+#details .venue-room{font-size:calc(28px + 4px)}
+#details .attendance-reminder .reminder-heading{font-size:calc(28px + 4px)}
 @media (max-width: 760px){
-#details .venue-room{font-size:calc(26px + 2px)}
-#details .attendance-reminder .reminder-heading{font-size:calc(25px + 2px)}
+#details .venue-room{font-size:calc(26px + 4px)}
+#details .attendance-reminder .reminder-heading{font-size:calc(25px + 4px)}
 }
 @media (min-width: 1000px){
-.has-spreads #story .duo-heading{font-size:calc(32px + 2px)}
-.has-spreads #story .personality .personality-name{font-size:calc(23px + 2px)}
-.has-spreads #story .personality .personality-copy{font-size:calc(14px + 2px)}
-.has-spreads #story .story-introduction{font-size:calc(13px + 2px)}
-.has-spreads #story .story-next-chapter h3{font-size:calc(27px + 2px)}
-.has-spreads #story .story-next-chapter > p{font-size:calc(14px + 2px)}
-.has-spreads #story .gallery-ready .story-frame figcaption h3{font-size:calc(28px + 2px)}
-.has-spreads #story .gallery-ready .story-frame figcaption > p{font-size:calc(14px + 2px)}
-.has-spreads #story .gallery-ready .story-frame figcaption .eyebrow{font-size:calc(13px + 2px)}
-.has-spreads .book-details .section-heading h2{font-size:calc(36px + 2px)}
-.has-spreads .book-details .section-heading .eyebrow{font-size:calc(10px + 2px)}
-.has-spreads #details .time-card h3, .has-spreads #details .time-row strong, .has-spreads #details #venue-name{font-size:calc(clamp(40px, 4.5vw, 60px) + 2px)}
-.has-spreads #details .attendance-reminder .reminder-heading{font-size:calc(25px + 2px)}
-.has-spreads .book-thanks .countdown strong{font-size:calc(110px + 2px)}
-.has-spreads .book-thanks .thankyou-footer > p{font-size:calc(25px + 2px)}
+.has-spreads #story .duo-heading{font-size:calc(32px + 4px)}
+.has-spreads #story .personality .personality-name{font-size:calc(23px + 4px)}
+.has-spreads #story .personality .personality-copy{font-size:calc(14px + 4px)}
+.has-spreads #story .story-introduction{font-size:calc(13px + 4px)}
+.has-spreads #story .story-next-chapter h3{font-size:calc(27px + 4px)}
+.has-spreads #story .story-next-chapter > p{font-size:calc(14px + 4px)}
+.has-spreads #story .gallery-ready .story-frame figcaption h3{font-size:calc(28px + 4px)}
+.has-spreads #story .gallery-ready .story-frame figcaption > p{font-size:calc(14px + 4px)}
+.has-spreads #story .gallery-ready .story-frame figcaption .eyebrow{font-size:calc(13px + 4px)}
+.has-spreads .book-details .section-heading h2{font-size:calc(36px + 4px)}
+.has-spreads .book-details .section-heading .eyebrow{font-size:calc(10px + 4px)}
+.has-spreads #details .time-card h3, .has-spreads #details .time-row strong, .has-spreads #details #venue-name{font-size:calc(clamp(40px, 4.5vw, 60px) + 4px)}
+.has-spreads #details .attendance-reminder .reminder-heading{font-size:calc(25px + 4px)}
+.has-spreads .book-thanks .countdown strong{font-size:calc(110px + 4px)}
+.has-spreads .book-thanks .thankyou-footer > p{font-size:calc(25px + 4px)}
 }
 @media (min-width: 1000px) and (max-width: 1150px){
-.has-spreads #story .duo-heading{font-size:calc(28px + 2px)}
-.has-spreads #story .gallery-ready .story-frame figcaption h3{font-size:calc(25px + 2px)}
+.has-spreads #story .duo-heading{font-size:calc(28px + 4px)}
+.has-spreads #story .gallery-ready .story-frame figcaption h3{font-size:calc(25px + 4px)}
 }
 @media (prefers-reduced-motion: reduce){
 }

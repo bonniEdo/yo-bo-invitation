@@ -1,71 +1,71 @@
-/* Two-pixel readability increase; original responsive size rules are preserved. */
-body{font-size:calc(20px + 2px)}
-.wordmark{font-size:calc(26px + 2px)}
-.wordmark small{font-size:calc(17px + 2px)}
-.edition{font-size:calc(18px + 2px)}
-.eyebrow{font-size:calc(18px + 2px)}
-.hero h1{font-size:calc(clamp(36px, 4vw, 52px) + 2px)}
-.intro{font-size:calc(22px + 2px)}
-.description{font-size:calc(20px + 2px)}
-.button{font-size:calc(21px + 2px)}
-.time-note{font-size:calc(17px + 2px)}
-.portrait figcaption{font-size:calc(17px + 2px)}
-h2{font-size:calc(34px + 2px)}
-.day-grid h3{font-size:calc(20px + 2px)}
-.date, .venue{font-size:calc(36px + 2px)}
-.date span{font-size:calc(20px + 2px)}
-.map-button{font-size:calc(20px + 2px)}
-.help-note{font-size:calc(18px + 2px)}
-.signature{font-size:calc(25px + 2px)}
-.signature small{font-size:calc(17px + 2px)}
-footer{font-size:calc(17px + 2px)}
+/* Four-pixel readability increase; original responsive size rules are preserved. */
+body{font-size:calc(20px + 4px)}
+.wordmark{font-size:calc(26px + 4px)}
+.wordmark small{font-size:calc(17px + 4px)}
+.edition{font-size:calc(18px + 4px)}
+.eyebrow{font-size:calc(18px + 4px)}
+.hero h1{font-size:calc(clamp(36px, 4vw, 52px) + 4px)}
+.intro{font-size:calc(22px + 4px)}
+.description{font-size:calc(20px + 4px)}
+.button{font-size:calc(21px + 4px)}
+.time-note{font-size:calc(17px + 4px)}
+.portrait figcaption{font-size:calc(17px + 4px)}
+h2{font-size:calc(34px + 4px)}
+.day-grid h3{font-size:calc(20px + 4px)}
+.date, .venue{font-size:calc(36px + 4px)}
+.date span{font-size:calc(20px + 4px)}
+.map-button{font-size:calc(20px + 4px)}
+.help-note{font-size:calc(18px + 4px)}
+.signature{font-size:calc(25px + 4px)}
+.signature small{font-size:calc(17px + 4px)}
+footer{font-size:calc(17px + 4px)}
 @media (max-width: 1000px){
-.hero h1{font-size:calc(42px + 2px)}
+.hero h1{font-size:calc(42px + 4px)}
 }
 @media (max-width: 600px){
-.wordmark{font-size:calc(23px + 2px)}
-.wordmark small{font-size:calc(16px + 2px)}
-.edition{font-size:calc(16px + 2px)}
-.hero h1{font-size:calc(36px + 2px)}
-.hero .intro{font-size:calc(21px + 2px)}
-.description{font-size:calc(20px + 2px)}
-.button{font-size:calc(20px + 2px)}
-.portrait figcaption{font-size:calc(16px + 2px)}
-.date, .venue{font-size:calc(32px + 2px)}
-.date span{font-size:calc(20px + 2px)}
-h2{font-size:calc(29px + 2px)}
-.survey-section h2{font-size:calc(28px + 2px)}
-.help-note{font-size:calc(18px + 2px)}
-.time-note{font-size:calc(17px + 2px)}
+.wordmark{font-size:calc(23px + 4px)}
+.wordmark small{font-size:calc(16px + 4px)}
+.edition{font-size:calc(16px + 4px)}
+.hero h1{font-size:calc(36px + 4px)}
+.hero .intro{font-size:calc(21px + 4px)}
+.description{font-size:calc(20px + 4px)}
+.button{font-size:calc(20px + 4px)}
+.portrait figcaption{font-size:calc(16px + 4px)}
+.date, .venue{font-size:calc(32px + 4px)}
+.date span{font-size:calc(20px + 4px)}
+h2{font-size:calc(29px + 4px)}
+.survey-section h2{font-size:calc(28px + 4px)}
+.help-note{font-size:calc(18px + 4px)}
+.time-note{font-size:calc(17px + 4px)}
 }
 @media (prefers-reduced-motion: reduce){
 }
-.shuttle-note > span{font-size:calc(32px + 2px)}
-.shuttle-note h2{font-size:calc(26px + 2px)}
-.shuttle-note p{font-size:calc(19px + 2px)}
-#survey-dialog{font-size:calc(20px + 2px)}
-.modal-header p{font-size:calc(17px + 2px)}
-.modal-header h2{font-size:calc(28px + 2px)}
-.close-button{font-size:calc(18px + 2px)}
-legend, .field > label{font-size:calc(20px + 2px)}
-legend > span, .field > label > span{font-size:calc(16px + 2px)}
-input, select, textarea{font-size:calc(20px + 2px)}
-.choices label{font-size:calc(18px + 2px)}
-.field-help{font-size:calc(17px + 2px)}
-.form-status{font-size:calc(18px + 2px)}
-.success-heart{font-size:calc(60px + 2px)}
+.shuttle-note > span{font-size:calc(32px + 4px)}
+.shuttle-note h2{font-size:calc(26px + 4px)}
+.shuttle-note p{font-size:calc(19px + 4px)}
+#survey-dialog{font-size:calc(20px + 4px)}
+.modal-header p{font-size:calc(17px + 4px)}
+.modal-header h2{font-size:calc(28px + 4px)}
+.close-button{font-size:calc(18px + 4px)}
+legend, .field > label{font-size:calc(20px + 4px)}
+legend > span, .field > label > span{font-size:calc(16px + 4px)}
+input, select, textarea{font-size:calc(20px + 4px)}
+.choices label{font-size:calc(18px + 4px)}
+.field-help{font-size:calc(17px + 4px)}
+.form-status{font-size:calc(18px + 4px)}
+.success-heart{font-size:calc(60px + 4px)}
 @media (max-width: 600px){
-.shuttle-note h2{font-size:calc(23px + 2px)}
-.shuttle-note p{font-size:calc(18px + 2px)}
-.modal-header h2{font-size:calc(25px + 2px)}
-.choices label{font-size:calc(20px + 2px)}
+.shuttle-note h2{font-size:calc(23px + 4px)}
+.shuttle-note p{font-size:calc(18px + 4px)}
+.modal-header h2{font-size:calc(25px + 4px)}
+.choices label{font-size:calc(20px + 4px)}
 }
 @media (max-width: 600px){
 }
-.edition-dot{font-size:calc(7px + 2px)}
-.attendance-reaction{font-size:calc(24px + 2px)}
-.attendance-reaction > span{font-size:calc(30px + 2px)}
+.edition-dot{font-size:calc(7px + 4px)}
+.attendance-reaction{font-size:calc(24px + 4px)}
+.attendance-reaction > span{font-size:calc(30px + 4px)}
 @media (prefers-reduced-motion: reduce){
 }
-.love-celebration{font-size:calc(76px + 2px)}
-.venue-hall{font-size:calc(24px + 2px)}
+.love-celebration{font-size:calc(76px + 4px)}
+.venue-hall{font-size:calc(24px + 4px)}
