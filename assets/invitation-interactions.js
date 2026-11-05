@@ -116,8 +116,12 @@
     }
     context.fillStyle = '#30382b'; context.textAlign = 'center'; context.textBaseline = 'middle';
     context.font = '42px "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('✷', width / 2, height / 2 - 42);
-    context.font = '600 26px "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('點一下 開刮！', width / 2, height / 2 + 7);
-    context.font = '600 18px "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('A LITTLE LOVE, RESERVED FOR YOU', width / 2, height / 2 + 38);
+    context.font = '600 31px "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('點一下 開刮！', width / 2, height / 2 + 7);
+    context.font = '600 23px "Star Panda Kids", "LXGW WenKai TC"';
+    if (context.measureText('A LITTLE LOVE, RESERVED FOR YOU').width > width - 24) {
+      context.fillText('A LITTLE LOVE,', width / 2, height / 2 + 40);
+      context.fillText('RESERVED FOR YOU', width / 2, height / 2 + 68);
+    } else context.fillText('A LITTLE LOVE, RESERVED FOR YOU', width / 2, height / 2 + 40);
     context.strokeStyle = '#000';
     strokes.forEach(erase);
   }
