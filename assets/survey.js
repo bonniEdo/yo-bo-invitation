@@ -60,7 +60,9 @@
       {transform:'scale(1.9)',offset:.46}, {transform:'scale(1.12)',offset:.78},
       {transform:'scale(1.18)'}
     ], {duration:900,easing:'cubic-bezier(.2,.7,.3,1)'});
-    const ring = document.createElement('span'); ring.className='love-burst-ring'; ring.setAttribute('aria-hidden','true');charge.append(ring);
+    const ring = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    ring.setAttribute('viewBox','0 0 100 100');ring.classList.add('love-burst-ring');ring.setAttribute('aria-hidden','true');
+    const outline = document.createElementNS('http://www.w3.org/2000/svg','use');outline.setAttribute('href','#love-shape');ring.append(outline);charge.append(ring);
     const ripple=ring.animate([
       {transform:'translate(-50%,-50%) scale(.7)',opacity:.8},
       {transform:'translate(-50%,-50%) scale(2.8)',opacity:0}

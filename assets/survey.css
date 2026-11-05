@@ -37,7 +37,7 @@
 .love-wave{animation:love-wave-drift 2.2s linear infinite}
 .love-charge.is-full .love-charge-art{animation:love-full-breathe 2.8s ease-in-out infinite}
 .love-burst-heart{position:absolute;left:50%;top:50%;width:18px;height:18px;fill:currentColor;color:#eb8c4c;pointer-events:none;will-change:transform,opacity}
-.love-burst-ring{position:absolute;left:50%;top:50%;width:80px;height:80px;border:2px solid #efa367;border-radius:50%;pointer-events:none}
+.love-burst-ring{position:absolute;left:50%;top:50%;width:100px;height:100px;fill:none;stroke:#efa367;stroke-width:1.5;pointer-events:none}
 .shuttle-note{flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .shuttle-note>div{width:100%}
 @keyframes love-wave-drift{to{transform:translateX(-50px)}}

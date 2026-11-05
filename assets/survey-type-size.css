@@ -149,14 +149,14 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 
 /* Tactile, text-free invitation to fill the heart. */
 .love-charge{width:124px;height:124px;background:radial-gradient(ellipse,#fff0df 0%,#fff0df00 72%);transition:filter .2s,transform .2s}
-.love-charge::before{content:"";position:absolute;inset:8px;border:1px solid #e5a16d66;border-radius:50%;animation:love-invite-ring 2.4s ease-out infinite;pointer-events:none}
+.love-invite-heart{position:absolute;inset:0;width:100%;height:100%;fill:none;stroke:#e5a16d;stroke-width:1;animation:love-invite-ring 2.4s ease-out infinite;pointer-events:none}
 .love-charge:hover{filter:drop-shadow(0 5px 10px #d5743f40)}
 .love-charge:active{transform:scale(.94)}
 .love-tap-hint{position:absolute;width:34px;height:41px;right:0;bottom:2px;color:#bc7047;filter:drop-shadow(0 2px 3px #965c3426);pointer-events:none;animation:love-tap 2.4s ease-in-out infinite}
-.love-charge.is-full .love-tap-hint,.love-charge.is-full::before{display:none}
+.love-charge.is-full .love-tap-hint,.love-charge.is-full .love-invite-heart{display:none}
 @keyframes love-invite-ring{0%{transform:scale(.85);opacity:0}25%{opacity:.7}100%{transform:scale(1.25);opacity:0}}
 @keyframes love-tap{0%,60%,100%{transform:translate(4px,5px) rotate(-12deg)}25%,40%{transform:translate(0,0) rotate(-12deg) scale(.9)}}
-@media(prefers-reduced-motion:reduce){.love-charge::before{animation:none}.love-tap-hint{animation:none}.love-charge{transition:none}}
+@media(prefers-reduced-motion:reduce){.love-invite-heart{animation:none;opacity:.35}.love-tap-hint{animation:none}.love-charge{transition:none}}
 
 /* A delicate tap gesture and a kiss when the heart is full. */
 .love-tap-hint{width:32px;height:38px;right:1px;bottom:3px;color:#bd8867;filter:drop-shadow(0 2px 2px #965c3418)}
