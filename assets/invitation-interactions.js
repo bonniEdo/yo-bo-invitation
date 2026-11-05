@@ -115,9 +115,9 @@
       context.beginPath(); context.moveTo(x, 0); context.lineTo(x + height, height); context.stroke();
     }
     context.fillStyle = '#30382b'; context.textAlign = 'center'; context.textBaseline = 'middle';
-    context.font = '42px "LXGW WenKai TC"'; context.fillText('✷', width / 2, height / 2 - 42);
-    context.font = '20px "LXGW WenKai TC"'; context.fillText('點一下 開刮！', width / 2, height / 2 + 7);
-    context.font = '12px "LXGW WenKai TC"'; context.fillText('A LITTLE LOVE, RESERVED FOR YOU', width / 2, height / 2 + 38);
+    context.font = '42px "Autery", "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('✷', width / 2, height / 2 - 42);
+    context.font = '20px "Autery", "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('點一下 開刮！', width / 2, height / 2 + 7);
+    context.font = '12px "Autery", "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('A LITTLE LOVE, RESERVED FOR YOU', width / 2, height / 2 + 38);
     context.strokeStyle = '#000';
     strokes.forEach(erase);
   }
