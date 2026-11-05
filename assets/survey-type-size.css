@@ -111,9 +111,9 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 @media(prefers-reduced-motion:reduce){.reply-heart{animation:none}}
 
 /* Fine-tune paragraph hierarchy, shuttle copy and the form. */
-.hero .intro{font-size:calc(clamp(18px,5vw,26px) + 2px)}
-.hero .description{font-size:calc(clamp(18px,5vw,26px) + 5px)}
-.day-grid .venue-address{font-size:calc(clamp(16px,4vw,22px) + 2px)}
+.hero .intro{font-size:calc(clamp(18px,5vw,26px) + 5px)}
+.hero .description{font-size:calc(clamp(18px,5vw,26px) + 8px)}
+.day-grid .venue-address{font-size:calc(clamp(16px,4vw,22px) + 5px)}
 .shuttle-note h2{font-size:42px}
 .shuttle-note p:not(.shuttle-followup){font-size:35px;line-height:1.8}
 .shuttle-line{display:block;white-space:nowrap}
@@ -129,10 +129,8 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 #survey-form .choices label{font-size:35px}
 #survey-form .field-help{font-size:34px}
 #survey-form #guest-count,#survey-form #bus-count{font-size:42px}
-#guest-count:placeholder-shown{font-size:18px!important}
-#guest-count::placeholder{font-size:18px;opacity:1;color:var(--muted)}
-#survey-form .bus-question{font-size:clamp(22px,5.4vw,32px);white-space:nowrap;letter-spacing:0}
-#survey-form .bus-question .required-choice{font-size:20px}
+#survey-form .bus-question{font-size:37px;white-space:normal;letter-spacing:0}
+#survey-form .bus-question .required-choice{font-size:23px}
 #survey-close{font-size:19px}
 @media(max-width:600px){
  .shuttle-note h2{font-size:37px;white-space:nowrap}
@@ -148,3 +146,14 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
  .shuttle-note p:not(.shuttle-followup){font-size:24px}
 }
 @media(min-width:371px) and (max-width:600px){.shuttle-note h2{font-size:clamp(24px,7vw,37px)}}
+
+/* Tactile, text-free invitation to fill the heart. */
+.love-charge{width:124px;height:124px;background:radial-gradient(ellipse,#fff0df 0%,#fff0df00 72%);transition:filter .2s,transform .2s}
+.love-charge::before{content:"";position:absolute;inset:8px;border:1px solid #e5a16d66;border-radius:50%;animation:love-invite-ring 2.4s ease-out infinite;pointer-events:none}
+.love-charge:hover{filter:drop-shadow(0 5px 10px #d5743f40)}
+.love-charge:active{transform:scale(.94)}
+.love-tap-hint{position:absolute;width:34px;height:41px;right:0;bottom:2px;color:#bc7047;filter:drop-shadow(0 2px 3px #965c3426);pointer-events:none;animation:love-tap 2.4s ease-in-out infinite}
+.love-charge.is-full .love-tap-hint,.love-charge.is-full::before{display:none}
+@keyframes love-invite-ring{0%{transform:scale(.85);opacity:0}25%{opacity:.7}100%{transform:scale(1.25);opacity:0}}
+@keyframes love-tap{0%,60%,100%{transform:translate(4px,5px) rotate(-12deg)}25%,40%{transform:translate(0,0) rotate(-12deg) scale(.9)}}
+@media(prefers-reduced-motion:reduce){.love-charge::before{animation:none}.love-tap-hint{animation:none}.love-charge{transition:none}}
