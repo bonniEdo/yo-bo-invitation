@@ -14,7 +14,22 @@
   <link rel="stylesheet" href="assets/invitation-polish.css?v=original-gallery-1">
   <link rel="stylesheet" href="assets/invitation-spread.css?v=portrait-spreads-2">
   <link rel="stylesheet" href="assets/invitation-material.css?v=aligned-flip-6">
-<link rel="stylesheet" href="assets/wedding-fonts.css?v=panda-natural-4"><link rel="stylesheet" href="assets/invitation-type-size.css?v=panda-size-eighteen-7"></head>
+<link rel="stylesheet" href="assets/wedding-fonts.css?v=panda-block-5"><link rel="stylesheet" href="assets/invitation-type-size.css?v=panda-size-eighteen-7"><style>
+html.panda-loading body{visibility:hidden}
+html.panda-loading::after{content:"♥";position:fixed;inset:0;display:grid;place-items:center;background:#f7f6ed;color:#df9074;font:48px/1 serif;z-index:2147483647;animation:panda-loading-pulse 1.2s ease-in-out infinite}
+@keyframes panda-loading-pulse{50%{color:#efb49b}}
+@media(prefers-reduced-motion:reduce){html.panda-loading::after{animation:none}}
+</style><script>
+(()=>{
+  if(!document.fonts)return;
+  const root=document.documentElement;
+  root.classList.add('panda-loading');root.setAttribute('aria-busy','true');
+  const reveal=()=>{root.classList.remove('panda-loading');root.removeAttribute('aria-busy');};
+  const timeout=setTimeout(reveal,6000);
+  const ready=()=>document.fonts.load('400 24px "Star Panda Kids"','我們要結婚了♥').then(()=>{clearTimeout(timeout);reveal();},()=>{clearTimeout(timeout);reveal();});
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
+})();
+</script></head>
 <body>
   <a class="action-control skip-link" href="#details">跳到婚宴資訊</a>
   <header class="site-header" inert>
