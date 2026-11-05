@@ -10,7 +10,7 @@ body{font-size:calc(20px + 18px)}
 .button{font-size:calc(21px + 18px)}
 .time-note{font-size:calc(17px + 18px)}
 .portrait figcaption{font-size:calc(17px + 18px)}
-h2{font-size:calc(34px + 18px)}
+h2{font-size:calc(34px + 16px)}
 .day-grid h3{font-size:calc(20px + 18px)}
 .date, .venue{font-size:calc(36px + 18px)}
 .date span{font-size:calc(20px + 18px)}
@@ -33,19 +33,19 @@ footer{font-size:calc(17px + 18px)}
 .portrait figcaption{font-size:calc(16px + 18px)}
 .date, .venue{font-size:calc(32px + 18px)}
 .date span{font-size:calc(20px + 18px)}
-h2{font-size:calc(29px + 18px)}
-.survey-section h2{font-size:calc(28px + 18px)}
+h2{font-size:calc(29px + 16px)}
+.survey-section h2{font-size:calc(28px + 16px)}
 .help-note{font-size:calc(18px + 18px)}
 .time-note{font-size:calc(17px + 18px)}
 }
 @media (prefers-reduced-motion: reduce){
 }
 .shuttle-note > span{font-size:calc(32px + 18px)}
-.shuttle-note h2{font-size:calc(26px + 18px)}
+.shuttle-note h2{font-size:calc(26px + 16px)}
 .shuttle-note p{font-size:calc(19px + 18px)}
 #survey-dialog{font-size:calc(20px + 18px)}
 .modal-header p{font-size:calc(17px + 18px)}
-.modal-header h2{font-size:calc(28px + 18px)}
+.modal-header h2{font-size:calc(28px + 16px)}
 .close-button{font-size:calc(18px + 18px)}
 legend, .field > label{font-size:calc(20px + 18px)}
 legend > span, .field > label > span{font-size:calc(16px + 18px)}
@@ -55,9 +55,9 @@ input, select, textarea{font-size:calc(20px + 18px)}
 .form-status{font-size:calc(18px + 18px)}
 .success-heart{font-size:calc(60px + 18px)}
 @media (max-width: 600px){
-.shuttle-note h2{font-size:calc(23px + 18px)}
+.shuttle-note h2{font-size:calc(23px + 16px)}
 .shuttle-note p{font-size:calc(18px + 18px)}
-.modal-header h2{font-size:calc(25px + 18px)}
+.modal-header h2{font-size:calc(25px + 16px)}
 .choices label{font-size:calc(20px + 18px)}
 }
 @media (max-width: 600px){
@@ -72,3 +72,30 @@ input, select, textarea{font-size:calc(20px + 18px)}
 
 /* Consistent blue third-level headings, including nested date labels. */
 h3,h3 *{color:#3569a8!important}
+
+/* Survey-specific reading hierarchy after the global font-size adjustment. */
+#hero-title{position:relative;color:#d5743f}
+.hero .intro,.hero .description{font-size:clamp(18px,5vw,26px);line-height:1.9;white-space:nowrap;letter-spacing:0;text-wrap:initial}
+.day-grid{--event-information-size:54px}
+.day-grid .date,.day-grid .date span,.day-grid .venue,.day-grid .weekday,.day-grid .event-times{font-size:var(--event-information-size);line-height:1.6;letter-spacing:0}
+.day-grid .venue-hall{font-size:32px;line-height:1.6}
+.day-grid .venue-address{font-size:clamp(16px,4vw,22px);white-space:nowrap;line-height:1.8;letter-spacing:0}
+.shuttle-note .shuttle-followup{font-size:clamp(16px,3.8vw,22px);white-space:nowrap;line-height:1.8;text-wrap:initial;margin-top:10px}
+legend>span,.field>label>span{font-size:24px}
+#survey-close{font-size:20px;padding:8px 12px;min-height:44px;flex-shrink:0;line-height:1.3}
+.choices label>span{min-width:0}
+.title-hearts{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.title-hearts i{position:absolute;bottom:30%;left:15%;font-style:normal;font-size:20px;opacity:0;color:#e89061;animation:title-heart-float 3.8s ease-out infinite}
+.title-hearts i:nth-child(2){left:40%;animation-delay:.9s;font-size:16px}
+.title-hearts i:nth-child(3){left:70%;animation-delay:1.8s}
+.title-hearts i:nth-child(4){left:88%;animation-delay:2.7s;font-size:15px}
+@keyframes title-heart-float{0%{opacity:0;transform:translateY(0) scale(.7) rotate(-12deg)}20%{opacity:.75}100%{opacity:0;transform:translateY(-75px) scale(1.25) rotate(12deg)}}
+@media(max-width:600px){.day-grid{--event-information-size:50px}}
+@media(prefers-reduced-motion:reduce){.title-hearts{display:none}}
+/* Keep short hints and the dialog heading intact on narrow phones. */
+legend>span,.field>label>span{display:inline-block;white-space:nowrap}
+.modal-header{position:relative;display:block}
+.modal-header>div>p{padding-right:76px}
+.modal-header h2{margin-top:14px}
+#survey-close{position:absolute;right:18px;top:18px}
+@media(max-width:370px){#hero-title{font-size:46px}.hero .eyebrow{font-size:28px}}
