@@ -85,10 +85,10 @@ legend>span,.field>label>span{font-size:24px}
 #survey-close{font-size:20px;padding:8px 12px;min-height:44px;flex-shrink:0;line-height:1.3}
 .choices label>span{min-width:0}
 .title-hearts{position:absolute;inset:0;pointer-events:none;overflow:visible}
-.title-hearts i{position:absolute;bottom:30%;left:15%;font-style:normal;font-size:20px;opacity:0;color:#e89061;animation:title-heart-float 3.8s ease-out infinite}
-.title-hearts i:nth-child(2){left:40%;animation-delay:.9s;font-size:16px}
-.title-hearts i:nth-child(3){left:70%;animation-delay:1.8s}
-.title-hearts i:nth-child(4){left:88%;animation-delay:2.7s;font-size:15px}
+.title-hearts i{position:absolute;bottom:30%;left:15%;font-style:normal;font-size:30px;opacity:0;color:#e89061;animation:title-heart-float 2.5333s ease-out infinite}
+.title-hearts i:nth-child(2){left:40%;animation-delay:.6s;font-size:24px}
+.title-hearts i:nth-child(3){left:70%;animation-delay:1.2s}
+.title-hearts i:nth-child(4){left:88%;animation-delay:1.8s;font-size:22.5px}
 @keyframes title-heart-float{0%{opacity:0;transform:translateY(0) scale(.7) rotate(-12deg)}20%{opacity:.75}100%{opacity:0;transform:translateY(-75px) scale(1.25) rotate(12deg)}}
 @media(max-width:600px){.day-grid{--event-information-size:50px}}
 @media(prefers-reduced-motion:reduce){.title-hearts{display:none}}
@@ -99,3 +99,13 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 .modal-header h2{margin-top:14px}
 #survey-close{position:absolute;right:18px;top:18px}
 @media(max-width:370px){#hero-title{font-size:46px}.hero .eyebrow{font-size:28px}}
+
+.hero .description{font-size:calc(clamp(18px,5vw,26px) + 3px)}
+.survey-section>p{color:#3569a8}
+.reply-heart{display:inline-block;color:#d64f54;font-size:24px;margin-left:8px;animation:reply-heart-bubble 2.6s ease-in-out infinite}
+@keyframes reply-heart-bubble{0%,100%{transform:translateY(0) scale(1);opacity:.8}50%{transform:translateY(-12px) scale(1.25);opacity:1}}
+#guest-count,#bus-count{font-size:43px}
+.field-error{font-size:20px;line-height:1.6;margin:10px 0 0;padding:9px 13px;background:#fcf0e5;color:#a65332;border-left:3px solid #d89a69;border-radius:8px;text-align:left}
+#survey-form [aria-invalid=true]{border-color:#bd7657;background:#fff9ef}
+#survey-form .choices:has([aria-invalid=true]){outline:1px solid #bd7657;outline-offset:5px;border-radius:10px}
+@media(prefers-reduced-motion:reduce){.reply-heart{animation:none}}
