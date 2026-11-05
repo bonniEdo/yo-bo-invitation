@@ -116,8 +116,8 @@
     }
     context.fillStyle = '#30382b'; context.textAlign = 'center'; context.textBaseline = 'middle';
     context.font = '42px "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('✷', width / 2, height / 2 - 42);
-    context.font = '400 41px "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('點一下 開刮！', width / 2, height / 2 + 7);
-    context.font = '400 33px "Star Panda Kids", "LXGW WenKai TC"';
+    context.font = '400 38px "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('點一下 開刮！', width / 2, height / 2 + 7);
+    context.font = '400 30px "Star Panda Kids", "LXGW WenKai TC"';
     const words = 'A LITTLE LOVE, RESERVED FOR YOU'.split(' ');
     const lines = []; let line = '';
     words.forEach(word => {
