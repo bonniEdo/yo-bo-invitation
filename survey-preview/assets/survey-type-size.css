@@ -184,3 +184,5 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 @media(max-width:600px){#survey-form .invitation-choices{grid-template-columns:1fr}}
 
 #survey-form .invitation-style{display:inline-block;font-size:20px;color:#3569a8;white-space:nowrap}
+
+#survey-success #invitation-confirmation{font-size:24px;line-height:1.6;color:#3569a8;margin:12px 0 24px}

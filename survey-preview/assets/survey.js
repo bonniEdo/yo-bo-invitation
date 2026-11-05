@@ -222,6 +222,7 @@
       document.getElementById('receipt-note').textContent='若有變動\n再跟我們說';
       document.getElementById('receipt-note').hidden=record.attendance==='maybe';
       document.getElementById('response-summary').textContent={yes:"太棒了！婚禮見！ 🥳",maybe:"好的\n猶豫好再跟我們說",no:"那就另約另約拉 ☺️"}[record.attendance];
+      document.getElementById('invitation-confirmation').textContent={digital:'已預定『電子喜帖』',paper:'已預訂『紙本喜帖』',both:'已預訂『兩種喜帖』'}[record.invitationFormat];
       document.getElementById('success-title').focus({preventScroll:true});
     }catch{status.textContent='尚未確認送出，請稍後重試，填寫內容已保留。';status.focus();}
     finally{clearTimeout(timer);pending=false;submit.disabled=false;submit.textContent='送出意願 ♡';}
