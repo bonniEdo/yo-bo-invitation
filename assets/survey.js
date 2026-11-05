@@ -47,7 +47,7 @@
   function burstLove() {
     charge.classList.add('is-full');
     loveCelebration.hidden = false;
-    chargeStatus.textContent = '愛心補滿了，YA！';
+    chargeStatus.textContent = '愛心補滿了，送你一個飛吻！😘';
     charge.setAttribute('aria-label','愛心已補滿，再點一次重新開始');
     if (reducedMotion.matches) { loveBusy = false; return; }
     loveCelebration.animate([
@@ -215,8 +215,8 @@
       // An opaque response cannot confirm Google has stored the submission.
       form.hidden=true;document.getElementById('survey-success').hidden=false;
       document.getElementById('success-title').textContent='回覆已送出';
-      document.getElementById('receipt-note').textContent='收件待確認；若有變動，再告訴我們就好。';
-      document.getElementById('response-summary').textContent=`${record.guestName}，謝謝您的回覆。`;
+      document.getElementById('receipt-note').textContent='若有變動，再告訴我們就好。';
+      document.getElementById('response-summary').textContent={yes:"太棒了！can't wait 🥳",maybe:"好的猶豫好再跟我說～🥸",no:"那就另約另約拉 ☺️"}[record.attendance];
       document.getElementById('success-title').focus({preventScroll:true});
     }catch{status.textContent='尚未確認送出，請稍後重試，填寫內容已保留。';status.focus();}
     finally{clearTimeout(timer);pending=false;submit.disabled=false;submit.textContent='送出意願 ♡';}
