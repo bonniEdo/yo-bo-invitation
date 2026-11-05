@@ -1,2 +1,2 @@
-@font-face{font-family:ChenYuluoyan;src:url('../../assets/fonts/ChenYuluoyan.ttf') format('truetype');font-display:swap;font-weight:400}
-:root{--zh:ChenYuluoyan,'LXGW WenKai TC',WenKai,serif;--latin:var(--zh);--sans:var(--zh);--serif:var(--zh);--font:var(--zh)}
+@font-face{font-family:KaiseiOpti;src:url('../../assets/fonts/KaiseiOpti-Regular.ttf') format('truetype');font-display:swap;font-weight:400}
+:root{--zh:KaiseiOpti,'LXGW WenKai TC',WenKai,serif;--latin:var(--zh);--sans:var(--zh);--serif:var(--zh);--font:var(--zh)}

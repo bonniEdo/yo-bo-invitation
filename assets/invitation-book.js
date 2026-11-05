@@ -18,6 +18,7 @@
   const backMagazine = book.querySelector('.backcover-magazine');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+  const soften = t => t * t * t * (t * (t * 6 - 15) + 10);
   const mix = (from, to, amount) => from + (to - from) * amount;
   let viewportWidth = window.innerWidth, viewportHeight = window.innerHeight;
   let layout = {}, frame = 0, measureFrame = 0, active = -1;
@@ -78,12 +79,12 @@
     frame = 0;
     if (modalLocked) return;
     const offset = window.scrollY - layout.start;
-    const zoom = clamp((offset - layout.coverRead) / layout.zoom);
-    const turns = layout.entries.map((entry, index) => index === lastPage ? 0 : clamp((offset - entry.turnStart) / layout.turn));
+    const zoom = soften(clamp((offset - layout.coverRead) / layout.zoom));
+    const turns = layout.entries.map((entry, index) => index === lastPage ? 0 : soften(clamp((offset - entry.turnStart) / layout.turn)));
     const reads = pages.map((_, index) => index === 0 ? clamp(offset, 0, layout.coverRead) : readOffset(index, offset));
     const coverRead = reads[0];
     const fit = reducedMotion.matches ? 0 : zoom;
-    const closing = reducedMotion.matches ? 1 : clamp((offset - layout.entries[lastPage].enter) / layout.zoom);
+    const closing = reducedMotion.matches ? 1 : soften(clamp((offset - layout.entries[lastPage].enter) / layout.zoom));
     const backFit = 1 - closing;
     const closingTurn = turns[lastPage - 1];
     const backWidth = mix(layout.open.width, layout.back.width, closing);
@@ -297,7 +298,7 @@
       const middle = (point + points[i]) / 2;
       const turning = middle >= zoomStart && middle <= zoomEnd || middle >= layout.start + layout.entries[lastPage].enter && middle <= chapterPosition(lastPage) || layout.entries.some((entry, page) =>
         page < lastPage && middle >= layout.start + entry.turnStart && middle <= layout.start + entry.turnStart + layout.turn);
-      return { from: points[i], to: point, duration: turning ? 1200 : 350 };
+      return { from: points[i], to: point, duration: turning ? 1350 : 420 };
     });
     const duration = phases.reduce((total, phase) => total + phase.duration, 0);
     const started = performance.now();
@@ -349,7 +350,7 @@
     const animation = overlay.animate([
       { left: `${start.left + (start.width - backMagazine.offsetWidth) / 2}px`, top: `${start.top + (start.height - backMagazine.offsetHeight) / 2}px`, width: `${backMagazine.offsetWidth}px`, height: `${backMagazine.offsetHeight}px`, transform: 'perspective(1800px) rotateY(0deg) rotateZ(-5deg)' },
       { left: `${end.left + (end.width - flight.offsetWidth) / 2}px`, top: `${end.top + (end.height - flight.offsetHeight) / 2}px`, width: `${flight.offsetWidth}px`, height: `${flight.offsetHeight}px`, transform: 'perspective(1800px) rotateY(180deg) rotateZ(5deg)' }
-    ], { duration: 1100, easing: 'cubic-bezier(.45,0,.2,1)', fill: 'forwards' });
+    ], { duration: 1450, easing: 'cubic-bezier(.42,0,.25,1)', fill: 'forwards' });
     wholeFlip = animation;
     animation.finished.then(() => {
       if (wholeFlip !== animation) return;
@@ -365,7 +366,7 @@
   function scheduleSettle() {
     clearTimeout(settleTimer);
     if (!manualScroll || modalLocked || touchActive || animationFrame || wholeFlip) return;
-    settleTimer = setTimeout(settleTurn, 340);
+    settleTimer = setTimeout(settleTurn, 420);
   }
   function settleTurn() {
     if (!manualScroll || modalLocked || touchActive || animationFrame || wholeFlip) return;
@@ -389,8 +390,8 @@
     const started = performance.now();
     snapping = true;
     function tick(now) {
-      const progress = clamp((now - started) / 800);
-      const eased = 1 - (1 - progress) ** 3;
+      const progress = clamp((now - started) / 950);
+      const eased = soften(progress);
       move(mix(from, target, eased));
       if (progress === 1) { animationFrame = 0; snapping = false; return; }
       animationFrame = requestAnimationFrame(tick);
