@@ -20,3 +20,7 @@ The original font binaries remain outside this repository; only rendered preview
 ## Round three
 
 `maoken-naikai-autery.html` compares user-supplied MaokenAssortedSans-TC.otf with NaikaiFont-Regular.ttf (TW), both paired with Autery English. The Naikai archive exceeds the transfer limit; its Regular face was retrieved from max32002/naikaifont at commit 7baa43a6adad4a82eab6fd27c9612b316f69d7c9, which may differ from the uploaded archive revision. These screenshots include the production +2px typography layer. Font binaries are not redistributed; only previews are added.
+
+## Round four
+
+`chen-panda-shaohua.html` compares Chen Yuluoyan 2.0, Star Panda Kids 2.1, and the supplied 平方韶華體.ttf. All use Autery for English letters and the current +2px size layer. Shaohua lacks some traditional characters, including 瑩禮綺麗劇場; the existing LXGW WenKai TC fills missing glyphs. Chinese and numeral glyphs otherwise use the selected Chinese face. Font binaries are not published. Chen/Panda captures were refreshed with current sizing.
