@@ -116,12 +116,17 @@
     }
     context.fillStyle = '#30382b'; context.textAlign = 'center'; context.textBaseline = 'middle';
     context.font = '42px "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('✷', width / 2, height / 2 - 42);
-    context.font = '600 31px "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('點一下 開刮！', width / 2, height / 2 + 7);
-    context.font = '600 23px "Star Panda Kids", "LXGW WenKai TC"';
-    if (context.measureText('A LITTLE LOVE, RESERVED FOR YOU').width > width - 24) {
-      context.fillText('A LITTLE LOVE,', width / 2, height / 2 + 40);
-      context.fillText('RESERVED FOR YOU', width / 2, height / 2 + 68);
-    } else context.fillText('A LITTLE LOVE, RESERVED FOR YOU', width / 2, height / 2 + 40);
+    context.font = '600 41px "Star Panda Kids", "LXGW WenKai TC"'; context.fillText('點一下 開刮！', width / 2, height / 2 + 7);
+    context.font = '600 33px "Star Panda Kids", "LXGW WenKai TC"';
+    const words = 'A LITTLE LOVE, RESERVED FOR YOU'.split(' ');
+    const lines = []; let line = '';
+    words.forEach(word => {
+      const next = line ? line + ' ' + word : word;
+      if (line && context.measureText(next).width > width - 24) { lines.push(line); line = word; }
+      else line = next;
+    });
+    if (line) lines.push(line);
+    lines.forEach((text, i) => context.fillText(text, width / 2, height / 2 + 52 + i * 38));
     context.strokeStyle = '#000';
     strokes.forEach(erase);
   }
