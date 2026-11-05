@@ -38,6 +38,15 @@
   const context = canvas.getContext('2d', { willReadFrequently: true });
   const revealButton = document.getElementById('scratch-reveal');
   const status = document.getElementById('scratch-status');
+  const giftNames = ['酷禮物', '超酷禮物', '棒禮物', '超棒禮物'];
+  const giftStorageKey = 'walker-bonnie-wedding-20270619-gift';
+  let giftName;
+  try { giftName = localStorage.getItem(giftStorageKey); } catch { /* Storage is optional. */ }
+  if (!giftNames.includes(giftName)) {
+    giftName = giftNames[Math.floor(Math.random() * giftNames.length)];
+    try { localStorage.setItem(giftStorageKey, giftName); } catch { /* Keep this visit's result. */ }
+  }
+  card.querySelector('.scratch-message').firstChild.textContent = giftName;
   const strokes = [];
   let revealed = false, drawing = false, last = null, width = 0, height = 0;
   let scratchLock = null, activePointer = null, strokeRect = null, inputKind = null, lastCheck = 0;
@@ -68,7 +77,7 @@
     revealed = true;
     card.classList.add('is-revealed');
     revealButton.textContent = '再刮一次 ↻';
-    status.textContent = '恭喜你獲得神祕小禮物！婚禮當天，出示這個畫面找我們兌換。只限現場領取，禮物內容見面才揭曉。';
+    status.textContent = `恭喜你獲得${giftName}！婚禮當天，出示這個畫面找我們兌換。只限現場領取，禮物內容見面才揭曉。`;
     const box = card.getBoundingClientRect();
     if (box.bottom > 0 && box.top < innerHeight) celebrate(box.x + box.width / 2, box.y + box.height / 2);
   }
