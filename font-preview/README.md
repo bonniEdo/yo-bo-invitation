@@ -16,3 +16,7 @@ The comparison page now shows two user-supplied Chinese faces paired with Autery
 - Autery.otf applies to English A–Z / a–z and ampersands in both variants; it does not contain numerals. Numbers and remaining glyphs use the respective Chinese face. Existing LXGW WenKai TC remains the fallback.
 
 The original font binaries remain outside this repository; only rendered previews are published. The production font configuration is unchanged.
+
+## Round three
+
+`maoken-naikai-autery.html` compares user-supplied MaokenAssortedSans-TC.otf with NaikaiFont-Regular.ttf (TW), both paired with Autery English. The Naikai archive exceeds the transfer limit; its Regular face was retrieved from max32002/naikaifont at commit 7baa43a6adad4a82eab6fd27c9612b316f69d7c9, which may differ from the uploaded archive revision. These screenshots include the production +2px typography layer. Font binaries are not redistributed; only previews are added.
