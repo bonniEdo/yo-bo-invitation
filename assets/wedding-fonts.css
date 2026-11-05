@@ -1,4 +1,4 @@
-@font-face{font-family:'Star Panda Kids';src:url('https://raw.githubusercontent.com/cyberinkflow/StarPandaKidsFonts/1934d8585394d1f0b7b148f25696c121679ef725/StarPandaKidsBeta2.1.otf') format('opentype');font-display:swap;font-weight:400}
+@font-face{font-family:'Star Panda Kids';src:url('https://raw.githubusercontent.com/cyberinkflow/StarPandaKidsFonts/1934d8585394d1f0b7b148f25696c121679ef725/StarPandaKidsBeta2.1.otf') format('opentype');font-display:block;font-weight:400}
 :root{--zh:'Star Panda Kids','LXGW WenKai TC',WenKai,serif;--latin:var(--zh);--sans:var(--zh);--serif:var(--zh);--font:var(--zh)}
 /* Preserve the original supplied glyph weight without synthetic bold or strokes. */
 body,body *{font-weight:400!important;font-synthesis:none;-webkit-text-stroke:0}

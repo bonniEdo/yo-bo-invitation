@@ -1,7 +1,22 @@
 <!doctype html>
 <html lang="zh-Hant"><head><meta charset="utf-8">
 <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
-<link rel="preload" href="https://raw.githubusercontent.com/cyberinkflow/StarPandaKidsFonts/1934d8585394d1f0b7b148f25696c121679ef725/StarPandaKidsBeta2.1.otf" as="font" type="font/otf" crossorigin><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f6ed"><meta name="description" content="我們要結婚啦，誠摯邀請親友填寫出席意願調查，協助安排座位與餐點。"><title>鑫佑 & 宛瑩｜婚禮出席意願調查</title><link rel="stylesheet" href="assets/survey.css?v=3"><link rel="stylesheet" href="assets/wedding-fonts.css?v=3"><link rel="stylesheet" href="assets/survey-type-size.css?v=3"></head>
+<link rel="preload" href="https://raw.githubusercontent.com/cyberinkflow/StarPandaKidsFonts/1934d8585394d1f0b7b148f25696c121679ef725/StarPandaKidsBeta2.1.otf" as="font" type="font/otf" crossorigin><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f7f6ed"><meta name="description" content="我們要結婚啦，誠摯邀請親友填寫出席意願調查，協助安排座位與餐點。"><title>鑫佑 & 宛瑩｜婚禮出席意願調查</title><link rel="stylesheet" href="assets/survey.css?v=3"><link rel="stylesheet" href="assets/wedding-fonts.css?v=3"><link rel="stylesheet" href="assets/survey-type-size.css?v=3"><style>
+html.panda-loading body{visibility:hidden}
+html.panda-loading::after{content:"♥";position:fixed;inset:0;display:grid;place-items:center;background:#f7f6ed;color:#df9074;font:48px/1 serif;z-index:2147483647;animation:panda-loading-pulse 1.2s ease-in-out infinite}
+@keyframes panda-loading-pulse{50%{color:#efb49b}}
+@media(prefers-reduced-motion:reduce){html.panda-loading::after{animation:none}}
+</style><script>
+(()=>{
+  if(!document.fonts)return;
+  const root=document.documentElement;
+  root.classList.add('panda-loading');root.setAttribute('aria-busy','true');
+  const reveal=()=>{root.classList.remove('panda-loading');root.removeAttribute('aria-busy');};
+  const timeout=setTimeout(reveal,6000);
+  const ready=()=>document.fonts.load('400 24px "Star Panda Kids"','我們要結婚了♥').then(()=>{clearTimeout(timeout);reveal();},()=>{clearTimeout(timeout);reveal();});
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ready,{once:true});else ready();
+})();
+</script></head>
 <body><header class="masthead"><a href="#top" class="wordmark">鑫佑 & 宛瑩<small lang="en">Walker & Bonnie</small></a><span class="edition" aria-label="婚禮出席・意願調查">婚禮出席<span class="edition-dot" aria-hidden="true">●</span>意願調查</span></header>
 <main id="top"><section class="hero" aria-labelledby="hero-title"><div class="hero-copy"><p class="eyebrow">親愛的家人與朋友們</p><h1 id="hero-title">我們要結婚了!<span class="title-hearts" aria-hidden="true"><i>♡</i><i>♥</i><i>♡</i><i>♥</i></span></h1><h1 id="hero-celebration"><span class="sun-dot">🎉🎉🎉</span></h1><p class="intro">我們已訂好心儀的婚宴場地！</p><p class="description">想先了解您的<span class="attendance-highlight">出席意願</span><span class="reply-heart" aria-hidden="true">♥</span><br>讓我們提早安排座位與餐點。</p></div><figure class="portrait"><img src="assets/survey-snow-couple.jpg" width="1477" height="1108" alt="鑫佑與宛瑩在雪山前的旅行合照" fetchpriority="high"></figure></section>
 <section class="day-strip" aria-labelledby="day-title"><div class="day-grid"><div><h3>婚宴日期與時間</h3><p class="date">2027<span>年</span>06<span>月</span>19<span>日</span></p><p class="weekday">星期六</p><p class="event-times">12:00 入座<br>12:30 午宴開席</p></div><div><h3>婚宴地點</h3><p class="venue">晶宴・御豐館</p><p class="venue-hall">綺麗劇場</p><p class="venue-address">新竹市東區公道五路三段 1 號 2 樓</p><a class="button map-button" href="https://maps.app.goo.gl/zR6kXYtcgetRcxKTA?g_st=ic" target="_blank" rel="noopener noreferrer">查看婚宴地點 <span aria-hidden="true">📍</span><span class="sr-only">（另開地圖）</span></a></div></div></section>
