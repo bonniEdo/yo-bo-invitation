@@ -132,13 +132,56 @@
     } else busCount.removeAttribute('max');
   }
   form.addEventListener('change',sync); count.addEventListener('input',sync); sync();
+  // Inline, accessible validation replaces the browser's unstyled popup.
+  form.noValidate = true;
+  let validationAttempted = false;
+  const errorNodes = new Map();
+  function validateSurvey(focusFirst = false) {
+    errorNodes.forEach(({node, controls}, id) => {
+      node.remove();
+      controls.forEach(control => {
+        control.removeAttribute('aria-invalid');
+        const descriptions = (control.getAttribute('aria-describedby') || '').split(' ').filter(value => value && value !== id);
+        if (descriptions.length) control.setAttribute('aria-describedby', descriptions.join(' '));
+        else control.removeAttribute('aria-describedby');
+      });
+    });
+    errorNodes.clear();
+    let first = null;
+    const visited = new Set();
+    [...form.elements].filter(control => control.willValidate).forEach(control => {
+      if (control.validity.valid && !(control.name === 'guestName' && !control.value.trim())) return;
+      if (visited.has(control.name)) return;
+      visited.add(control.name);
+      first ||= control;
+      const message = control.name === 'guestName' ? '請填寫您的姓名。'
+        : control.name === 'attendance' ? '請選擇您的出席意願。'
+        : control.name === 'bus' ? '請選擇是否搭乘遊覽車。'
+        : control.name === 'busCount' ? `請填寫 1 至 ${count.value} 位搭車人數。`
+        : '請填寫至少 1 位的整數人數。';
+      const id = 'error-' + control.name;
+      const node = document.createElement('p'); node.id = id; node.className = 'field-error'; node.textContent = message;
+      const controls = [...form.elements].filter(item => item.name === control.name);
+      controls.forEach(item => {
+        item.setAttribute('aria-invalid', 'true');
+        item.setAttribute('aria-describedby', [item.getAttribute('aria-describedby'),id].filter(Boolean).join(' '));
+      });
+      (control.closest('.field') || control.closest('fieldset')).append(node);
+      errorNodes.set(id, {node, controls});
+    });
+    if (first && focusFirst) first.focus({preventScroll:false});
+    return !first;
+  }
+  ['input','change'].forEach(type => form.addEventListener(type, () => { if (validationAttempted) validateSurvey(); }));
   if (!window.SURVEY_CONFIG?.googleFields || !window.SURVEY_CONFIG?.choiceValues) {
     status.textContent = '調查表設定中，暫未開放送出。';
     submit.disabled = true;
   }
   form.addEventListener('submit', async event => {
     event.preventDefault();
-    if (pending || !form.reportValidity()) return;
+    if (pending) return;
+    validationAttempted = true;
+    if (!validateSurvey(true)) return;
     const data = new FormData(form);
     const record = {guestName:String(data.get('guestName')||'').trim(),attendance:data.get('attendance'),guestCount:data.get('attendance')==='yes'?Number(count.value):data.get('attendance')==='no'?0:null,bus:data.get('attendance')==='yes'?data.get('bus'):data.get('attendance')==='maybe'?'maybe':'no',busCount:data.get('attendance')==='yes'&&data.get('bus')==='yes'?Number(busCount.value):0,message:String(data.get('message')||'').trim()};
     if (!record.guestName) { status.textContent='請填寫您的姓名。'; document.getElementById('guest-name').focus(); return; }
