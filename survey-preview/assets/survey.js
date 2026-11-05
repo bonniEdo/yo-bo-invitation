@@ -86,8 +86,8 @@
     if(loveLevel===100){loveLevel=20;charge.classList.remove('is-full');loveCelebration.hidden=true;}
     else loveLevel+=20;
     charge.dataset.charge=String(loveLevel);
-    // Fill the rounded heart from its soft tip to above both lobes.
-    water.style.transform=`translateY(${84-loveLevel*.7}px)`;
+    // Fill from the tapered tip to above both rounded lobes.
+    water.style.transform=`translateY(${90-loveLevel*.75}px)`;
     charge.setAttribute('aria-label',`點一下幫愛心加滿，目前 ${loveLevel}%`);
     chargeStatus.textContent=`愛心已補滿 ${loveLevel}%`;
     if(lovePulse){lovePulse.cancel();lovePulse=null;}
