@@ -772,3 +772,11 @@ h3,h3 *{color:#3569a8!important}
 @media(prefers-reduced-motion:reduce){#thanks .reminder-heart{animation:none}}
 
 #chapters #story-read{width:fit-content;max-width:100%;flex:none}
+
+#story-dialog .chapter-number{display:block;width:100%;text-align:left!important}
+.photo-swipe-hint{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:8;pointer-events:none;white-space:nowrap;font-size:15px;line-height:1.5;color:#896b4e;background:#fffaf0ed;border:1px solid #dbcab4;border-radius:20px;padding:5px 12px;box-shadow:0 2px 8px #60452712}
+#photos[aria-hidden="false"] .gallery-ready:not(.has-interacted) .story-frame.is-current{animation:photo-swipe-preview 3.6s ease-in-out 3}
+#photos[aria-hidden="false"] .gallery-ready:not(.has-interacted) .photo-swipe-hint{animation:photo-hint-sway 1.8s ease-in-out infinite}
+@keyframes photo-swipe-preview{0%,15%,70%,100%{transform:translateX(0) rotate(0)}35%{transform:translateX(-22px) rotate(-2deg)}50%{transform:translateX(10px) rotate(1deg)}}
+@keyframes photo-hint-sway{0%,100%{transform:translateX(calc(-50% - 4px))}50%{transform:translateX(calc(-50% + 4px))}}
+@media(prefers-reduced-motion:reduce){#photos .gallery-ready .story-frame.is-current,#photos .photo-swipe-hint{animation:none!important}}

@@ -12,6 +12,10 @@
   let index = 0, gesture = null, suppressClickUntil = 0;
   viewer.classList.add('gallery-ready');
   viewer.tabIndex = 0;
+  const swipeHint = document.createElement('span');
+  swipeHint.className = 'photo-swipe-hint';
+  swipeHint.textContent = '↔ 左右滑動，翻翻我們的照片';
+  viewer.append(swipeHint);
   viewer.querySelector('.story-controls').hidden = false;
   viewer.querySelector('.story-progress').hidden = false;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
@@ -76,6 +80,7 @@
   dots.forEach(dot => dot.addEventListener('click', () => show(Number(dot.dataset.storyGo))));
   viewer.addEventListener('keydown', event => {
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+      viewer.classList.add('has-interacted');
       event.preventDefault(); show(index + (event.key === 'ArrowLeft' ? -1 : 1));
     }
   });
@@ -89,6 +94,7 @@
   viewer.addEventListener('pointerdown', event => {
     if (changing || !event.isPrimary || event.button !== 0 || event.target.closest('button, a')) return;
     frames[index].getAnimations().forEach(animation => animation.cancel());
+    viewer.classList.add('has-interacted');
     gesture = {id: event.pointerId, x: event.clientX, y: event.clientY, time: performance.now()};
   }, {passive:true});
   window.addEventListener('pointermove', event => {
