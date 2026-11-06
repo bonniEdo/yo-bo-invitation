@@ -742,3 +742,33 @@ h3,h3 *{color:#3569a8!important}
 #details #calendar-button{margin-inline:auto}
 
 #details .time-card h3{justify-content:center}
+
+/* Keep the two facing leaves in the first grid row. */
+@media(min-width:1000px){
+ .has-spreads .spread-leaf-left{grid-column:1;grid-row:1}
+ .has-spreads .spread-leaf-right{grid-column:2;grid-row:1}
+}
+#story .spread-heading .eyebrow,#story .couple-intro .eyebrow{font-size:27px;line-height:1.25;letter-spacing:0;margin:0 0 8px}
+#story .duo-heading,.has-spreads #story .spread-heading .duo-heading{font-size:27px;line-height:1.25!important;margin:0}
+#story .duo-heading em{margin-top:4px}
+#chapters .story-read-link{display:flex;justify-content:center;width:100%;margin-inline:auto}
+#chapters #story-read{margin-inline:auto}
+#details .section-heading{gap:6px;margin-bottom:12px}
+#details .section-heading p,#details .section-heading h2{margin:0;line-height:1.3}
+#details .time-card .detail-top{margin-bottom:12px}
+#details .time-card h3{margin:14px 0 6px;line-height:1.3}
+#details .detail-weekday{margin:6px 0;line-height:1.4}
+#details .time-row{margin:18px 0;line-height:1.3}
+#details .time-row>div>span{margin-top:6px}
+#details .venue-card-copy{padding-block:16px}
+#details .venue-card-copy h3{margin:14px 0 10px}
+#details .venue-card-copy p{margin:10px 0;line-height:1.5}
+#thanks .attendance-reminder,#thanks .attendance-reminder p{width:100%;text-align:center!important;color:#a28562!important}
+#thanks .reminder-heart{display:inline-block;color:#dc5559!important;animation:reminder-hop 1.3s ease-in-out infinite}
+@keyframes reminder-hop{0%,100%{transform:translateY(0)}40%{transform:translateY(-7px) rotate(-8deg)}65%{transform:translateY(-2px) rotate(6deg)}}
+#thanks .thankyou-footer{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:18px;text-align:center}
+#thanks .thankyou-footer>p{margin:0;text-align:center!important}
+#thanks .countdown{text-align:center;align-items:center}
+@media(prefers-reduced-motion:reduce){#thanks .reminder-heart{animation:none}}
+
+#chapters #story-read{width:fit-content;max-width:100%;flex:none}

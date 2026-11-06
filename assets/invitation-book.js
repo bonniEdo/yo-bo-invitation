@@ -56,6 +56,7 @@
           body.append(leaf); leaves[side] = leaf;
         });
         group.nodes.forEach(item => leaves[item.side].append(item.node));
+        if (!group.top?.length) leaves.top.remove();
         group.page.prepend(body); group.body = body;
       } else {
         group.nodes.forEach(item => item.marker.after(item.node));
