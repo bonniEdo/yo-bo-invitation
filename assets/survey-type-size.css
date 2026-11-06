@@ -193,3 +193,6 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 .meal-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 #survey-form .meal-grid .field>label{font-size:30px}
 @media(max-width:370px){.meal-grid{grid-template-columns:1fr}}
+
+/* Keep a single divider above the collapsed shuttle information. */
+.day-strip{border-bottom:0}
