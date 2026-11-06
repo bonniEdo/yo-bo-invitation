@@ -132,6 +132,13 @@
     document.getElementById('count-field').hidden = !confirmed; count.disabled = !confirmed;
     document.getElementById('no-attendance-reaction').hidden = data.get('attendance') !== 'no';
     document.getElementById('bus-field').hidden = !confirmed; document.getElementById('bus-field').disabled = !confirmed;
+    for (const id of ['meal-field','child-field']) {
+      document.getElementById(id).hidden = !confirmed;
+      document.getElementById(id).disabled = !confirmed;
+    }
+    const meat = document.getElementById('meat-count'), veg = document.getElementById('vegetarian-count');
+    const mealsEntered = meat.value !== '' && veg.value !== '';
+    meat.setCustomValidity(confirmed && mealsEntered && Number(meat.value) + Number(veg.value) !== Number(count.value) ? '葷食與素食合計須等於出席人數。' : '');
     const takingBus = confirmed && form.querySelector('[name=bus]:checked')?.value === 'yes';
     document.getElementById('bus-count-field').hidden = !takingBus; busCount.disabled = !takingBus;
     const guests = Number(count.value);
@@ -140,7 +147,7 @@
       if (Number(busCount.value) > guests) busCount.value = String(guests);
     } else busCount.removeAttribute('max');
   }
-  form.addEventListener('change',sync); count.addEventListener('input',sync); sync();
+  form.addEventListener('change',sync); form.addEventListener('input',sync); sync();
   // Inline, accessible validation replaces the browser's unstyled popup.
   form.noValidate = true;
   let validationAttempted = false;
@@ -167,6 +174,8 @@
         : control.name === 'attendance' ? '請選擇您的出席意願。'
         : control.name === 'invitationFormat' ? '請選擇您想收到的喜帖形式。'
         : control.name === 'bus' ? '請選擇是否搭乘遊覽車。'
+        : ['meatCount','vegetarianCount'].includes(control.name) ? (control.validity.customError ? '葷食與素食合計須等於出席人數。' : '請填寫 0 或以上的整數人數。')
+        : ['highchairCount','tablewareCount'].includes(control.name) ? '請填寫 0 或以上的整數數量。'
         : control.name === 'busCount' ? `請填寫 1 至 ${count.value} 位搭車人數。`
         : '請填寫至少 1 位的整數人數。';
       const id = 'error-' + control.name;
@@ -193,7 +202,7 @@
     validationAttempted = true;
     if (!validateSurvey(true)) return;
     const data = new FormData(form);
-    const record = {invitationFormat:data.get('invitationFormat'),guestName:String(data.get('guestName')||'').trim(),attendance:data.get('attendance'),guestCount:data.get('attendance')==='yes'?Number(count.value):data.get('attendance')==='no'?0:null,bus:data.get('attendance')==='yes'?data.get('bus'):data.get('attendance')==='maybe'?'maybe':'no',busCount:data.get('attendance')==='yes'&&data.get('bus')==='yes'?Number(busCount.value):0,message:String(data.get('message')||'').trim()};
+    const record = {meatCount:Number(data.get('meatCount')),vegetarianCount:Number(data.get('vegetarianCount')),highchairCount:Number(data.get('highchairCount')),tablewareCount:Number(data.get('tablewareCount')),invitationFormat:data.get('invitationFormat'),guestName:String(data.get('guestName')||'').trim(),attendance:data.get('attendance'),guestCount:data.get('attendance')==='yes'?Number(count.value):data.get('attendance')==='no'?0:null,bus:data.get('attendance')==='yes'?data.get('bus'):data.get('attendance')==='maybe'?'maybe':'no',busCount:data.get('attendance')==='yes'&&data.get('bus')==='yes'?Number(busCount.value):0,message:String(data.get('message')||'').trim()};
     if (!record.guestName) { status.textContent='請填寫您的姓名。'; document.getElementById('guest-name').focus(); return; }
     if (!['yes','maybe','no'].includes(record.attendance)||!['yes','maybe','no'].includes(record.bus)||(record.attendance==='yes'&&(!Number.isSafeInteger(record.guestCount)||record.guestCount<1))||!Number.isSafeInteger(record.busCount)||record.busCount<0||record.busCount>(record.guestCount||0)) { status.textContent='請確認出席與搭車人數。'; return; }
     if (record.invitationFormat && !['digital','paper','both'].includes(record.invitationFormat)) { status.textContent='請選擇您想收到的喜帖形式。'; return; }
@@ -208,7 +217,7 @@
       url=new URL(config.googleFormUrl);
       if(url.origin!=='https://docs.google.com'||!/^\/forms\/d\/e\/[\w-]+\/viewform$/.test(url.pathname)||url.username||url.password)throw new Error();
       const params=new URLSearchParams({fvv:'1',pageHistory:'0'});
-      const message=[record.message,record.invitationFormat ? `【喜帖形式】${{digital:'電子喜帖',paper:'紙本喜帖',both:'我都要（電子喜帖＋紙本喜帖）'}[record.invitationFormat]}` : '',record.attendance==='no'?'【出席人數】不出席':record.attendance==='maybe'?'【出席人數】尚未確定，暫未填寫':`【出席人數】${record.guestCount} 位`,`【基隆遊覽車】${{yes:'需要搭乘',no:'自行前往',maybe:'尚未確定'}[record.bus]}${record.busCount?`，${record.busCount} 位`:''}`].filter(Boolean).join('\n');
+      const message=[record.message,record.attendance==='yes' ? `【葷素人數】${record.meatCount} 葷、${record.vegetarianCount} 素\n【嬰兒椅】${record.highchairCount} 張\n【兒童餐具】${record.tablewareCount} 份` : '',record.invitationFormat ? `【喜帖形式】${{digital:'電子喜帖',paper:'紙本喜帖',both:'我都要（電子喜帖＋紙本喜帖）'}[record.invitationFormat]}` : '',record.attendance==='no'?'【出席人數】不出席':record.attendance==='maybe'?'【出席人數】尚未確定，暫未填寫':`【出席人數】${record.guestCount} 位`,`【基隆遊覽車】${{yes:'需要搭乘',no:'自行前往',maybe:'尚未確定'}[record.bus]}${record.busCount?`，${record.busCount} 位`:''}`].filter(Boolean).join('\n');
       const values={...record,attendance:choices.attendance?.[record.attendance],guestCount:record.attendance==='yes'?(choices.guestCount?.[String(record.guestCount)]||config.customGuestCount):choices.guestCount?.['0'],bus:choices.bus?.[record.bus],message};
       for(const key of ['guestName','attendance','guestCount','message'])if(!/^entry\.\d+$/.test(fields[key]||''))throw new Error();
       if(typeof values.attendance!=='string'||!values.attendance||typeof values.guestCount!=='string'||!values.guestCount)throw new Error();
