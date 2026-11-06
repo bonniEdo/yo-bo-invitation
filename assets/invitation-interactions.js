@@ -209,6 +209,8 @@
     let url;
     try { url = new URL(photo, location.href); } catch { return; }
     if (!['http:', 'https:'].includes(url.protocol) && !(location.protocol === 'file:' && url.protocol === 'file:')) return;
+    const existing = slot.querySelector('img');
+    if (existing && existing.getAttribute('src') === photo) return;
     const img = new Image();
     img.alt = Number(slot.dataset.photo) === 0 ? '鑫佑與宛瑩的合照' : '鑫佑與宛瑩的生活照片';
     img.loading = Number(slot.dataset.photo) === 0 ? 'eager' : 'lazy';
