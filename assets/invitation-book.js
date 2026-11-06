@@ -30,7 +30,18 @@
 
   // Preserve the original mobile document order. On desktop, move the same
   // live nodes into facing leaves; existing controls keep their event handlers.
-  const spreadGroups = [];
+  const spreadGroups = [
+    {id:'story',left:['.couple-intro > div:first-child'],right:['.personality-pair']},
+    {id:'photos',left:['.photos-heading'],right:['.story-viewer']},
+    {id:'chapters',left:['.story-next-chapter h3'],right:['.story-next-chapter > p','.story-read-link']},
+    {id:'details',left:['.section-heading','.time-card'],right:['.venue-card']},
+    {id:'thanks',left:['.attendance-reminder','.thankyou-footer'],right:['.scratch-section']}
+  ].map(group => {
+    const page=document.getElementById(group.id);
+    return {...group,page,body:null,nodes:['left','right'].flatMap(side=>group[side].flatMap(selector=>[...page.querySelectorAll(selector)].map(node=>{
+      const marker=document.createComment('single-page position');node.before(marker);return {node,marker,side};
+    })))};
+  });
   let spreadMounted = false;
   function syncSpreads() {
     const desktop = window.innerWidth >= 1000;
@@ -157,7 +168,7 @@
       }
       // The reverse cover must not show through the front of the final leaf.
       // Explicit visibility also covers independently composited paper-edge layers.
-      const notOpened = index === lastPage ? closingTurn <= .5 : index === 1 ? zoom < 1 : turns[index - 1] === 0;
+      const notOpened = index === lastPage ? closingTurn <= .5 : index === 1 ? zoom < 1 || (!layout.desktop && turns[0] < .5) : turns[index - 1] < (layout.desktop ? .001 : .5);
       const turned = index !== lastPage && turns[index] >= (reducedMotion.matches ? .5 : 1);
       const hidden = notOpened || turned;
       page.style.visibility = hidden ? 'hidden' : 'visible';
@@ -166,6 +177,7 @@
       page.style.pointerEvents = hidden ? 'none' : '';
       page.style.clipPath = revealBottom !== null && index === turningIndex + 1
         ? `inset(0px 0px ${Math.max(0, layout.heights[index] - revealBottom)}px 0px)` : '';
+      if (!layout.desktop && index === 1 && turns[0] < 1 && !hidden) page.style.clipPath = `inset(${layout.open.top}px ${Math.max(0,(layout.width-layout.open.width)/2)}px ${Math.max(0,layout.scene-layout.open.top-layout.open.height)}px)`;
       page.style.setProperty('--turn-shade', layout.desktop ? 0 : Math.sin(turns[index] * Math.PI) * .19);
     });
 

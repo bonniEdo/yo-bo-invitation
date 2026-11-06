@@ -627,3 +627,40 @@ h3,h3 *{color:#3569a8!important}
  .content-page .page-actions{left:20px;right:20px}
 }
 .content-page .page-number{position:absolute;left:50%;transform:translateX(-50%);pointer-events:none}
+
+/* Restore facing leaves while keeping five equally sized chapters. */
+.book-page,.story-reader-shell,.calendar-dialog{text-align:center}
+.personality,.personality-name,.personality-copy,.personality-extra,.story-reader-body p,.story-chapter h3,.detail-card,.story-frame figcaption,.story-next-chapter{text-align:center!important}
+.personality-name{justify-content:center}
+.time-row,.page-actions,.paper-bottom{justify-content:space-between}
+#next-chapter-title,.story-reader-header h2{display:flex;justify-content:center;align-items:baseline;gap:.35em;flex-wrap:wrap}
+.story-title-names{display:inline;font:inherit!important;font-size:inherit!important;letter-spacing:inherit;margin:0;color:inherit}
+.book-cover .cover-person-bonnie{display:flex;left:auto;right:7%;top:5%;z-index:6}
+.book-cover .cover-person-bonnie .cover-ink{color:#fffef0;text-shadow:0 1px 4px #000b}
+.photos-heading h2{font-size:34px}.photos-heading p{font-size:22px;line-height:1.9}
+@media(min-width:1000px){
+ .has-spreads .content-page>.page-content{display:none}
+ .has-spreads .content-page>.spread-body{height:calc(var(--scene-height) - 86px);min-height:0;max-height:calc(var(--scene-height) - 86px);padding-top:0}
+ .has-spreads .content-page .spread-leaf{height:100%;padding:32px 28px;overflow:auto;overscroll-behavior:contain;background:var(--paper)}
+ .has-spreads #story .personality-pair{display:block}
+ .has-spreads #story .spread-leaf-left,.has-spreads #photos .spread-leaf-left,.has-spreads #chapters .spread-leaf-left{display:flex;flex-direction:column;justify-content:center}
+ .has-spreads #chapters .spread-leaf-right{display:flex;flex-direction:column;justify-content:center;gap:26px;font-size:22px;line-height:1.9}
+ .has-spreads #chapters h3{font-size:30px;line-height:1.6;display:block}
+ .has-spreads #chapters .story-title-names{white-space:nowrap}
+ .has-spreads #photos .gallery-ready{height:100%;min-height:570px}
+ .has-spreads #photos .gallery-ready .story-photo{inset:0 0 240px;height:auto}
+ .has-spreads #photos .gallery-ready .story-frame figcaption{inset:auto 0 0;width:100%;height:240px;padding:16px 8px 64px;display:block;text-align:center}
+ .has-spreads #photos .gallery-ready .story-controls{bottom:254px;left:0;right:0}
+ .has-spreads #photos .gallery-ready .story-progress{bottom:14px;left:0;right:0;width:100%}
+ .has-spreads #thanks .spread-leaf{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:28px}
+ .has-spreads #details .detail-card{padding:16px 0}
+ .has-spreads #details .section-heading{justify-content:center}
+}
+@media(max-width:999px){
+ #next-chapter-title,.story-reader-header h2{flex-direction:column;align-items:center;gap:4px}
+ .story-title-names{white-space:nowrap}
+ .photos-heading{display:none}
+}
+
+#next-chapter-title:focus{outline:none}
+@media(min-width:1000px){.has-spreads .content-page>.page-content{display:none!important}}
