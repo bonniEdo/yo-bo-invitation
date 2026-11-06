@@ -664,3 +664,23 @@ h3,h3 *{color:#3569a8!important}
 
 #next-chapter-title:focus{outline:none}
 @media(min-width:1000px){.has-spreads .content-page>.page-content{display:none!important}}
+
+.pronoun-blue{color:#3569a8}.pronoun-pink{color:#d77e98}
+#story .personality,#story .personality-name,#story .personality-copy,#story .personality-extra{text-align:left!important}
+#story .personality-name{justify-content:flex-start}
+#story .profile-toggle{justify-self:start}
+@media(min-width:1000px){
+ .has-spreads #story .spread-heading{position:absolute;top:0;left:0;right:0;height:180px;padding:22px 24px;z-index:5;display:flex;justify-content:center;align-items:center;text-align:center;background:var(--paper)}
+ .has-spreads #story .spread-heading .eyebrow{margin-bottom:10px}
+ .has-spreads #story .spread-heading .duo-heading{font-size:30px;line-height:1.45;margin:0;text-align:center}
+ .has-spreads #story .spread-heading .duo-heading br{display:none}
+ .has-spreads #story .spread-heading .duo-heading em{display:block}
+ .has-spreads #story .spread-leaf{padding-top:200px;display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch}
+ .has-spreads #story .personality{width:100%;padding:24px 0;grid-template-columns:64px minmax(0,1fr) auto;gap:14px}
+ .has-spreads #story .personality-avatar{width:64px;height:64px}
+ .has-spreads #story .personality .personality-name{font-size:30px}
+ .has-spreads #story .personality .personality-copy{font-size:20px;line-height:1.9}
+ .has-spreads #story .personality-type{font-size:15px}
+}
+#story-dialog .pronoun-blue{color:#3569a8!important}
+#story-dialog .pronoun-pink{color:#d77e98!important}

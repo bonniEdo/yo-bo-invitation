@@ -31,14 +31,14 @@
   // Preserve the original mobile document order. On desktop, move the same
   // live nodes into facing leaves; existing controls keep their event handlers.
   const spreadGroups = [
-    {id:'story',left:['.couple-intro > div:first-child'],right:['.personality-pair']},
+    {id:'story',top:['.couple-intro > div:first-child'],left:['.personality.quiet'],right:['.personality.sunny']},
     {id:'photos',left:['.photos-heading'],right:['.story-viewer']},
     {id:'chapters',left:['.story-next-chapter h3'],right:['.story-next-chapter > p','.story-read-link']},
     {id:'details',left:['.section-heading','.time-card'],right:['.venue-card']},
     {id:'thanks',left:['.attendance-reminder','.thankyou-footer'],right:['.scratch-section']}
   ].map(group => {
     const page=document.getElementById(group.id);
-    return {...group,page,body:null,nodes:['left','right'].flatMap(side=>group[side].flatMap(selector=>[...page.querySelectorAll(selector)].map(node=>{
+    return {...group,page,body:null,nodes:['top','left','right'].flatMap(side=>(group[side] || []).flatMap(selector=>[...page.querySelectorAll(selector)].map(node=>{
       const marker=document.createComment('single-page position');node.before(marker);return {node,marker,side};
     })))};
   });
@@ -51,8 +51,8 @@
       if (desktop) {
         const body = document.createElement('div'); body.className = 'spread-body';
         const leaves = {};
-        ['left','right'].forEach(side => {
-          const leaf = document.createElement('div'); leaf.className = `spread-leaf spread-leaf-${side}`;
+        ['top','left','right'].forEach(side => {
+          const leaf = document.createElement('div'); leaf.className = side === 'top' ? 'spread-heading' : `spread-leaf spread-leaf-${side}`;
           body.append(leaf); leaves[side] = leaf;
         });
         group.nodes.forEach(item => leaves[item.side].append(item.node));
