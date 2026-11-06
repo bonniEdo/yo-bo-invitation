@@ -139,12 +139,13 @@
   function sync() {
     const data = new FormData(form);
     const confirmed = data.get('attendance') === 'yes';
-    const digitalOnly = ['maybe','no'].includes(data.get('attendance'));
+    const invitationField = document.getElementById('invitation-format-field');
+    invitationField.hidden = !confirmed;
+    invitationField.disabled = !confirmed;
     form.querySelectorAll('[name=invitationFormat]').forEach(input => {
-      const unavailable = digitalOnly && input.value !== 'digital';
-      if (unavailable) input.checked = false;
-      input.disabled = unavailable;
-      input.closest('label').hidden = unavailable;
+      if (!confirmed) input.checked = false;
+      input.disabled = !confirmed;
+      input.closest('label').hidden = false;
     });
     document.getElementById('count-field').hidden = !confirmed; count.disabled = !confirmed;
     document.getElementById('no-attendance-reaction').hidden = data.get('attendance') !== 'no';
@@ -223,7 +224,7 @@
     if (!record.guestName) { status.textContent='請填寫您的姓名。'; document.getElementById('guest-name').focus(); return; }
     if (!['yes','maybe','no'].includes(record.attendance)||!['yes','maybe','no'].includes(record.bus)||(record.attendance==='yes'&&(!Number.isSafeInteger(record.guestCount)||record.guestCount<1))||!Number.isSafeInteger(record.busCount)||record.busCount<0||record.busCount>(record.guestCount||0)) { status.textContent='請確認出席與搭車人數。'; return; }
     if (record.invitationFormat && !['digital','paper','both'].includes(record.invitationFormat)) { status.textContent='請選擇您想收到的喜帖形式。'; return; }
-    if (record.attendance !== 'yes' && record.invitationFormat && record.invitationFormat !== 'digital') { status.textContent='請選擇電子喜帖。'; return; }
+    if (record.attendance !== 'yes' && record.invitationFormat) { status.textContent='請確認您的出席意願與喜帖選擇。'; return; }
     const config=window.SURVEY_CONFIG||{},fields=config.googleFields,choices=config.choiceValues;
     if (!fields || !choices) { status.textContent='表單連線設定中，暫時請直接告訴鑫佑或宛瑩。'; status.focus(); return; }
     if (record.attendance !== 'yes' && !choices.guestCount?.['0']) {
