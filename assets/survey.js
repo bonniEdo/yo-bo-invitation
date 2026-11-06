@@ -122,6 +122,13 @@
   function sync() {
     const data = new FormData(form);
     const confirmed = data.get('attendance') === 'yes';
+    const digitalOnly = ['maybe','no'].includes(data.get('attendance'));
+    form.querySelectorAll('[name=invitationFormat]').forEach(input => {
+      const unavailable = digitalOnly && input.value !== 'digital';
+      if (unavailable) input.checked = false;
+      input.disabled = unavailable;
+      input.closest('label').hidden = unavailable;
+    });
     document.getElementById('count-field').hidden = !confirmed; count.disabled = !confirmed;
     document.getElementById('no-attendance-reaction').hidden = data.get('attendance') !== 'no';
     document.getElementById('bus-field').hidden = !confirmed; document.getElementById('bus-field').disabled = !confirmed;
@@ -189,7 +196,8 @@
     const record = {invitationFormat:data.get('invitationFormat'),guestName:String(data.get('guestName')||'').trim(),attendance:data.get('attendance'),guestCount:data.get('attendance')==='yes'?Number(count.value):data.get('attendance')==='no'?0:null,bus:data.get('attendance')==='yes'?data.get('bus'):data.get('attendance')==='maybe'?'maybe':'no',busCount:data.get('attendance')==='yes'&&data.get('bus')==='yes'?Number(busCount.value):0,message:String(data.get('message')||'').trim()};
     if (!record.guestName) { status.textContent='請填寫您的姓名。'; document.getElementById('guest-name').focus(); return; }
     if (!['yes','maybe','no'].includes(record.attendance)||!['yes','maybe','no'].includes(record.bus)||(record.attendance==='yes'&&(!Number.isSafeInteger(record.guestCount)||record.guestCount<1))||!Number.isSafeInteger(record.busCount)||record.busCount<0||record.busCount>(record.guestCount||0)) { status.textContent='請確認出席與搭車人數。'; return; }
-    if (!['digital','paper','both'].includes(record.invitationFormat)) { status.textContent='請選擇您想收到的喜帖形式。'; return; }
+    if (record.invitationFormat && !['digital','paper','both'].includes(record.invitationFormat)) { status.textContent='請選擇您想收到的喜帖形式。'; return; }
+    if (record.attendance !== 'yes' && record.invitationFormat && record.invitationFormat !== 'digital') { status.textContent='請選擇電子喜帖。'; return; }
     const config=window.SURVEY_CONFIG||{},fields=config.googleFields,choices=config.choiceValues;
     if (!fields || !choices) { status.textContent='表單連線設定中，暫時請直接告訴鑫佑或宛瑩。'; status.focus(); return; }
     if (record.attendance !== 'yes' && !choices.guestCount?.['0']) {
@@ -200,7 +208,7 @@
       url=new URL(config.googleFormUrl);
       if(url.origin!=='https://docs.google.com'||!/^\/forms\/d\/e\/[\w-]+\/viewform$/.test(url.pathname)||url.username||url.password)throw new Error();
       const params=new URLSearchParams({fvv:'1',pageHistory:'0'});
-      const message=[record.message,`【喜帖形式】${{digital:'電子喜帖',paper:'紙本喜帖',both:'我都要（電子喜帖＋紙本喜帖）'}[record.invitationFormat]}`,record.attendance==='no'?'【出席人數】不出席':record.attendance==='maybe'?'【出席人數】尚未確定，暫未填寫':`【出席人數】${record.guestCount} 位`,`【基隆遊覽車】${{yes:'需要搭乘',no:'自行前往',maybe:'尚未確定'}[record.bus]}${record.busCount?`，${record.busCount} 位`:''}`].filter(Boolean).join('\n');
+      const message=[record.message,record.invitationFormat ? `【喜帖形式】${{digital:'電子喜帖',paper:'紙本喜帖',both:'我都要（電子喜帖＋紙本喜帖）'}[record.invitationFormat]}` : '',record.attendance==='no'?'【出席人數】不出席':record.attendance==='maybe'?'【出席人數】尚未確定，暫未填寫':`【出席人數】${record.guestCount} 位`,`【基隆遊覽車】${{yes:'需要搭乘',no:'自行前往',maybe:'尚未確定'}[record.bus]}${record.busCount?`，${record.busCount} 位`:''}`].filter(Boolean).join('\n');
       const values={...record,attendance:choices.attendance?.[record.attendance],guestCount:record.attendance==='yes'?(choices.guestCount?.[String(record.guestCount)]||config.customGuestCount):choices.guestCount?.['0'],bus:choices.bus?.[record.bus],message};
       for(const key of ['guestName','attendance','guestCount','message'])if(!/^entry\.\d+$/.test(fields[key]||''))throw new Error();
       if(typeof values.attendance!=='string'||!values.attendance||typeof values.guestCount!=='string'||!values.guestCount)throw new Error();
@@ -222,7 +230,8 @@
       document.getElementById('receipt-note').textContent='若有變動\n再跟我們說';
       document.getElementById('receipt-note').hidden=record.attendance==='maybe';
       document.getElementById('response-summary').textContent={yes:"太棒了！婚禮見！ 🥳",maybe:"好的\n猶豫好再跟我們說",no:"那就另約另約拉 ☺️"}[record.attendance];
-      document.getElementById('invitation-confirmation').textContent={digital:'已預定『電子喜帖』',paper:'已預訂『紙本喜帖』',both:'已預訂『兩種喜帖』'}[record.invitationFormat];
+      document.getElementById('invitation-confirmation').textContent={digital:'已預定『電子喜帖』',paper:'已預訂『紙本喜帖』',both:'已預訂『兩種喜帖』'}[record.invitationFormat] || '';
+      document.getElementById('invitation-confirmation').hidden=!record.invitationFormat;
       document.getElementById('success-title').focus({preventScroll:true});
     }catch{status.textContent='尚未確認送出，請稍後重試，填寫內容已保留。';status.focus();}
     finally{clearTimeout(timer);pending=false;submit.disabled=false;submit.textContent='送出意願 ♡';}
