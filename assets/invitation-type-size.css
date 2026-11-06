@@ -715,3 +715,12 @@ h3,h3 *{color:#3569a8!important}
  #details .venue-map{height:160px}
  #thanks .scratch-card{height:220px;min-height:220px}
 }
+
+/* Drag feedback must follow the finger immediately, without queued transitions. */
+#photos .gallery-ready .story-frame{transition:none!important;will-change:transform;user-select:none;-webkit-user-select:none}
+#photos .gallery-ready .story-photo img{pointer-events:none;-webkit-user-drag:none}
+#story-dialog .story-reader-body p,#story-dialog .story-chapter h3,#chapters .spread-leaf-right p,#chapters .story-next-chapter>p{text-align:left!important}
+#story-dialog .story-chapter h3,#story-dialog .story-chapter h3 *:not(.pronoun-blue):not(.pronoun-pink),#next-chapter-title,#next-chapter-title .story-title-names{color:#a28562!important}
+#story-read{display:inline-flex;align-items:center;justify-content:center;gap:14px;padding:10px 22px 10px 12px;border:1px solid #dbcab4;border-radius:18px;background:#fffaf0;box-shadow:0 4px 12px #a2856214;font-size:22px;line-height:1.4;text-decoration:none;align-self:center}
+#story-read:hover{background:#f5eddf;transform:translateY(-2px)}
+.story-olaf{width:64px;height:64px;object-fit:contain;flex-shrink:0}

@@ -461,12 +461,12 @@
   }, {passive: true});
   window.addEventListener('pointerdown', event => {
     if (modalLocked) return;
-    if (event.target.closest('#scratch-card')) { cancelAnimation(); manualScroll = false; return; }
+    if (event.target.closest('#scratch-card,.story-viewer')) { cancelAnimation(); manualScroll = false; return; }
     cancelAnimation(); manualScroll = true; scheduleSettle();
   }, {passive: true});
   window.addEventListener('touchstart', event => {
     if (modalLocked) return;
-    if (event.target.closest('#scratch-card')) { cancelAnimation(); manualScroll = false; return; }
+    if (event.target.closest('#scratch-card,.story-viewer')) { cancelAnimation(); manualScroll = false; return; }
     touchActive = true; cancelAnimation(); manualScroll = true;
   }, {passive: true});
   ['touchend', 'touchcancel'].forEach(type => window.addEventListener(type, () => {
@@ -481,7 +481,7 @@
       scheduleSettle();
     }
   });
-  book.addEventListener('click', () => requestAnimationFrame(requestMeasure));
+  book.addEventListener('click', event => { if(event.target.closest('.profile-toggle')) requestAnimationFrame(requestMeasure); });
   window.addEventListener('resize', () => {
     // iPhone toolbars change height during a swipe. Keep the reading geometry
     // until a real resize/orientation change, rather than jumping under a finger.
