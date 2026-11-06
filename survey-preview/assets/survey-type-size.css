@@ -232,3 +232,11 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 /* Mirror venue typography in the date and time column. */
 .day-grid .weekday{font-size:30px;line-height:1.6;margin:0 0 12px}
 .day-grid .event-times{font-size:calc(clamp(16px,4vw,22px) + 6px);line-height:1.8;letter-spacing:0}
+
+/* Anchor bubbles to the title text instead of the full desktop column. */
+#hero-title{width:fit-content;max-width:100%}
+@media(max-width:600px){#hero-title{margin-inline:auto}}
+@media(min-width:601px){
+ .title-hearts i{animation-name:title-heart-float-desktop}
+ @keyframes title-heart-float-desktop{0%{opacity:0;transform:translateY(0) scale(.7) rotate(-12deg)}20%{opacity:.75}100%{opacity:0;transform:translateY(-40px) scale(1.25) rotate(12deg)}}
+}
