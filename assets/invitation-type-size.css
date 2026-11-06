@@ -684,3 +684,16 @@ h3,h3 *{color:#3569a8!important}
 }
 #story-dialog .pronoun-blue{color:#3569a8!important}
 #story-dialog .pronoun-pink{color:#d77e98!important}
+
+/* A small pile of photographs replaces the carousel strip. */
+#photos .gallery-ready{overflow:visible;cursor:grab;touch-action:pan-y pinch-zoom;width:calc(100% - 24px);margin:12px auto 20px;isolation:isolate}
+#photos .gallery-ready:active{cursor:grabbing}
+#photos .gallery-ready .story-track{position:absolute;inset:0;display:block;width:100%;height:100%;transform:none!important;overflow:visible}
+#photos .gallery-ready .story-frame{position:absolute;inset:0;width:100%;height:100%;min-width:0;background:var(--paper);border:1px solid #d8d0bc;border-radius:4px;box-shadow:0 8px 22px #5c4a3220;transform:translateY(calc(var(--card-order)*8px)) rotate(calc(var(--card-order)*2deg)) scale(calc(1 - var(--card-order)*.025));transform-origin:50% 85%;z-index:calc(3 - var(--card-order));opacity:1!important;visibility:visible!important;overflow:hidden}
+#photos .gallery-ready .story-frame:not(.is-current){pointer-events:none}
+#photos .gallery-ready .story-frame.is-current{z-index:4}
+#photos .gallery-ready .story-controls,#photos .gallery-ready .story-progress{display:none!important}
+#photos .gallery-ready .story-photo{border-radius:3px 3px 0 0}
+@media(prefers-reduced-motion:reduce){#photos .gallery-ready .story-frame{transition:none}}
+
+#photos .gallery-ready .story-frame:not(.is-current):not(.is-next-card){opacity:0!important}

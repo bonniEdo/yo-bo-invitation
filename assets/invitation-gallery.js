@@ -8,6 +8,7 @@
   const next = document.getElementById('story-next');
   const dots = [...viewer.querySelectorAll('[data-story-go]')];
   const status = document.getElementById('story-slide-status');
+  let changing = false;
   let index = 0, gesture = null, suppressClickUntil = 0;
   viewer.classList.add('gallery-ready');
   viewer.tabIndex = 0;
@@ -29,11 +30,24 @@
     animate(light, [{transform:'translateX(-120%)',opacity:0},{opacity:.55,offset:.45},{transform:'translateX(120%)',opacity:0}], {duration:1000,easing:'ease-in-out'});
   }
   function show(requested, animate = true) {
-    // Only explicit carousel controls change the photo; scrolling never does.
+    if (changing) return;
+    if (animate && !reduced.matches) {
+      changing = true;
+      const direction = requested < index ? -1 : 1;
+      const outgoing = frames[index];
+      outgoing.animate([{transform:getComputedStyle(outgoing).transform,opacity:1},{transform:`translateX(${-direction*viewer.clientWidth}px) rotate(${-direction*14}deg)`,opacity:0}],{duration:380,easing:'cubic-bezier(.4,0,.2,1)'}).finished.catch(()=>{}).finally(()=>{
+        changing=false;show(requested,false);
+        frames[index].animate([{transform:'translateY(10px) scale(.96)'},{transform:'none'}],{duration:350,easing:'ease-out'});
+      });
+      return;
+    }
+    // Reorder the stacked cards without a horizontal carousel track.
     index = (requested + frames.length) % frames.length;
-    track.style.transform = `translateX(${-index * 100}%)`;
+    track.style.transform = 'none';
     frames.forEach((frame, i) => {
+      frame.style.setProperty('--card-order', String((i-index+frames.length)%frames.length));
       frame.classList.toggle('is-current', i === index);
+      frame.classList.toggle('is-next-card', i === (index+1)%frames.length);
       frame.inert = i !== index;
       frame.setAttribute('aria-hidden', String(i !== index));
     });
@@ -76,15 +90,24 @@
     if (!event.isPrimary || event.button !== 0 || event.target.closest('button, a')) return;
     gesture = {id: event.pointerId, x: event.clientX, y: event.clientY, time: performance.now()};
   }, {passive:true});
+  window.addEventListener('pointermove', event => {
+    if (!gesture || gesture.id !== event.pointerId || changing) return;
+    const dx=event.clientX-gesture.x,dy=event.clientY-gesture.y;
+    if(Math.abs(dx)>Math.abs(dy) && Math.abs(dx)>8) {
+      suppressClickUntil=performance.now()+450;
+      frames[index].style.transform=`translateX(${dx}px) rotate(${dx/25}deg)`;
+    }
+  }, {passive:true});
   window.addEventListener('pointerup', event => {
     if (!gesture || event.pointerId !== gesture.id) return;
     const dx = event.clientX - gesture.x, dy = event.clientY - gesture.y;
     // A swipe changes the slide; its following synthetic click never zooms.
     if (Math.abs(dx) > 12 || Math.abs(dy) > 12) suppressClickUntil = performance.now() + 450;
     if (Math.abs(dx) >= 45 && Math.abs(dx) > Math.abs(dy) * 1.3 && performance.now() - gesture.time < 1200) show(index + (dx < 0 ? 1 : -1));
+    frames.forEach(frame=>frame.style.transform='');
     gesture = null;
   }, {passive:true});
-  window.addEventListener('pointercancel', () => { gesture = null; suppressClickUntil = performance.now() + 450; }, {passive:true});
+  window.addEventListener('pointercancel', () => { frames.forEach(frame=>frame.style.transform=''); gesture = null; suppressClickUntil = performance.now() + 450; }, {passive:true});
   viewer.addEventListener('dragstart', event => event.preventDefault());
   viewer.querySelectorAll('.story-photo').forEach(photo => {
     photo.tabIndex = 0;
