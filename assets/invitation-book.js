@@ -146,6 +146,9 @@
       const index = relative + 1;
       if (layout.desktop && index < lastPage && page.querySelector('.spread-body')) {
         page.style.transform = `translateY(${-reads[index]}px)`;
+        const spread = page.querySelector('.spread-body');
+        spread.style.background = turns[index] > 0 ? 'transparent' : '';
+        spread.style.boxShadow = turns[index] > 0 ? 'none' : '';
         const left = page.querySelector('.spread-leaf-left');
         const right = page.querySelector('.spread-leaf-right');
         // Swap the resting left leaf edge-on; overlapping text must never fade through.
@@ -322,7 +325,7 @@
       const middle = (point + points[i]) / 2;
       const turning = middle >= zoomStart && middle <= zoomEnd || middle >= layout.start + layout.entries[lastPage].enter && middle <= chapterPosition(lastPage) || layout.entries.some((entry, page) =>
         page < lastPage && middle >= layout.start + entry.turnStart && middle <= layout.start + entry.turnStart + layout.turn);
-      return { from: points[i], to: point, duration: turning ? 1350 : 420 };
+      return { from: points[i], to: point, duration: turning ? 720 : 180 };
     });
     const duration = phases.reduce((total, phase) => total + phase.duration, 0);
     const started = performance.now();
@@ -395,7 +398,7 @@
   function scheduleSettle() {
     clearTimeout(settleTimer);
     if (!manualScroll || modalLocked || touchActive || animationFrame || wholeFlip) return;
-    settleTimer = setTimeout(settleTurn, 420);
+    settleTimer = setTimeout(settleTurn, 180);
   }
   function settleTurn() {
     if (!manualScroll || modalLocked || touchActive || animationFrame || wholeFlip) return;

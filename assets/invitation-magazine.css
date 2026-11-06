@@ -32,3 +32,6 @@
  #chapters .story-next-chapter>p{line-height:1.65}
  #thanks .attendance-reminder{padding:16px 0;border-top:1px solid #d8d0bc;border-bottom:1px solid #d8d0bc}
 }
+
+@media(min-width:1000px){.has-spreads .content-page .spread-leaf{background:var(--paper)}}
+@media(max-width:999px){.book-enabled .book-page{touch-action:pan-y pinch-zoom}#photos .story-viewer{touch-action:pan-y pinch-zoom}#photos .story-frame{touch-action:pan-y pinch-zoom}.content-page .page-content{padding-inline:22px}#story .personality{gap:6px}#chapters .story-next-chapter>p{margin-bottom:16px}}

@@ -100,6 +100,8 @@
   window.addEventListener('pointermove', event => {
     if (!gesture || gesture.id !== event.pointerId || changing) return;
     const dx=event.clientX-gesture.x,dy=event.clientY-gesture.y;
+    if (!gesture.axis && Math.max(Math.abs(dx),Math.abs(dy)) > 8) gesture.axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+    if (gesture.axis === "y") return;
     if(Math.abs(dx)>Math.abs(dy) && Math.abs(dx)>8) {
       viewer.setPointerCapture(event.pointerId);
       suppressClickUntil=performance.now()+450;
@@ -113,6 +115,7 @@
     if (Math.abs(dx) > 12 || Math.abs(dy) > 12) suppressClickUntil = performance.now() + 450;
     if (Math.abs(dx) >= 45 && Math.abs(dx) > Math.abs(dy) * 1.3) show(index + (dx < 0 ? 1 : -1));
     frames.forEach(frame=>frame.style.transform='');
+    if (viewer.hasPointerCapture(event.pointerId)) viewer.releasePointerCapture(event.pointerId);
     gesture = null;
   }, {passive:true});
   window.addEventListener('pointercancel', () => { frames.forEach(frame=>frame.style.transform=''); gesture = null; suppressClickUntil = performance.now() + 450; }, {passive:true});
