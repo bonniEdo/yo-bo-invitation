@@ -97,6 +97,23 @@
     if(loveLevel===100){loveBusy=true;setTimeout(burstLove,reducedMotion.matches?0:460);}
   });
 
+  // Number inputs otherwise accept exponent notation, decimal points and signs.
+  form.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener('keydown', event => {
+      if (!event.ctrlKey && !event.metaKey && !event.altKey && event.key.length === 1 && !/^[0-9]$/.test(event.key)) event.preventDefault();
+    });
+    input.addEventListener('beforeinput', event => {
+      if (event.data != null && !/^[0-9]*$/.test(event.data)) event.preventDefault();
+    });
+    input.addEventListener('paste', event => {
+      if (!/^[0-9]+$/.test(event.clipboardData?.getData('text') || '')) event.preventDefault();
+    });
+    input.addEventListener('drop', event => event.preventDefault());
+    input.addEventListener('input', () => {
+      if (!/^[0-9]*$/.test(input.value) || input.validity.badInput) input.value = '';
+    });
+  });
+
   const count = document.getElementById('guest-count');
   const busCount = document.getElementById('bus-count');
   let saved = null, pending = false;
