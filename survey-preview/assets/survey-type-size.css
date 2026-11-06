@@ -213,3 +213,6 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 #survey-form .invitation-choices label{font-size:30px}
 #survey-form #child-counts{margin-top:20px}
 #receipt-note{font-size:28px}
+
+.early-rsvp .invitation-reminder{margin-top:12px;font-size:22px;line-height:1.7;color:#a66d49}
+.early-rsvp .invitation-reminder .reply-heart{font-size:18px}
