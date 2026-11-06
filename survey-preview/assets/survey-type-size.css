@@ -71,7 +71,7 @@ input, select, textarea{font-size:calc(20px + 18px)}
 .venue-hall{font-size:calc(24px + 18px)}
 
 /* Consistent blue third-level headings, including nested date labels. */
-h3,h3 *{color:#5b3e30!important}
+h3,h3 *{color:#a66d49!important}
 
 /* Survey-specific reading hierarchy after the global font-size adjustment. */
 #hero-title{position:relative;color:#d5743f}
@@ -101,7 +101,7 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 @media(max-width:370px){#hero-title{font-size:46px}.hero .eyebrow{font-size:28px}}
 
 .hero .description{font-size:calc(clamp(18px,5vw,26px) + 3px)}
-.survey-section>p{color:#5b3e30}
+.survey-section>p{color:#a66d49}
 .reply-heart{display:inline-block;color:#d64f54;font-size:24px;margin-left:8px;animation:reply-heart-bubble 2.6s ease-in-out infinite}
 @keyframes reply-heart-bubble{0%,100%{transform:translateY(0) scale(1);opacity:.8}50%{transform:translateY(-12px) scale(1.25);opacity:1}}
 #guest-count,#bus-count{font-size:43px}
@@ -118,7 +118,7 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 .shuttle-note p:not(.shuttle-followup){font-size:35px;line-height:1.8}
 .shuttle-line{display:block;white-space:nowrap}
 .shuttle-note .shuttle-followup{font-size:calc(clamp(16px,3.8vw,22px) + 3px)}
-.transport-highlight,.shuttle-note strong{color:#5b3e30}
+.transport-highlight,.shuttle-note strong{color:#a66d49}
 #survey-dialog{font-size:37px}
 #survey-dialog .modal-header p{font-size:34px}
 #survey-dialog .modal-header h2{font-size:43px}
@@ -173,9 +173,9 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 
 #response-summary,#receipt-note{white-space:pre-line}
 
-.attendance-highlight{color:#5b3e30}
+.attendance-highlight{color:#a66d49}
 
-.masthead .wordmark,.masthead .wordmark small{color:#5b3e30}
+.masthead .wordmark,.masthead .wordmark small{color:#a66d49}
 
 /* Keep the longer attendance option readable on one line. */
 #survey-form .choices label:has(input[name="attendance"][value="no"]){grid-column:1 / -1;font-size:clamp(20px,7vw,30px);letter-spacing:0;white-space:nowrap}
@@ -183,12 +183,12 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 #survey-form .invitation-choices{grid-template-columns:1fr}
 @media(max-width:600px){#survey-form .invitation-choices{grid-template-columns:1fr}}
 
-#survey-form .invitation-style{display:inline-block;font-size:20px;color:#5b3e30;white-space:nowrap}
+#survey-form .invitation-style{display:inline-block;font-size:20px;color:#a66d49;white-space:nowrap}
 
-#survey-success #invitation-confirmation{font-size:24px;line-height:1.6;color:#5b3e30;margin:12px 0 24px}
+#survey-success #invitation-confirmation{font-size:24px;line-height:1.6;color:#a66d49;margin:12px 0 24px}
 
 .shuttle-details{margin:24px 0;border-block:1px solid var(--line)}
-.shuttle-details>summary{padding:16px 8px;font-size:26px;color:#5b3e30;cursor:pointer;list-style-position:inside;text-align:center}
+.shuttle-details>summary{padding:16px 8px;font-size:26px;color:#a66d49;cursor:pointer;list-style-position:inside;text-align:center}
 .shuttle-details .shuttle-note{margin:0 0 18px}
 .meal-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 #survey-form .meal-grid .field>label{font-size:30px}
@@ -204,4 +204,4 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 
 /* Couple names are the only blue text in the survey. */
 .couple-names,#survey-dialog .couple-names{color:#3569a8}
-#survey-form legend,#survey-form .field>label,#survey-form .choices label{color:#5b3e30}
+#survey-form legend,#survey-form .field>label,#survey-form .choices label{color:#a66d49}
