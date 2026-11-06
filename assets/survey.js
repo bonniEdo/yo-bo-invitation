@@ -158,9 +158,13 @@
       document.getElementById(id).hidden = !confirmed;
       document.getElementById(id).disabled = !confirmed;
     }
-    const meat = document.getElementById('meat-count'), veg = document.getElementById('vegetarian-count');
-    const mealsEntered = meat.value !== '' && veg.value !== '';
-    meat.setCustomValidity(confirmed && mealsEntered && Number(meat.value) + Number(veg.value) !== Number(count.value) ? '葷食與素食合計須等於出席人數。' : '');
+    const childNeeded = confirmed && document.getElementById('needs-child-items').checked;
+    document.getElementById('child-counts').hidden = !childNeeded;
+    for (const id of ['highchair-count','tableware-count']) document.getElementById(id).disabled = !childNeeded;
+    const veg = document.getElementById('vegetarian-count');
+    veg.max = count.value || '0';
+    const validMeals = confirmed && count.value && veg.value !== '' && Number.isSafeInteger(Number(veg.value)) && Number(veg.value) >= 0 && Number(veg.value) <= Number(count.value);
+    document.getElementById('meal-summary').textContent = validMeals ? `葷食 ${Number(count.value)-Number(veg.value)} 位・素食 ${Number(veg.value)} 位` : '';
     const takingBus = confirmed && form.querySelector('[name=bus]:checked')?.value === 'yes';
     document.getElementById('bus-count-field').hidden = !takingBus; busCount.disabled = !takingBus;
     const guests = Number(count.value);
@@ -197,7 +201,7 @@
         : control.name === 'attendance' ? '請選擇您的出席意願。'
         : control.name === 'invitationFormat' ? '請選擇您想收到的喜帖形式。'
         : control.name === 'bus' ? '請選擇是否搭乘遊覽車。'
-        : ['meatCount','vegetarianCount'].includes(control.name) ? (control.validity.customError ? '葷食與素食合計須等於出席人數。' : '請填寫 0 或以上的整數人數。')
+        : ['meatCount','vegetarianCount'].includes(control.name) ? (control.validity.customError ? '請確認素食人數。' : `請填寫 0 至 ${count.value || 0} 位素食人數。`)
         : ['highchairCount','tablewareCount'].includes(control.name) ? '請填寫 0 或以上的整數數量。'
         : control.name === 'busCount' ? `請填寫 1 至 ${count.value} 位搭車人數。`
         : '請填寫至少 1 位的整數人數。';
@@ -225,7 +229,7 @@
     validationAttempted = true;
     if (!validateSurvey(true)) return;
     const data = new FormData(form);
-    const record = {postalAddress:String(data.get('postalAddress')||'').trim(),meatCount:Number(data.get('meatCount')),vegetarianCount:Number(data.get('vegetarianCount')),highchairCount:Number(data.get('highchairCount')),tablewareCount:Number(data.get('tablewareCount')),invitationFormat:data.get('invitationFormat'),guestName:String(data.get('guestName')||'').trim(),attendance:data.get('attendance'),guestCount:data.get('attendance')==='yes'?Number(count.value):data.get('attendance')==='no'?0:null,bus:data.get('attendance')==='yes'?data.get('bus'):data.get('attendance')==='maybe'?'maybe':'no',busCount:data.get('attendance')==='yes'&&data.get('bus')==='yes'?Number(busCount.value):0,message:String(data.get('message')||'').trim()};
+    const record = {postalAddress:String(data.get('postalAddress')||'').trim(),meatCount:data.get('attendance')==='yes'?Number(count.value)-Number(data.get('vegetarianCount')):0,vegetarianCount:Number(data.get('vegetarianCount')),highchairCount:Number(data.get('highchairCount')),tablewareCount:Number(data.get('tablewareCount')),invitationFormat:data.get('invitationFormat'),guestName:String(data.get('guestName')||'').trim(),attendance:data.get('attendance'),guestCount:data.get('attendance')==='yes'?Number(count.value):data.get('attendance')==='no'?0:null,bus:data.get('attendance')==='yes'?(data.get('bus')||'no'):data.get('attendance')==='maybe'?'maybe':'no',busCount:data.get('attendance')==='yes'&&data.get('bus')==='yes'?Number(busCount.value):0,message:String(data.get('message')||'').trim()};
     if (!record.guestName) { status.textContent='請填寫您的姓名。'; document.getElementById('guest-name').focus(); return; }
     if (!['yes','maybe','no'].includes(record.attendance)||!['yes','maybe','no'].includes(record.bus)||(record.attendance==='yes'&&(!Number.isSafeInteger(record.guestCount)||record.guestCount<1))||!Number.isSafeInteger(record.busCount)||record.busCount<0||record.busCount>(record.guestCount||0)) { status.textContent='請確認出席與搭車人數。'; return; }
     if (record.invitationFormat && !['digital','paper','both'].includes(record.invitationFormat)) { status.textContent='請選擇您想收到的喜帖形式。'; return; }
@@ -240,7 +244,7 @@
       url=new URL(config.googleFormUrl);
       if(url.origin!=='https://docs.google.com'||!/^\/forms\/d\/e\/[\w-]+\/viewform$/.test(url.pathname)||url.username||url.password)throw new Error();
       const params=new URLSearchParams({fvv:'1',pageHistory:'0'});
-      const message=[record.message,record.attendance==='yes' && ['paper','both'].includes(record.invitationFormat) ? `【喜帖寄送地址】${record.postalAddress}` : '',record.attendance==='yes' ? `【葷素人數】${record.meatCount} 葷、${record.vegetarianCount} 素\n【嬰兒椅】${record.highchairCount} 張\n【兒童餐具】${record.tablewareCount} 份` : '',record.invitationFormat ? `【喜帖形式】${{digital:'電子喜帖',paper:'紙本喜帖',both:'我都要（電子喜帖＋紙本喜帖）'}[record.invitationFormat]}` : '',record.attendance==='no'?'【出席人數】不出席':record.attendance==='maybe'?'【出席人數】尚未確定，暫未填寫':`【出席人數】${record.guestCount} 位`,`【基隆遊覽車】${{yes:'需要搭乘',no:'自行前往',maybe:'尚未確定'}[record.bus]}${record.busCount?`，${record.busCount} 位`:''}`].filter(Boolean).join('\n');
+      const message=[record.message,record.attendance==='yes' && ['paper','both'].includes(record.invitationFormat) ? `【喜帖寄送地址】${record.postalAddress}` : '',record.attendance==='yes' ? `【葷素人數】${record.meatCount} 葷、${record.vegetarianCount} 素\n【嬰兒椅】${record.highchairCount} 張\n【兒童餐具】${record.tablewareCount} 份` : '',record.invitationFormat ? `【喜帖形式】${{digital:'電子喜帖',paper:'電子喜帖＋紙本喜帖',both:'我都要（電子喜帖＋紙本喜帖）'}[record.invitationFormat]}` : '',record.attendance==='no'?'【出席人數】不出席':record.attendance==='maybe'?'【出席人數】尚未確定，暫未填寫':`【出席人數】${record.guestCount} 位`,`【基隆遊覽車】${{yes:'需要搭乘',no:'自行前往',maybe:'尚未確定'}[record.bus]}${record.busCount?`，${record.busCount} 位`:''}`].filter(Boolean).join('\n');
       const values={...record,attendance:choices.attendance?.[record.attendance],guestCount:record.attendance==='yes'?(choices.guestCount?.[String(record.guestCount)]||config.customGuestCount):choices.guestCount?.['0'],bus:choices.bus?.[record.bus],message};
       for(const key of ['guestName','attendance','guestCount','message'])if(!/^entry\.\d+$/.test(fields[key]||''))throw new Error();
       if(typeof values.attendance!=='string'||!values.attendance||typeof values.guestCount!=='string'||!values.guestCount)throw new Error();
@@ -259,10 +263,10 @@
       // An opaque response cannot confirm Google has stored the submission.
       form.hidden=true;document.getElementById('survey-success').hidden=false;
       document.getElementById('success-title').textContent='回覆已送出';
-      document.getElementById('receipt-note').textContent='若有變動\n再跟我們說';
+      document.getElementById('receipt-note').textContent='人數或安排有變動\n請直接 LINE 告訴我們';
       document.getElementById('receipt-note').hidden=record.attendance==='maybe';
       document.getElementById('response-summary').textContent={yes:"太棒了！婚禮見！ 🥳",maybe:"好的\n猶豫好再跟我們說",no:"那就另約啦 ☺️"}[record.attendance];
-      document.getElementById('invitation-confirmation').textContent={digital:'已預定『電子喜帖』',paper:'已預訂『紙本喜帖』',both:'已預訂『兩種喜帖』'}[record.invitationFormat] || '';
+      document.getElementById('invitation-confirmation').textContent={digital:'已預定『電子喜帖』',paper:'已預訂『電子＋紙本喜帖』',both:'已預訂『兩種喜帖』'}[record.invitationFormat] || '';
       document.getElementById('invitation-confirmation').hidden=!record.invitationFormat;
       document.getElementById('success-title').focus({preventScroll:true});
     }catch{status.textContent='尚未確認送出，請稍後重試，填寫內容已保留。';status.focus();}

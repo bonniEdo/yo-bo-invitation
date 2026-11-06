@@ -205,3 +205,11 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 /* Couple names are the only blue text in the survey. */
 .couple-names,#survey-dialog .couple-names{color:#3569a8}
 #survey-form legend,#survey-form .field>label,#survey-form .choices label{color:#a66d49}
+
+.early-rsvp{text-align:center;margin:22px 0 30px}
+#survey-form .choices:has(input[type=checkbox]){grid-template-columns:1fr}
+#survey-form input[type=checkbox]{appearance:auto;display:inline-block;width:20px;height:20px;min-height:0;padding:0;flex:0 0 20px;accent-color:#a66d49}
+#survey-form .invitation-note,#survey-form #meal-summary{font-size:24px;color:#a66d49}
+#survey-form .invitation-choices label{font-size:30px}
+#survey-form #child-counts{margin-top:20px}
+#receipt-note{font-size:28px}
