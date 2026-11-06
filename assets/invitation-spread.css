@@ -11,24 +11,24 @@
   .has-spreads .spread-leaf-right{z-index:2;transform-origin:0 50%;will-change:transform}
   .has-spreads .spread-leaf-right:after{content:'';position:absolute;inset:0;background:rgb(36 38 34 / var(--leaf-shade,0));pointer-events:none}
   .has-spreads .book-story .couple-intro{display:block;margin:0 0 22px}
-  .has-spreads #story .duo-heading{font-size:32px;max-width:none;margin:12px 0 24px;line-height:1.25}
-  .has-spreads #story .personality{padding:18px 0;grid-template-columns:48px minmax(0,1fr) auto;gap:8px 12px}
-  .has-spreads #story .personality-avatar{width:48px;height:48px}
-  .has-spreads #story .personality .personality-name{font-size:23px}
-  .has-spreads #story .personality .personality-copy{font-size:14px}
-  .has-spreads #story .story-introduction{font-size:13px;line-height:1.9;letter-spacing:0;margin:20px 0}
-  .has-spreads #story .story-next-chapter{padding:22px 0 0;margin-top:18px}
-  .has-spreads #story .story-next-chapter h3{font-size:27px;margin-bottom:16px}
-  .has-spreads #story .story-next-chapter>p{font-size:14px;line-height:1.9}
-  .has-spreads #story .spread-leaf-right{display:flex}
-  .has-spreads #story .gallery-ready{height:auto;min-height:700px;width:100%;flex:1}
-  .has-spreads #story .gallery-ready .story-photo{inset:0 0 300px;height:auto}
-  .has-spreads #story .gallery-ready .story-frame figcaption{inset:auto 0 0;width:100%;height:300px;padding:20px 14px 72px;justify-content:center}
-  .has-spreads #story .gallery-ready .story-frame figcaption h3{font-size:28px;line-height:1.45;margin:8px 0 12px}
-  .has-spreads #story .gallery-ready .story-frame figcaption>p{font-size:14px;line-height:1.85;max-width:none}
-  .has-spreads #story .gallery-ready .story-frame figcaption .eyebrow{font-size:13px}
-  .has-spreads #story .gallery-ready .story-controls{top:auto;bottom:314px;left:8px;right:8px}
-  .has-spreads #story .gallery-ready .story-progress{bottom:14px;left:0;right:0;width:100%}
+  .has-spreads :is(#story,#photos,#chapters) .duo-heading{font-size:32px;max-width:none;margin:12px 0 24px;line-height:1.25}
+  .has-spreads :is(#story,#photos,#chapters) .personality{padding:18px 0;grid-template-columns:48px minmax(0,1fr) auto;gap:8px 12px}
+  .has-spreads :is(#story,#photos,#chapters) .personality-avatar{width:48px;height:48px}
+  .has-spreads :is(#story,#photos,#chapters) .personality .personality-name{font-size:23px}
+  .has-spreads :is(#story,#photos,#chapters) .personality .personality-copy{font-size:14px}
+  .has-spreads :is(#story,#photos,#chapters) .story-introduction{font-size:13px;line-height:1.9;letter-spacing:0;margin:20px 0}
+  .has-spreads :is(#story,#photos,#chapters) .story-next-chapter{padding:22px 0 0;margin-top:18px}
+  .has-spreads :is(#story,#photos,#chapters) .story-next-chapter h3{font-size:27px;margin-bottom:16px}
+  .has-spreads :is(#story,#photos,#chapters) .story-next-chapter>p{font-size:14px;line-height:1.9}
+  .has-spreads :is(#story,#photos,#chapters) .spread-leaf-right{display:flex}
+  .has-spreads :is(#story,#photos,#chapters) .gallery-ready{height:auto;min-height:700px;width:100%;flex:1}
+  .has-spreads :is(#story,#photos,#chapters) .gallery-ready .story-photo{inset:0 0 300px;height:auto}
+  .has-spreads :is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption{inset:auto 0 0;width:100%;height:300px;padding:20px 14px 72px;justify-content:center}
+  .has-spreads :is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption h3{font-size:28px;line-height:1.45;margin:8px 0 12px}
+  .has-spreads :is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption>p{font-size:14px;line-height:1.85;max-width:none}
+  .has-spreads :is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption .eyebrow{font-size:13px}
+  .has-spreads :is(#story,#photos,#chapters) .gallery-ready .story-controls{top:auto;bottom:314px;left:8px;right:8px}
+  .has-spreads :is(#story,#photos,#chapters) .gallery-ready .story-progress{bottom:14px;left:0;right:0;width:100%}
   .has-spreads .book-details>.details-grid{display:none}
   .has-spreads .book-details .section-heading{margin-bottom:26px}
   .has-spreads .book-details .section-heading h2{font-size:36px}
@@ -55,8 +55,8 @@
 }
 @media(min-width:1000px) and (max-width:1150px){
   .has-spreads .spread-leaf{padding-inline:24px}
-  .has-spreads #story .duo-heading{font-size:28px}
-  .has-spreads #story .gallery-ready .story-frame figcaption h3{font-size:25px}
+  .has-spreads :is(#story,#photos,#chapters) .duo-heading{font-size:28px}
+  .has-spreads :is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption h3{font-size:25px}
 }
 @media(prefers-reduced-motion:reduce){.has-spreads .spread-leaf-right{will-change:auto}}
 

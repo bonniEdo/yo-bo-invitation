@@ -1,7 +1,7 @@
 /* Rounded actions share a quiet surface and a clear focus treatment. */
 .action-control,
 #invitation .action-control,
-#story .action-control,
+:is(#story,#photos,#chapters) .action-control,
 #details .action-control,
 #rsvp .action-control,
 #thanks .action-control,
@@ -18,7 +18,7 @@
   box-shadow:none;cursor:pointer;transform:none;transition:color .2s,border-color .2s;
 }
 #invitation .action-control:hover,
-#story .action-control:hover,
+:is(#story,#photos,#chapters) .action-control:hover,
 #details .action-control:hover,
 #rsvp .action-control:hover,
 #thanks .action-control:hover,
@@ -31,7 +31,7 @@
 .site-footer .action-control:hover{background:#f5e5bf;border-color:#9d7956;transform:none}
 .action-control:focus-visible{outline:2px solid #8d704e;outline-offset:4px}
 #invitation .action-control:disabled,
-#story .action-control:disabled,
+:is(#story,#photos,#chapters) .action-control:disabled,
 #details .action-control:disabled,
 #rsvp .action-control:disabled,
 #thanks .action-control:disabled,
@@ -45,23 +45,23 @@ dialog .action-control:disabled{opacity:.42;cursor:default;box-shadow:none}
 #invitation .hero-actions .action-control{font-size:11px;padding:11px 15px}
 #invitation .sun-sticker.action-control{right:-36px;bottom:22px;gap:6px;padding:8px 12px;min-height:44px;flex-direction:row;transform:none}
 #invitation .sun-sticker>span{font-size:24px;line-height:1}#invitation .sun-sticker small{display:block;font-size:10px;background:none;padding:0;color:inherit;white-space:nowrap;transform:none}
-#story .story-progress{gap:7px;bottom:12px}
-#story .story-progress .action-control{width:44px;min-width:44px;height:44px;padding:0}
-#story .story-progress .action-control[aria-current]{background:#f1dfb9;border-color:#9d7956}
-#story .story-progress button:before{font-size:20px}
-#story .story-arrow.action-control{min-width:88px;white-space:nowrap}
-#story .personality{cursor:default;transform:none;background:#faf7ee}
-#story .personality:hover{transform:none;box-shadow:none}
-#story .personality.sunny{background:#faf1d9}
-#story .personality .personality-name{font:500 28px/1.3 var(--sans)}
-#story .personality .personality-name small{font:400 12px/1.5 var(--serif);letter-spacing:.8px}
-#story .personality .profile-toggle{margin-top:auto;width:100%;padding-inline:8px;letter-spacing:0}
-#story .personality.is-expanded .profile-toggle{background:#f1dfb9}
-#story .duo-heading{font-size:clamp(25px,3vw,38px);letter-spacing:-1px;line-height:1.6}
-#story .personality-extra{margin-top:0;font-size:12px}
-#story .gallery-ready .story-frame figcaption{padding-bottom:80px}
-#story .gallery-ready .story-frame figcaption h3{font-size:clamp(24px,2.5vw,34px);line-height:1.4}
-#story .gallery-ready .story-frame figcaption>p{line-height:2;font-size:12px}
+:is(#story,#photos,#chapters) .story-progress{gap:7px;bottom:12px}
+:is(#story,#photos,#chapters) .story-progress .action-control{width:44px;min-width:44px;height:44px;padding:0}
+:is(#story,#photos,#chapters) .story-progress .action-control[aria-current]{background:#f1dfb9;border-color:#9d7956}
+:is(#story,#photos,#chapters) .story-progress button:before{font-size:20px}
+:is(#story,#photos,#chapters) .story-arrow.action-control{min-width:88px;white-space:nowrap}
+:is(#story,#photos,#chapters) .personality{cursor:default;transform:none;background:#faf7ee}
+:is(#story,#photos,#chapters) .personality:hover{transform:none;box-shadow:none}
+:is(#story,#photos,#chapters) .personality.sunny{background:#faf1d9}
+:is(#story,#photos,#chapters) .personality .personality-name{font:500 28px/1.3 var(--sans)}
+:is(#story,#photos,#chapters) .personality .personality-name small{font:400 12px/1.5 var(--serif);letter-spacing:.8px}
+:is(#story,#photos,#chapters) .personality .profile-toggle{margin-top:auto;width:100%;padding-inline:8px;letter-spacing:0}
+:is(#story,#photos,#chapters) .personality.is-expanded .profile-toggle{background:#f1dfb9}
+:is(#story,#photos,#chapters) .duo-heading{font-size:clamp(25px,3vw,38px);letter-spacing:-1px;line-height:1.6}
+:is(#story,#photos,#chapters) .personality-extra{margin-top:0;font-size:12px}
+:is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption{padding-bottom:80px}
+:is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption h3{font-size:clamp(24px,2.5vw,34px);line-height:1.4}
+:is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption>p{line-height:2;font-size:12px}
 .story-next-chapter{position:relative;padding:32px;margin-top:30px;border:1px solid #d7c7ac;border-radius:20px;background:#f7f0df}
 .story-next-chapter h3{font-size:28px;line-height:1.6;margin:12px 0 20px;font-weight:500}
 .story-next-chapter>p:not(.eyebrow){font-size:13px;line-height:2.1;max-width:700px}
@@ -87,14 +87,14 @@ dialog .action-control:disabled{opacity:.42;cursor:default;box-shadow:none}
 @media(max-width:760px){
   .site-header{gap:8px}.site-header nav{gap:6px}.site-header nav .action-control{font-size:10px;padding:9px 10px;white-space:nowrap}.site-header .brand.action-control{padding:8px 10px}.site-header .name-pair strong{font-size:12px}.site-header .name-pair small{font-size:8px;letter-spacing:.2px}.site-header .nav-rsvp span{margin-left:0}
   #invitation .sun-sticker.action-control{right:-17px;padding:6px 9px}#invitation .sun-sticker>span{font-size:20px}
-  #story .personality .personality-name{font-size:24px}#story .personality .personality-name small{font-size:11px}
-  #story .personality .profile-toggle{font-size:11px}#story .duo-heading br{display:block}
-  #story .gallery-ready .story-photo{inset:0 0 270px;height:auto}
-  #story .gallery-ready .story-frame figcaption{height:270px;padding:20px 20px 68px}
-  #story .gallery-ready .story-frame figcaption h3{font-size:25px;margin:7px 0 10px}
-  #story .gallery-ready .story-frame figcaption>p{font-size:11px;line-height:1.85}
-  #story .gallery-ready .story-controls{bottom:284px}
-  #story .gallery-ready .story-progress{right:14px;bottom:12px}
+  :is(#story,#photos,#chapters) .personality .personality-name{font-size:24px}:is(#story,#photos,#chapters) .personality .personality-name small{font-size:11px}
+  :is(#story,#photos,#chapters) .personality .profile-toggle{font-size:11px}:is(#story,#photos,#chapters) .duo-heading br{display:block}
+  :is(#story,#photos,#chapters) .gallery-ready .story-photo{inset:0 0 270px;height:auto}
+  :is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption{height:270px;padding:20px 20px 68px}
+  :is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption h3{font-size:25px;margin:7px 0 10px}
+  :is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption>p{font-size:11px;line-height:1.85}
+  :is(#story,#photos,#chapters) .gallery-ready .story-controls{bottom:284px}
+  :is(#story,#photos,#chapters) .gallery-ready .story-progress{right:14px;bottom:12px}
   .story-next-chapter{padding:24px 20px}.story-next-chapter h3{font-size:25px}.story-next-chapter>p:not(.eyebrow){font-size:12px}
   .backcover-actions{gap:6px}#backcover .backcover-actions .action-control{font-size:10px;padding-inline:10px}
   #rsvp-dialog .rsvp-modal-header h2{font-size:22px}
@@ -102,7 +102,7 @@ dialog .action-control:disabled{opacity:.42;cursor:default;box-shadow:none}
   .story-reader-body{padding:24px}.story-reader-body p{font-size:14px;line-height:2}.story-chapter h3{font-size:21px}
   .page-actions .action-control{max-width:100%;white-space:normal}
 }
-@media(max-width:370px){#story .personality .personality-name{font-size:22px}#story .personality .profile-toggle{font-size:10px}#story .gallery-ready .story-frame figcaption h3{font-size:23px}.story-reader-header{padding:16px}.story-reader-header h2{font-size:18px}.story-reader-body{padding:20px}#story-dialog #story-close{padding-inline:12px}.site-footer{gap:12px}.site-footer>span{width:100%;order:3}.site-footer .action-control{font-size:10px;padding:10px 12px}}
+@media(max-width:370px){:is(#story,#photos,#chapters) .personality .personality-name{font-size:22px}:is(#story,#photos,#chapters) .personality .profile-toggle{font-size:10px}:is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption h3{font-size:23px}.story-reader-header{padding:16px}.story-reader-header h2{font-size:18px}.story-reader-body{padding:20px}#story-dialog #story-close{padding-inline:12px}.site-footer{gap:12px}.site-footer>span{width:100%;order:3}.site-footer .action-control{font-size:10px;padding:10px 12px}}
 @media(max-width:760px){.site-header nav>a.action-control:first-child{display:none}}
 .cover-portrait,.backcover-photo{cursor:default}.story-photo{cursor:ew-resize}
 
@@ -113,12 +113,12 @@ html.is-cover .site-header{visibility:hidden;pointer-events:none}
 /* A profile opens once; no second control is needed to close it. */
 .personality-extra:focus{outline:none}
 /* Photograph edge to edge, with its zoom action on the image itself. */
-#story .gallery-ready{border:0;border-radius:0;box-shadow:none;background:none}
-#story .story-photo{border:0;border-radius:0}
-#story .story-photo-zoom{position:absolute;top:12px;right:12px;z-index:4;font-size:11px;min-height:44px;padding:9px 14px;touch-action:manipulation}
-#story .story-progress .heart-dot{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;cursor:pointer}
-#story .story-progress .heart-dot[aria-current]{background:none;border:0;box-shadow:none}
-#story .story-progress .heart-dot:focus-visible{outline:2px solid #8d704e;outline-offset:0;border-radius:8px}
+:is(#story,#photos,#chapters) .gallery-ready{border:0;border-radius:0;box-shadow:none;background:none}
+:is(#story,#photos,#chapters) .story-photo{border:0;border-radius:0}
+:is(#story,#photos,#chapters) .story-photo-zoom{position:absolute;top:12px;right:12px;z-index:4;font-size:11px;min-height:44px;padding:9px 14px;touch-action:manipulation}
+:is(#story,#photos,#chapters) .story-progress .heart-dot{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:0;background:none;box-shadow:none;cursor:pointer}
+:is(#story,#photos,#chapters) .story-progress .heart-dot[aria-current]{background:none;border:0;box-shadow:none}
+:is(#story,#photos,#chapters) .story-progress .heart-dot:focus-visible{outline:2px solid #8d704e;outline-offset:0;border-radius:8px}
 .story-next-chapter .eyebrow{font-size:9px;letter-spacing:1px}.story-next-chapter h3{font-size:clamp(24px,3vw,32px)}
 /* Previous and next stay on opposite sides, including on a small phone. */
 .page-actions{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:12px;width:100%}
@@ -140,7 +140,7 @@ html.is-cover .site-header{visibility:hidden;pointer-events:none}
   .page-actions>.action-control .icon{width:14px;flex-basis:14px}
   #backcover .backcover-actions{padding-inline:18px}
   .book-thanks .scratch-card,.book-thanks .scratch-prize{min-height:270px}
-  #story .story-photo-zoom{top:10px;right:10px;padding:8px 12px}
+  :is(#story,#photos,#chapters) .story-photo-zoom{top:10px;right:10px;padding:8px 12px}
 }
 @media(max-width:370px){.page-actions>.action-control{font-size:10px;padding-inline:10px}.page-actions .icon{display:none}#backcover .backcover-actions{padding-inline:12px}}
 
@@ -148,29 +148,29 @@ html.is-cover .site-header{visibility:hidden;pointer-events:none}
 @font-face{font-family:'LXGW WenKai TC';src:url('fonts/LXGWWenKaiTC-Regular.woff2') format('woff2');font-weight:400;font-style:normal;font-display:swap}
 :root{--zh:'LXGW WenKai TC','Iansui',serif;--latin:Arial,'Helvetica Neue',sans-serif;--sans:Arial,'Helvetica Neue','LXGW WenKai TC','Iansui',sans-serif;--serif:Georgia,'Times New Roman','LXGW WenKai TC','Iansui',serif}
 body{font-size:16px}
-#story .duo-heading{font:400 clamp(30px,3.2vw,44px)/1.3 var(--latin);letter-spacing:-1px;max-width:440px}
-#story .duo-heading em{font-style:normal;color:#8b7958}
-#story .couple-intro>div>.eyebrow{font:400 14px/1.5 var(--latin);letter-spacing:1px}
-#story .personality .personality-name{font:400 32px/1.3 var(--zh)}
-#story .personality .personality-name small{font:400 16px/1.4 var(--latin);letter-spacing:.4px}
+:is(#story,#photos,#chapters) .duo-heading{font:400 clamp(30px,3.2vw,44px)/1.3 var(--latin);letter-spacing:-1px;max-width:440px}
+:is(#story,#photos,#chapters) .duo-heading em{font-style:normal;color:#8b7958}
+:is(#story,#photos,#chapters) .couple-intro>div>.eyebrow{font:400 14px/1.5 var(--latin);letter-spacing:1px}
+:is(#story,#photos,#chapters) .personality .personality-name{font:400 32px/1.3 var(--zh)}
+:is(#story,#photos,#chapters) .personality .personality-name small{font:400 16px/1.4 var(--latin);letter-spacing:.4px}
 .personality-type{font:400 15px/1.5 var(--latin);letter-spacing:2px;color:#8b7958;margin-top:12px}
-#story .personality .personality-copy{font-size:15px;line-height:1.85;margin-top:10px;min-height:56px}
-#story .personality-extra{font-size:14px;line-height:1.9}
+:is(#story,#photos,#chapters) .personality .personality-copy{font-size:15px;line-height:1.85;margin-top:10px;min-height:56px}
+:is(#story,#photos,#chapters) .personality-extra{font-size:14px;line-height:1.9}
 .book-cover .paper-names{top:5.5%;font-size:clamp(16px,5cqw,24px)}
 .book-cover .paper-names small{font:400 clamp(11px,3.8cqw,16px)/1.2 var(--latin);letter-spacing:0}
 .site-header .name-pair strong{font-size:16px}.site-header .name-pair small{font:400 15px/1.2 var(--latin);letter-spacing:0}
-#story .gallery-ready,#story .gallery-ready .story-track,#story .gallery-ready .story-frame,#story .gallery-ready .story-photo,#story .gallery-ready .story-frame figcaption,#story .gallery-ready img{background:transparent}
-#story .story-photo{cursor:zoom-in}
-#story .story-photo:focus-visible{outline:2px solid #8d704e;outline-offset:-4px}
-#story .story-arrow.action-control{width:48px;min-width:48px;height:48px;padding:0}
-#story .gallery-ready .story-frame figcaption .eyebrow{font:400 14px/1.5 var(--latin);letter-spacing:.2px}
-#story .gallery-ready .story-frame figcaption h3{font-size:30px;line-height:1.5;letter-spacing:0}
-#story .gallery-ready .story-frame figcaption>p{font-size:15px;line-height:1.9}
-#story .story-next-chapter{display:flex;flex-direction:column;padding:32px}
-#story .story-next-chapter h3{font:400 clamp(28px,3.2vw,42px)/1.3 var(--latin);letter-spacing:-.5px;margin:0 0 24px}
-#story .story-next-chapter>p{font-size:15px}
-#story .story-read-link{align-self:flex-end;margin:10px 0 0 auto;font-size:14px}
-#story .story-read-link:hover{color:#30251a}
+:is(#story,#photos,#chapters) .gallery-ready,:is(#story,#photos,#chapters) .gallery-ready .story-track,:is(#story,#photos,#chapters) .gallery-ready .story-frame,:is(#story,#photos,#chapters) .gallery-ready .story-photo,:is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption,:is(#story,#photos,#chapters) .gallery-ready img{background:transparent}
+:is(#story,#photos,#chapters) .story-photo{cursor:zoom-in}
+:is(#story,#photos,#chapters) .story-photo:focus-visible{outline:2px solid #8d704e;outline-offset:-4px}
+:is(#story,#photos,#chapters) .story-arrow.action-control{width:48px;min-width:48px;height:48px;padding:0}
+:is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption .eyebrow{font:400 14px/1.5 var(--latin);letter-spacing:.2px}
+:is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption h3{font-size:30px;line-height:1.5;letter-spacing:0}
+:is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption>p{font-size:15px;line-height:1.9}
+:is(#story,#photos,#chapters) .story-next-chapter{display:flex;flex-direction:column;padding:32px}
+:is(#story,#photos,#chapters) .story-next-chapter h3{font:400 clamp(28px,3.2vw,42px)/1.3 var(--latin);letter-spacing:-.5px;margin:0 0 24px}
+:is(#story,#photos,#chapters) .story-next-chapter>p{font-size:15px}
+:is(#story,#photos,#chapters) .story-read-link{align-self:flex-end;margin:10px 0 0 auto;font-size:14px}
+:is(#story,#photos,#chapters) .story-read-link:hover{color:#30251a}
 .page-actions .action-control [lang=en]{font:400 16px/1.4 var(--latin);letter-spacing:.3px}
 #details .time-card h3{font-size:34px;line-height:1.6}
 #details .time-card .detail-top{font-size:20px;letter-spacing:.3px}
@@ -188,43 +188,43 @@ html.is-backcover .site-header,html.is-backcover .site-footer,html.is-backcover 
 #backcover .backcover-magazine:before{background:linear-gradient(105deg,#fff2,transparent 10%,#0001 11%,transparent 16%)}
 #backcover .backcover-photo{inset:0;margin:0}
 @media(max-width:760px){
-  #story .duo-heading{font-size:32px;max-width:100%}
-  #story .personality .personality-name{font-size:28px}#story .personality .personality-name small{font-size:15px}
-  #story .personality .personality-copy{font-size:14px;min-height:52px}
-  #story .personality .profile-toggle{font-size:13px}
-  #story .gallery-ready{height:clamp(580px,calc(var(--scene-height,700px)*.94),800px)}
-  #story .gallery-ready .story-photo{inset:0 0 320px}
-  #story .gallery-ready .story-frame figcaption{height:320px;padding:18px 18px 66px}
-  #story .gallery-ready .story-frame figcaption h3{font-size:27px;line-height:1.45;margin:8px 0 12px}
-  #story .gallery-ready .story-frame figcaption>p{font-size:14px;line-height:1.85}
-  #story .gallery-ready .story-controls{bottom:334px}
-  #story .story-next-chapter{padding:26px 22px}#story .story-next-chapter h3{font-size:32px}
-  #story .story-next-chapter>p{font-size:14px}
+  :is(#story,#photos,#chapters) .duo-heading{font-size:32px;max-width:100%}
+  :is(#story,#photos,#chapters) .personality .personality-name{font-size:28px}:is(#story,#photos,#chapters) .personality .personality-name small{font-size:15px}
+  :is(#story,#photos,#chapters) .personality .personality-copy{font-size:14px;min-height:52px}
+  :is(#story,#photos,#chapters) .personality .profile-toggle{font-size:13px}
+  :is(#story,#photos,#chapters) .gallery-ready{height:clamp(580px,calc(var(--scene-height,700px)*.94),800px)}
+  :is(#story,#photos,#chapters) .gallery-ready .story-photo{inset:0 0 320px}
+  :is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption{height:320px;padding:18px 18px 66px}
+  :is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption h3{font-size:27px;line-height:1.45;margin:8px 0 12px}
+  :is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption>p{font-size:14px;line-height:1.85}
+  :is(#story,#photos,#chapters) .gallery-ready .story-controls{bottom:334px}
+  :is(#story,#photos,#chapters) .story-next-chapter{padding:26px 22px}:is(#story,#photos,#chapters) .story-next-chapter h3{font-size:32px}
+  :is(#story,#photos,#chapters) .story-next-chapter>p{font-size:14px}
   #details .time-card h3{font-size:29px}
   #details .time-row{gap:14px}
   #details .time-row strong{font-size:clamp(40px,11vw,54px);letter-spacing:-1px}
   #details .details-next>p{font-size:14px}
   .site-header .name-pair strong{font-size:14px}.site-header .name-pair small{font-size:13px}
 }
-@media(max-width:370px){#story .duo-heading{font-size:27px}#story .personality .personality-copy{font-size:13px}#story .story-next-chapter h3{font-size:27px}#story .gallery-ready .story-frame figcaption h3{font-size:24px}#details .time-row{gap:10px}}
+@media(max-width:370px){:is(#story,#photos,#chapters) .duo-heading{font-size:27px}:is(#story,#photos,#chapters) .personality .personality-copy{font-size:13px}:is(#story,#photos,#chapters) .story-next-chapter h3{font-size:27px}:is(#story,#photos,#chapters) .gallery-ready .story-frame figcaption h3{font-size:24px}#details .time-row{gap:10px}}
 
 /* Open layouts: whitespace and fine rules separate content throughout. */
 :root{--rule:#d4cbbb}
 .book-page{border:0;border-radius:0;box-shadow:none}
 .site-header .brand.action-control{border:0;padding-inline:0}
-#story .couple-intro{gap:48px;align-items:start}
-#story .personality-pair{display:block;border-bottom:1px solid var(--rule)}
-#story .personality,#story .personality.sunny{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:10px 18px;align-items:start;text-align:left;min-height:0;padding:24px 0;border:0;border-top:1px solid var(--rule);border-radius:0;background:none;box-shadow:none;transform:none}
-#story .personality-avatar{grid-column:1;grid-row:1/5;width:56px;height:56px;margin:0;border:0;outline:0;box-shadow:none}
-#story .personality .personality-name{grid-column:2;grid-row:1;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;font-size:25px;line-height:1.3}
-#story .personality .personality-name small{display:inline;margin:0;font-size:13px;line-height:1.5;letter-spacing:.3px}
-#story .personality-type{grid-column:3;grid-row:1;margin:5px 0 0;font-size:12px;letter-spacing:1.5px}
-#story .personality .personality-copy{grid-column:2/4;grid-row:2;min-height:0;margin:0;font-size:14px;line-height:1.85}
-#story .personality-extra{grid-column:2/4;grid-row:3;max-width:none;margin:0;font-size:13px}
-#story .personality .profile-toggle{grid-column:2/4;grid-row:4;justify-self:start;width:max-content;max-width:100%;margin:0;padding:9px 16px;min-height:44px;font-size:12px;letter-spacing:0}
-#story .story-next-chapter{padding:32px 0;margin-top:32px;border:0;border-top:1px solid var(--rule);border-radius:0;background:none}
-#story .story-arrow.action-control{border:1px solid #bfa180;background:#fffaf0;box-shadow:none;backdrop-filter:none;color:#614b36}
-#story .story-controls-flourish{display:none}
+:is(#story,#photos,#chapters) .couple-intro{gap:48px;align-items:start}
+:is(#story,#photos,#chapters) .personality-pair{display:block;border-bottom:1px solid var(--rule)}
+:is(#story,#photos,#chapters) .personality,:is(#story,#photos,#chapters) .personality.sunny{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:10px 18px;align-items:start;text-align:left;min-height:0;padding:24px 0;border:0;border-top:1px solid var(--rule);border-radius:0;background:none;box-shadow:none;transform:none}
+:is(#story,#photos,#chapters) .personality-avatar{grid-column:1;grid-row:1/5;width:56px;height:56px;margin:0;border:0;outline:0;box-shadow:none}
+:is(#story,#photos,#chapters) .personality .personality-name{grid-column:2;grid-row:1;display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;font-size:25px;line-height:1.3}
+:is(#story,#photos,#chapters) .personality .personality-name small{display:inline;margin:0;font-size:13px;line-height:1.5;letter-spacing:.3px}
+:is(#story,#photos,#chapters) .personality-type{grid-column:3;grid-row:1;margin:5px 0 0;font-size:12px;letter-spacing:1.5px}
+:is(#story,#photos,#chapters) .personality .personality-copy{grid-column:2/4;grid-row:2;min-height:0;margin:0;font-size:14px;line-height:1.85}
+:is(#story,#photos,#chapters) .personality-extra{grid-column:2/4;grid-row:3;max-width:none;margin:0;font-size:13px}
+:is(#story,#photos,#chapters) .personality .profile-toggle{grid-column:2/4;grid-row:4;justify-self:start;width:max-content;max-width:100%;margin:0;padding:9px 16px;min-height:44px;font-size:12px;letter-spacing:0}
+:is(#story,#photos,#chapters) .story-next-chapter{padding:32px 0;margin-top:32px;border:0;border-top:1px solid var(--rule);border-radius:0;background:none}
+:is(#story,#photos,#chapters) .story-arrow.action-control{border:1px solid #bfa180;background:#fffaf0;box-shadow:none;backdrop-filter:none;color:#614b36}
+:is(#story,#photos,#chapters) .story-controls-flourish{display:none}
 .book-details .details-grid{gap:40px}
 .book-details .detail-card,.book-details .time-card,.book-details .venue-card{padding:28px 0 0;border:0;border-top:1px solid var(--rule);border-radius:0;background:none;box-shadow:none;overflow:visible;justify-content:flex-start}
 .book-details .time-card:after{display:none}
@@ -245,32 +245,32 @@ html.is-backcover .site-header,html.is-backcover .site-footer,html.is-backcover 
 #rsvp-dialog input:not([type=radio]),#rsvp-dialog select,#rsvp-dialog textarea{padding:12px 0;border:0;border-bottom:1px solid var(--rule);border-radius:0;background:none;box-shadow:none}
 #rsvp-dialog input:focus,#rsvp-dialog select:focus,#rsvp-dialog textarea:focus{border-color:#614b36}
 @media(max-width:760px){
-  #story .couple-intro{gap:28px}
-  #story .personality,#story .personality.sunny{padding:22px 0}
+  :is(#story,#photos,#chapters) .couple-intro{gap:28px}
+  :is(#story,#photos,#chapters) .personality,:is(#story,#photos,#chapters) .personality.sunny{padding:22px 0}
   .book-details .details-grid{gap:32px}
-  #story .story-next-chapter{padding:28px 0}
+  :is(#story,#photos,#chapters) .story-next-chapter{padding:28px 0}
 }
 @media(max-width:370px){
-  #story .personality,#story .personality.sunny{grid-template-columns:44px minmax(0,1fr) auto;column-gap:12px}
-  #story .personality-avatar{width:44px;height:44px}
-  #story .personality .personality-name{font-size:22px;column-gap:8px}
-  #story .personality .personality-name small{font-size:12px}
-  #story .personality .personality-copy{font-size:13px}
-  #story .personality-type{font-size:11px;letter-spacing:1px}
+  :is(#story,#photos,#chapters) .personality,:is(#story,#photos,#chapters) .personality.sunny{grid-template-columns:44px minmax(0,1fr) auto;column-gap:12px}
+  :is(#story,#photos,#chapters) .personality-avatar{width:44px;height:44px}
+  :is(#story,#photos,#chapters) .personality .personality-name{font-size:22px;column-gap:8px}
+  :is(#story,#photos,#chapters) .personality .personality-name small{font-size:12px}
+  :is(#story,#photos,#chapters) .personality .personality-copy{font-size:13px}
+  :is(#story,#photos,#chapters) .personality-type{font-size:11px;letter-spacing:1px}
 }
 
 /* Keep photo dimensions independent of mobile browser toolbar height. */
-#story .gallery-ready{height:clamp(420px,48vw,640px)}
-#story .gallery-ready .story-photo img,#story .gallery-ready .story-photo:hover img{transform:none;transition:none}
+:is(#story,#photos,#chapters) .gallery-ready{height:clamp(420px,48vw,640px)}
+:is(#story,#photos,#chapters) .gallery-ready .story-photo img,:is(#story,#photos,#chapters) .gallery-ready .story-photo:hover img{transform:none;transition:none}
 .book-cover .paper-title,.book-enabled .paper-flight .paper-title{font-family:var(--serif);font-size:clamp(38px,15cqw,68px);letter-spacing:-1px}
-#story .story-next-chapter h3{font-family:var(--zh);line-height:1.6;letter-spacing:0}
+:is(#story,#photos,#chapters) .story-next-chapter h3{font-family:var(--zh);line-height:1.6;letter-spacing:0}
 #details .time-card h3{display:flex;align-items:baseline;gap:clamp(5px,1vw,12px);font-family:var(--zh);font-size:clamp(27px,3vw,38px);line-height:1.8;letter-spacing:0;margin:24px 0 12px;white-space:nowrap}
 #details .time-card h3 .date-unit{font-size:.55em}
 #details .time-row{margin-top:30px;margin-bottom:30px}
 #backcover .backcover-return.action-control{position:absolute;right:-26px;top:50%;z-index:6;width:56px;height:56px;min-width:56px;padding:8px;border:0;border-radius:0;background:none;color:#514b3e;box-shadow:none;transform:translateY(-50%);opacity:var(--closing-progress,0);pointer-events:none}
 html.is-backcover #backcover .backcover-return{pointer-events:auto}
 #backcover .backcover-return svg{width:38px;height:38px;flex-shrink:0;filter:drop-shadow(0 1px 2px #fff9);animation:cover-tap 2.2s ease-in-out infinite}
-@media(max-width:760px){#story .gallery-ready{height:calc(clamp(290px,95vw,540px) + 320px)}}
+@media(max-width:760px){:is(#story,#photos,#chapters) .gallery-ready{height:calc(clamp(290px,95vw,540px) + 320px)}}
 @media(prefers-reduced-motion:reduce){#backcover .backcover-return svg{animation:none}}
 
 /* Native scroll anchoring must not fight the scroll-driven book geometry. */

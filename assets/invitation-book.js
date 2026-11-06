@@ -30,16 +30,7 @@
 
   // Preserve the original mobile document order. On desktop, move the same
   // live nodes into facing leaves; existing controls keep their event handlers.
-  const spreadGroups = [
-    {page: pages[1], left: ['.couple-intro', '.story-introduction', '.story-next-chapter'], right: ['.story-viewer']},
-    {page: pages[2], left: ['.section-heading', '.time-card', '.attendance-reminder'], right: ['.venue-card']},
-    {page: pages[3], left: ['.scratch-section'], right: ['.thankyou-footer']},
-  ].map(group => ({...group, body: null, nodes: ['left','right'].flatMap(side => group[side].map(selector => {
-    const node = group.page.querySelector(selector);
-    const marker = document.createComment('single-page position');
-    node.before(marker);
-    return {node, marker, side};
-  }))}));
+  const spreadGroups = [];
   let spreadMounted = false;
   function syncSpreads() {
     const desktop = window.innerWidth >= 1000;
@@ -64,7 +55,7 @@
       }
     });
     spreadMounted = desktop;
-    book.classList.toggle('has-spreads', desktop);
+    book.classList.toggle('has-spreads', desktop && spreadGroups.length > 0);
     if (focused !== document.body && document.activeElement !== focused && focused?.isConnected) focused.focus({preventScroll: true});
     return desktop;
   }
@@ -141,7 +132,7 @@
 
     pages.slice(1).forEach((page, relative) => {
       const index = relative + 1;
-      if (layout.desktop && index < lastPage) {
+      if (layout.desktop && index < lastPage && page.querySelector('.spread-body')) {
         page.style.transform = `translateY(${-reads[index]}px)`;
         const left = page.querySelector('.spread-leaf-left');
         const right = page.querySelector('.spread-leaf-right');
@@ -431,7 +422,7 @@
     scheduleSettle();
   }, {passive: true});
   window.addEventListener('wheel', event => {
-    if (modalLocked || event.target.closest('.spread-leaf')) return;
+    if (modalLocked || event.target.closest('.spread-leaf,.page-content')) return;
     cancelAnimation(); manualScroll = true;
     if (event.deltaY) scrollDirection = Math.sign(event.deltaY);
     scheduleSettle();
