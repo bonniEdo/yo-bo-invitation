@@ -697,3 +697,21 @@ h3,h3 *{color:#3569a8!important}
 @media(prefers-reduced-motion:reduce){#photos .gallery-ready .story-frame{transition:none}}
 
 #photos .gallery-ready .story-frame:not(.is-current):not(.is-next-card){opacity:0!important}
+
+/* One scroll surface: the outer book controls page turning. */
+.content-page .page-content,.has-spreads .content-page .spread-leaf{overflow:clip!important;overscroll-behavior:auto;display:block}
+.reading-fit{display:flow-root;width:100%;transform-origin:50% 0}
+#photos .gallery-ready,.has-spreads #photos .gallery-ready{height:calc(var(--scene-height) - 170px);min-height:420px}
+#thanks .reading-fit{display:flex;flex-direction:column;align-items:center;gap:20px}
+.has-spreads #thanks .reading-fit{gap:24px}
+#thanks .scratch-section{width:100%;max-width:540px}
+#story .reading-fit>.personality{margin:0}
+@media(max-width:999px){
+ #story .duo-heading{font-size:27px;line-height:1.3}
+ #story .personality{padding:12px 0}
+ #story .personality .personality-copy{font-size:18px;line-height:1.6}
+ #details .section-heading{margin-bottom:12px}
+ #details .time-row{margin:18px 0}
+ #details .venue-map{height:160px}
+ #thanks .scratch-card{height:220px;min-height:220px}
+}

@@ -214,6 +214,7 @@
     const turn = Math.max(640, Math.round(scene * 1.35));
     const pause = Math.max(180, Math.round(scene * 0.3));
     book.style.setProperty('--scene-height', `${scene}px`);
+    fitReadingPages();
     const heights = pages.map(page => page.offsetHeight);
     const coverRead = Math.max(0, heights[0] - scene);
     const entries = [];
@@ -250,6 +251,25 @@
     }
     render();
     if (resumeSnap) scheduleSettle();
+  }
+
+  function fitReadingPages() {
+    book.querySelectorAll('.content-page .page-content,.content-page .spread-leaf').forEach(container => {
+      if (!container.getClientRects().length) return;
+      let inner = [...container.children].find(node => node.classList.contains('reading-fit'));
+      if (!inner) {
+        inner=document.createElement('div');inner.className='reading-fit';
+        while(container.firstChild) inner.append(container.firstChild);
+        container.append(inner);
+      }
+      inner.style.transform='none';
+      const css=getComputedStyle(container);
+      const available=container.clientHeight-parseFloat(css.paddingTop)-parseFloat(css.paddingBottom);
+      const natural=inner.scrollHeight;
+      const scale=Math.min(1,available/Math.max(1,natural));
+      inner.style.transform=`scale(${scale})`;
+      container.dataset.fitScale=String(scale);
+    });
   }
 
   function requestRender() { if (!frame) frame = requestAnimationFrame(render); }
@@ -434,7 +454,7 @@
     scheduleSettle();
   }, {passive: true});
   window.addEventListener('wheel', event => {
-    if (modalLocked || event.target.closest('.spread-leaf,.page-content')) return;
+    if (modalLocked) return;
     cancelAnimation(); manualScroll = true;
     if (event.deltaY) scrollDirection = Math.sign(event.deltaY);
     scheduleSettle();
@@ -461,6 +481,7 @@
       scheduleSettle();
     }
   });
+  book.addEventListener('click', () => requestAnimationFrame(requestMeasure));
   window.addEventListener('resize', () => {
     // iPhone toolbars change height during a swipe. Keep the reading geometry
     // until a real resize/orientation change, rather than jumping under a finger.
