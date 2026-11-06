@@ -431,7 +431,7 @@
     scheduleSettle();
   }, {passive: true});
   window.addEventListener('wheel', event => {
-    if (modalLocked) return;
+    if (modalLocked || event.target.closest('.spread-leaf')) return;
     cancelAnimation(); manualScroll = true;
     if (event.deltaY) scrollDirection = Math.sign(event.deltaY);
     scheduleSettle();
