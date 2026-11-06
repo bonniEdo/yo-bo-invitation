@@ -186,3 +186,10 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 #survey-form .invitation-style{display:inline-block;font-size:20px;color:#3569a8;white-space:nowrap}
 
 #survey-success #invitation-confirmation{font-size:24px;line-height:1.6;color:#3569a8;margin:12px 0 24px}
+
+.shuttle-details{margin:24px 0;border-block:1px solid var(--line)}
+.shuttle-details>summary{padding:16px 8px;font-size:26px;color:#3569a8;cursor:pointer;list-style-position:inside;text-align:center}
+.shuttle-details .shuttle-note{margin:0 0 18px}
+.meal-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+#survey-form .meal-grid .field>label{font-size:30px}
+@media(max-width:370px){.meal-grid{grid-template-columns:1fr}}
