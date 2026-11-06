@@ -196,3 +196,5 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 
 /* Keep a single divider above the collapsed shuttle information. */
 .day-strip{border-bottom:0}
+
+#survey-form .bus-location{font-size:clamp(18px,5.5vw,26px);white-space:nowrap;letter-spacing:0}
