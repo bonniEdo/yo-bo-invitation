@@ -220,3 +220,12 @@ legend>span,.field>label>span{display:inline-block;white-space:nowrap}
 /* Secondary map action stays visually lighter than the RSVP button. */
 .button.map-button{border:0;border-radius:0;background:transparent;padding:6px 0;min-height:44px;font-size:calc(28px - 2px);color:#a66d49;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px;box-shadow:none}
 .button.map-button:hover{color:#865335;background:transparent}
+
+.attendance-break{display:none}
+@media(min-width:601px){
+ #survey-form .choices:has(input[name="attendance"]){grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch}
+ #survey-form .choices label:has(input[name="attendance"]){grid-column:auto;font-size:26px;white-space:normal;min-height:108px;padding:12px 10px;gap:8px;line-height:1.55}
+ #survey-form .choices label:has(input[name="attendance"])>span{flex:1;text-align:center;white-space:nowrap}
+ .attendance-break{display:block}
+}
+@media(min-width:601px){#survey-form .choices label:has(input[name="attendance"][value="no"]){grid-column:auto;font-size:26px;white-space:normal}}
